@@ -23,7 +23,11 @@ router.get(
 	asyncHandler(async (req, res) => {
 		const product = await Product.findById(req.params.id);
 		if (product) res.json(product);
-		else res.status.apply(404).json({ message: 'Product not found' });
+		else {
+			// throw a custom error so that our error middleware can catch them and return apt json
+			res.status(404);
+			throw new Error('Product not found');
+		}
 	})
 );
 
