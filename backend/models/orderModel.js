@@ -3,14 +3,14 @@ import mongoose from 'mongoose';
 const orderSchema = mongoose.Schema(
 	{
 		user: {
-			type: mongoose.Types.Schema.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			required: true,
 			ref: 'User',
 		},
 		orderItems: [
 			{
 				user: {
-					type: mongoose.Types.Schema.ObjectId,
+					type: mongoose.Schema.Types.ObjectId,
 					required: true,
 					ref: 'User',
 				},
@@ -18,7 +18,7 @@ const orderSchema = mongoose.Schema(
 				price: { type: Number, required: true, default: 0 },
 				image: { type: String, required: true },
 				product: {
-					type: mongoose.Types.Schema.ObjectId,
+					type: mongoose.Schema.Types.ObjectId,
 					required: true,
 					ref: 'Product',
 				},
@@ -77,6 +77,6 @@ const orderSchema = mongoose.Schema(
 	}
 );
 
-const Order = mongoose.model(orderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
 export default Order;
