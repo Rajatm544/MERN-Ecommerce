@@ -1,25 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, Card, Button, ListGroup } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import axios from 'axios';
+import { listProductDetails } from '../actions/productActions';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const ProductPage = ({ match }) => {
-	const [product, setProduct] = useState({});
+	const dispatch = useDispatch();
+
+	const productDetails = useSelector((state) => state.productDetails);
+	const { loading, product, error } = productDetails;
 
 	useEffect(() => {
-		axios
-			.get(`/api/products/${match.params.id}`)
-			.then((res) => setProduct({ ...res.data }))
-			.catch((err) => console.error(err));
-	}, [match]);
+		dispatch(listProductDetails(match.params.id));
+	}, [match, dispatch]);
 
-	if (Object.keys(product).length) {
-		return (
-			<>
-				<Link className='btn btn-outline btn-outline-dark my-2' to='/'>
-					Go Back
-				</Link>
+	return (
+		<>
+			<Link className='btn btn-outline btn-outline-dark my-2' to='/'>
+				Go Back
+			</Link>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant='danger'>{error}</Message>
+			) : product ? (
 				<Row>
 					<Col md={6}>
 						<Image
@@ -74,7 +81,7 @@ const ProductPage = ({ match }) => {
 										</Col>
 									</Row>
 								</ListGroup.Item>
-								<ListGroup.Item className='p-0'>
+								<ListGroup.Item>
 									<Row>
 										<Button
 											type='button'
@@ -90,11 +97,11 @@ const ProductPage = ({ match }) => {
 						</Card>
 					</Col>
 				</Row>
-			</>
-		);
-	} else {
-		return <></>;
-	}
+			) : (
+				''
+			)}
+		</>
+	);
 };
 
 export default ProductPage;
