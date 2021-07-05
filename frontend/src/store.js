@@ -7,9 +7,12 @@ import {
 	productDetailsReducers,
 } from './reducers/productReducers';
 
+import { cartReducer } from './reducers/cartReducers';
+
 const reducer = combineReducers({
 	productList: productListReducers,
 	productDetails: productDetailsReducers,
+	cart: cartReducer,
 });
 
 const initialState = {};
