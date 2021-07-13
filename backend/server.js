@@ -7,6 +7,7 @@ import colors from 'colors';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -14,8 +15,12 @@ const app = express();
 // connect to the mongoDB database
 connectDB();
 
+// middleware to use req.body
+app.use(express.json());
+
 // configure all the routes
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // middleware to act as fallback for all 404 errors
 app.use(notFound);
