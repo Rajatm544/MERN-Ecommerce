@@ -29,7 +29,18 @@ const authUser = asyncHandler(async (req, res) => {
 // @access PRIVATE
 
 const getUserProfile = asyncHandler(async (req, res) => {
-	res.send('SUCCESS');
+	const user = await User.findById(req.user.id);
+	if (user) {
+		res.json({
+			id: user._id,
+			email: user.email,
+			name: user.name,
+			isAdmin: user.isAdmin,
+		});
+	} else {
+		res.status(400);
+		throw new Error('User not authorised to view this page');
+	}
 });
 
 export { authUser, getUserProfile };
