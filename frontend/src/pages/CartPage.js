@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import { addItem } from '../actions/cartActions';
+import { addItem, removeItem } from '../actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
 	const productID = match.params.id;
@@ -27,7 +27,9 @@ const CartPage = ({ match, location, history }) => {
 		}
 	}, [dispatch, productID, qty]);
 
-	const handleRemoveFromCart = (id) => console.log(id);
+	const handleRemoveFromCart = (id) => {
+		dispatch(removeItem(id));
+	};
 	const handleCheckout = (e) => {
 		history.push('/login?redirect=shipping');
 	};
