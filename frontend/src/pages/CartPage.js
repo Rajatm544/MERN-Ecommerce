@@ -121,7 +121,7 @@ const CartPage = ({ match, location, history }) => {
 							{cartItems
 								.reduce(
 									(acc, item) => acc + item.qty * item.price,
-									2
+									0
 								)
 								.toFixed(2)}
 						</ListGroup.Item>
