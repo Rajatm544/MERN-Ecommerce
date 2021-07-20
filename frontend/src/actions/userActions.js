@@ -2,6 +2,7 @@ import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
 	USER_LOGIN_FAILURE,
+	USER_LOGOUT,
 } from '../constants/userConstants';
 import axios from 'axios';
 
@@ -33,4 +34,9 @@ export const loginUser = (email, password) => async (dispatch) => {
 					: error.message,
 		});
 	}
+};
+
+export const logoutUser = () => (dispatch) => {
+	localStorage.removeItem('userInfo');
+	dispatch({ type: USER_LOGOUT });
 };
