@@ -35,7 +35,7 @@ const LoginPage = ({ location, history }) => {
 
 	return (
 		<FormContainer>
-			<h1>Sign In.</h1>
+			<h1>Sign In</h1>
 			{error && <Message variant='danger'>{error}</Message>}
 			{loading ? (
 				<Loader />
@@ -94,7 +94,6 @@ const LoginPage = ({ location, history }) => {
 					</Button>
 				</Form>
 			)}
-			<Row></Row>
 		</FormContainer>
 	);
 };
