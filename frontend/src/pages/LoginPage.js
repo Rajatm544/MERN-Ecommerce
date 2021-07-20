@@ -80,23 +80,21 @@ const LoginPage = ({ location, history }) => {
 						</InputGroup>
 					</Form.Group>
 					<Button type='submit' variant='dark' className='my-1'>
-						Submit Form
+						Login
+					</Button>
+					<Button type='button' variant='light' className='my-1 ml-2'>
+						<Link
+							to={
+								redirect
+									? `/register?redirect=${redirect}`
+									: '/register'
+							}>
+							Register
+						</Link>
 					</Button>
 				</Form>
 			)}
-			<Row>
-				<Col>
-					New Customer?{' '}
-					<Link
-						to={
-							redirect
-								? `/register?redirect=${redirect}`
-								: '/register'
-						}>
-						Register Now
-					</Link>
-				</Col>
-			</Row>
+			<Row></Row>
 		</FormContainer>
 	);
 };
