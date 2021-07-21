@@ -13,6 +13,7 @@ import {
 	userLoginReducer,
 	userRegisterReducer,
 	userDetailsReducer,
+	userProfileUpdateReducer,
 } from './reducers/userReducers';
 
 const reducer = combineReducers({
@@ -22,13 +23,14 @@ const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	userDetails: userDetailsReducer,
+	userProfileUpdate: userProfileUpdateReducer,
 });
 
 const cartItemsfromLocalStorage = localStorage.getItem('cartItems')
 	? JSON.parse(localStorage.getItem('cartItems'))
 	: [];
 
-const userInfofromLocalStorage = localStorage.getItem('cartItems')
+const userInfofromLocalStorage = localStorage.getItem('userInfo')
 	? JSON.parse(localStorage.getItem('userInfo'))
 	: null;
 
