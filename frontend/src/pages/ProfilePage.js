@@ -4,6 +4,7 @@ import { Form, Button, Row, InputGroup, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 
 const RegisterPage = ({ location, history }) => {
 	const [typePassword, setTypePassword] = useState('password');
@@ -30,14 +31,18 @@ const RegisterPage = ({ location, history }) => {
 			history.push('/login');
 		} else {
 			// if user is null, first fetch it and then set its details to the local state
-			if (!user.name) {
+			if (!user || !user.name || success) {
+				dispatch({ type: USER_PROFILE_UPDATE_RESET });
 				dispatch(getUserDetails('profile'));
+				if (success) {
+					dispatch(getUserDetails('profile'));
+				}
 			} else {
 				setName(user.name);
 				setEmail(user.email);
 			}
 		}
-	}, [history, userInfo, user, dispatch]);
+	}, [history, userInfo, user, dispatch, success]);
 
 	const showHidePassword = (e) => {
 		e.preventDefault();
