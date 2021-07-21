@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Form, Button, Row, InputGroup, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 
 const RegisterPage = ({ location, history }) => {
 	const [typePassword, setTypePassword] = useState('password');
@@ -22,6 +21,9 @@ const RegisterPage = ({ location, history }) => {
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
+
+	const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
+	const { success } = userProfileUpdate;
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -55,7 +57,7 @@ const RegisterPage = ({ location, history }) => {
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match. Please retry.');
 		} else {
-			// Dispatch update profile
+			dispatch(updateUserProfile({ id: user.id, name, email }));
 		}
 	};
 
@@ -65,6 +67,9 @@ const RegisterPage = ({ location, history }) => {
 				<h2>Update Profile</h2>
 				{message && <Message variant='warning'>{message}</Message>}
 				{error && <Message variant='danger'>{error}</Message>}
+				{success && (
+					<Message variant='success'>Profile Updated!</Message>
+				)}
 				{loading ? (
 					<Loader />
 				) : (
