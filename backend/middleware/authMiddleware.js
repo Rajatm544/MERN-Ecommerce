@@ -17,7 +17,7 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 			// decode the token to get the corresponding user's id
 			const decodedToken = jwt.verify(
 				token,
-				process.env.JWT_TOKEN_SECRET
+				process.env.JWT_ACCESS_TOKEN_SECRET
 			);
 
 			// fetch that user from db, but not get the user's password and set this fetched user to the req.user
