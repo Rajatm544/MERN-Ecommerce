@@ -2,6 +2,7 @@ import express from 'express';
 import {
 	authUser,
 	getUserProfile,
+	getAccessToken,
 	registerUser,
 	updateUserProfile,
 } from '../controllers/userControllers.js';
@@ -18,6 +19,11 @@ router.route('/').post(registerUser);
 // @route POST /api/users/login
 // @access PUBLIC
 router.route('/login').post(authUser);
+
+// @desc obtain new access tokens using the refresh tokens
+// @route GET /api/users/refresh
+// @access PUBLIC
+router.route('/refresh').post(getAccessToken);
 
 // @desc get data for an authenticated user
 // @route GET /api/users/profile

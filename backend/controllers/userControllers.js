@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
+import Token from '../models/tokenModel.js';
 import generateToken from '../utils/generateToken.js';
+import jwt from 'jsonwebtoken';
 
 // @desc authenticate user and get token
 // @route POST /api/users/login
@@ -8,15 +10,29 @@ import generateToken from '../utils/generateToken.js';
 const authUser = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 
-	const user = await User.findOne({ email });
+	let user = await User.findOne({ email });
+	const accessToken = generateToken(user._id, 'access');
+	const refreshToken = generateToken(user._id, 'refresh');
 
 	if (user && (await user.matchPassword(password))) {
+		const existingToken = await Token.findOne({ email });
+		if (!existingToken) {
+			const newToken = await Token.create({
+				email,
+				token: refreshToken,
+			});
+		} else {
+			existingToken.token = refreshToken;
+			existingToken.save();
+		}
+
 		res.json({
 			id: user._id,
 			email: user.email,
 			name: user.name,
 			isAdmin: user.isAdmin,
-			token: generateToken(user._id),
+			accessToken,
+			refreshToken,
 		});
 	} else {
 		res.status(401);
@@ -45,17 +61,58 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	// if user was created successfully
 	if (user) {
+		const refreshToken = generateToken(user._id, 'refresh');
+		const newToken = await Token.create({
+			email,
+			token: refreshToken,
+		});
+
 		res.status(201).json({
 			id: user._id,
 			email: user.email,
 			name: user.name,
 			isAdmin: user.isAdmin,
-			token: generateToken(user._id),
+			accessToken: generateToken(user._id, 'access'),
+			refreshToken,
 		});
 	} else {
 		res.status(400);
 		throw new Error('User not created');
 	}
+});
+
+// @desc obtain new access tokens using the refresh tokens
+// @route GET /api/users/refresh
+// @access PUBLIC
+
+const getAccessToken = asyncHandler(async (req, res) => {
+	const refreshToken = req.body.token;
+	const email = req.body.email;
+
+	// search if currently loggedin user has the refreshToken sent
+	const currentAccessToken = await Token.findOne({ email });
+
+	if (!refreshToken || refreshToken !== currentAccessToken.token) {
+		res.status(400);
+		throw new Error('Refresh token not found, login again');
+	}
+
+	// If the refresh token is valid, create a new accessToken and return it.
+	jwt.verify(
+		refreshToken,
+		process.env.JWT_REFRESH_TOKEN_SECRET,
+		(err, user) => {
+			if (!err) {
+				const accessToken = generateToken(user.id, 'access');
+				return res.json({ success: true, accessToken });
+			} else {
+				return res.json({
+					success: false,
+					message: 'Invalid refresh token',
+				});
+			}
+		}
+	);
 });
 
 // @desc get data for an authenticated user
@@ -91,17 +148,39 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		}
 		const updatedUser = await user.save();
 
-		res.json({
-			id: updatedUser._id,
-			email: updatedUser.email,
-			name: updatedUser.name,
-			isAdmin: updatedUser.isAdmin,
-			token: generateToken(updatedUser._id),
-		});
+		if (updatedUser) {
+			const refreshToken = generateToken(updatedUser._id, 'refresh');
+			const existingToken = await Token.findOne({
+				email: updatedUser.email,
+			});
+			if (existingToken) {
+				existingToken.token = refreshToken;
+				existingToken.save();
+			} else {
+				Token.create({
+					user: updatedUser._id,
+					token: refreshToken,
+				});
+			}
+			res.json({
+				id: updatedUser._id,
+				email: updatedUser.email,
+				name: updatedUser.name,
+				isAdmin: updatedUser.isAdmin,
+				accessToken: generateToken(updatedUser._id, 'access'),
+				refreshToken,
+			});
+		}
 	} else {
 		res.status(400);
 		throw new Error('User not found.');
 	}
 });
 
-export { authUser, getUserProfile, registerUser, updateUserProfile };
+export {
+	authUser,
+	getUserProfile,
+	getAccessToken,
+	registerUser,
+	updateUserProfile,
+};
