@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
+import cors from 'cors';
 
 // middleware
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -17,6 +18,7 @@ connectDB();
 
 // middleware to use req.body
 app.use(express.json());
+app.use(cors());
 
 // configure all the routes
 app.use('/api/products', productRoutes);
