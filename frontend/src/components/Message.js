@@ -5,7 +5,7 @@ const Message = ({ variant, children }) => {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
-		if (variant === 'danger') {
+		if (variant === 'danger' || variant === 'info') {
 			setTimeout(() => setVisible(false), 10000);
 		} else {
 			setTimeout(() => setVisible(false), 5000);
