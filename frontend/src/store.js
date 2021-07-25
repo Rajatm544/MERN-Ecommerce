@@ -11,6 +11,7 @@ import { cartReducer } from './reducers/cartReducers';
 
 import {
 	userLoginReducer,
+	userLoginRefreshReducer,
 	userRegisterReducer,
 	userDetailsReducer,
 	userProfileUpdateReducer,
@@ -21,25 +22,33 @@ const reducer = combineReducers({
 	productDetails: productDetailsReducers,
 	cart: cartReducer,
 	userLogin: userLoginReducer,
+	userLoginRefresh: userLoginRefreshReducer,
 	userRegister: userRegisterReducer,
 	userDetails: userDetailsReducer,
 	userProfileUpdate: userProfileUpdateReducer,
 });
 
-const cartItemsfromLocalStorage = localStorage.getItem('cartItems')
+const cartItemsFromLocalStorage = localStorage.getItem('cartItems')
 	? JSON.parse(localStorage.getItem('cartItems'))
 	: [];
 
-const userInfofromLocalStorage = localStorage.getItem('userInfo')
+const userInfoFromLocalStorage = localStorage.getItem('userInfo')
 	? JSON.parse(localStorage.getItem('userInfo'))
+	: null;
+
+const refreshTokenFromLocalStoage = localStorage.getItem('refreshToken')
+	? localStorage.getItem('refreshToken')
 	: null;
 
 const initialState = {
 	cart: {
-		cartItems: [...cartItemsfromLocalStorage],
+		cartItems: [...cartItemsFromLocalStorage],
 	},
 	userLogin: {
-		userInfo: userInfofromLocalStorage,
+		userInfo: userInfoFromLocalStorage,
+	},
+	refreshToken: {
+		token: refreshTokenFromLocalStoage,
 	},
 };
 
