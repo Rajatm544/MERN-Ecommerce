@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Button, Row, InputGroup, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import {
+	getUserDetails,
+	updateUserProfile,
+	refreshLogin,
+} from '../actions/userActions';
 import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 
 const RegisterPage = ({ location, history }) => {
@@ -25,6 +29,13 @@ const RegisterPage = ({ location, history }) => {
 
 	const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
 	const { success } = userProfileUpdate;
+
+	useEffect(() => {
+		if (error) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch]);
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -65,13 +76,15 @@ const RegisterPage = ({ location, history }) => {
 			dispatch(updateUserProfile({ id: user.id, name, email }));
 		}
 	};
-
+	console.log(error);
 	return (
 		<Row className='mt-5'>
 			<Col md={3}>
 				<h2>Update Profile</h2>
 				{message && <Message variant='warning'>{message}</Message>}
-				{error && <Message variant='danger'>{error}</Message>}
+				{error && error !== 'Not authorised. Token failed' && (
+					<Message variant='danger'>{error}</Message>
+				)}
 				{success && (
 					<Message variant='success'>Profile Updated!</Message>
 				)}
