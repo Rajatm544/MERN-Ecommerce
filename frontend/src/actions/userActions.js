@@ -2,6 +2,9 @@ import {
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
 	USER_LOGIN_FAILURE,
+	USER_LOGIN_REFRESH_REQUEST,
+	USER_LOGIN_REFRESH_SUCCESS,
+	USER_LOGIN_REFRESH_FAILURE,
 	USER_LOGOUT,
 	USER_REGISTER_REQUEST,
 	USER_REGISTER_SUCCESS,
@@ -32,7 +35,11 @@ export const loginUser = (email, password) => async (dispatch) => {
 		);
 
 		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
+		dispatch({
+			type: USER_LOGIN_REFRESH_SUCCESS,
+			payload: data.refreshToken,
+		});
+		localStorage.setItem('refreshToken', data.refreshToken);
 		localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
 		dispatch({
@@ -45,8 +52,57 @@ export const loginUser = (email, password) => async (dispatch) => {
 	}
 };
 
+export const refreshLogin = (email) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_LOGIN_REFRESH_REQUEST });
+		const {
+			userLogin: { userInfo },
+			// refreshToken: { token },
+		} = getState();
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+
+		const { data } = await axios.post(
+			'/api/users/refresh',
+			{
+				email,
+				token: userInfo.refreshToken,
+			},
+			config
+		);
+
+		if (data.success) {
+			dispatch({ type: USER_LOGIN_REFRESH_SUCCESS, payload: data });
+			const updatedUser = {
+				...userInfo,
+				accessToken: data.accessToken,
+				refreshToken: userInfo.refreshToken,
+			};
+			localStorage.setItem('userInfo', JSON.stringify(updatedUser));
+			dispatch({ type: USER_LOGIN_SUCCESS, payload: updatedUser });
+		} else if (!data.success) {
+			localStorage.removeItem('userInfo');
+			localStorage.setItem('redirectLogin', 'true');
+			dispatch({ type: USER_LOGOUT });
+		}
+	} catch (error) {
+		dispatch({
+			type: USER_LOGIN_REFRESH_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
 export const logoutUser = () => (dispatch) => {
 	localStorage.removeItem('userInfo');
+	localStorage.removeItem('redirectLogin');
 	dispatch({ type: USER_LOGOUT });
 };
 
@@ -93,7 +149,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userInfo.token}`,
+				Authorization: `Bearer ${userInfo.accessToken}`,
 			},
 		};
 
@@ -122,7 +178,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userInfo.token}`,
+				Authorization: `Bearer ${userInfo.accessToken}`,
 			},
 		};
 
