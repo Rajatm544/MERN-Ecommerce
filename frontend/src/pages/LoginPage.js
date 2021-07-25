@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
@@ -15,6 +15,16 @@ const LoginPage = ({ location, history }) => {
 	const redirect = location.search ? location.search.split('=')[1] : '';
 	const userLogin = useSelector((state) => state.userLogin);
 	const { loading, userInfo, error } = userLogin;
+	const [showRedirectMsg, setShowRedirectMsg] = useState(false);
+
+	useEffect(() => {
+		const flag = localStorage.getItem('redirectLogin');
+		if (flag && flag === 'true') {
+			setShowRedirectMsg(true);
+		} else {
+			setShowRedirectMsg(false);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (userInfo) {
@@ -37,6 +47,11 @@ const LoginPage = ({ location, history }) => {
 		<FormContainer>
 			<h1>Sign In</h1>
 			{error && <Message variant='danger'>{error}</Message>}
+			{showRedirectMsg && (
+				<Message variant='info'>
+					Your session has expired. Please login again.
+				</Message>
+			)}
 			{loading ? (
 				<Loader />
 			) : (
