@@ -6,16 +6,19 @@ const users = [
 		email: 'admin@brand.com',
 		password: bcrypt.hashSync('pass123', 12),
 		isAdmin: true,
+		isConfirmed: true,
 	},
 	{
 		name: 'Rajat',
 		email: 'rajat@brand.com',
 		password: bcrypt.hashSync('pass123', 12),
+		isConfirmed: true,
 	},
 	{
 		name: 'Ravi',
 		email: 'ravi@brand.com',
 		password: bcrypt.hashSync('pass123', 12),
+		isConfirmed: true,
 	},
 ];
 
