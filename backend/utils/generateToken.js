@@ -9,6 +9,10 @@ const generateToken = (id, option) => {
 		return jwt.sign({ id }, process.env.JWT_REFRESH_TOKEN_SECRET, {
 			expiresIn: '7d',
 		});
+	} else if (option === 'email') {
+		return jwt.sign({ id }, process.env.JWT_EMAIL_TOKEN_SECRET, {
+			expiresIn: 60 * 10,
+		});
 	}
 };
 
