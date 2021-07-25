@@ -13,6 +13,9 @@ import {
 	USER_PROFILE_UPDATE_SUCCESS,
 	USER_PROFILE_UPDATE_FAILURE,
 	USER_PROFILE_UPDATE_RESET,
+	USER_LOGIN_REFRESH_REQUEST,
+	USER_LOGIN_REFRESH_SUCCESS,
+	USER_LOGIN_REFRESH_FAILURE,
 } from '../constants/userConstants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -25,6 +28,19 @@ export const userLoginReducer = (state = {}, action) => {
 			return { loading: false, error: action.payload };
 		case USER_LOGOUT:
 			return {};
+		default:
+			return { ...state };
+	}
+};
+
+export const userLoginRefreshReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_LOGIN_REFRESH_REQUEST:
+			return { ...state, loading: true };
+		case USER_LOGIN_REFRESH_SUCCESS:
+			return { loading: false, TokenInfo: action.payload };
+		case USER_LOGIN_REFRESH_FAILURE:
+			return { loading: false, error: action.payload };
 		default:
 			return { ...state };
 	}
