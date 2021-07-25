@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import Token from '../models/tokenModel.js';
 import generateToken from '../utils/generateToken.js';
+import transporter from '../utils/transporter.js';
 import jwt from 'jsonwebtoken';
 
 // @desc authenticate user and get token
@@ -15,25 +16,31 @@ const authUser = asyncHandler(async (req, res) => {
 	const refreshToken = generateToken(user._id, 'refresh');
 
 	if (user && (await user.matchPassword(password))) {
-		const existingToken = await Token.findOne({ email });
-		if (!existingToken) {
-			const newToken = await Token.create({
-				email,
-				token: refreshToken,
+		if (user.isConfirmed) {
+			const existingToken = await Token.findOne({ email });
+			if (!existingToken) {
+				const newToken = await Token.create({
+					email,
+					token: refreshToken,
+				});
+			} else {
+				existingToken.token = refreshToken;
+				existingToken.save();
+			}
+
+			res.json({
+				id: user._id,
+				email: user.email,
+				name: user.name,
+				isAdmin: user.isAdmin,
+				accessToken,
+				refreshToken,
 			});
 		} else {
-			existingToken.token = refreshToken;
-			existingToken.save();
+			res.json({
+				message: 'Please confirm you email',
+			});
 		}
-
-		res.json({
-			id: user._id,
-			email: user.email,
-			name: user.name,
-			isAdmin: user.isAdmin,
-			accessToken,
-			refreshToken,
-		});
 	} else {
 		res.status(401);
 		throw new Error(user ? 'Invalid Password' : 'Invalid email');
@@ -67,17 +74,73 @@ const registerUser = asyncHandler(async (req, res) => {
 			token: refreshToken,
 		});
 
+		// create a new JWT to verify user via email
+		const emailToken = generateToken(user._id, 'email');
+		const url = `http://localhost:5000/api/users/confirm/${emailToken}`;
+		const mailOptions = {
+			from: process.env.EMAIL, // sender address
+			to: email,
+			subject: 'Confirm your email for Kosells', // Subject line
+			html: `<p>
+					Click the link below to verify your account
+					<a href="${url}">${url}</a>
+				</p>
+				
+			`,
+		};
+
+		await transporter.sendMail(mailOptions, (err, info) => {
+			if (err) {
+				console.log('error:');
+				console.log(err);
+			} else {
+				console.log(info);
+			}
+		});
+
 		res.status(201).json({
 			id: user._id,
 			email: user.email,
 			name: user.name,
 			isAdmin: user.isAdmin,
+			isConfirmed: user.isConfirmed,
 			accessToken: generateToken(user._id, 'access'),
 			refreshToken,
+			emailToken,
 		});
 	} else {
 		res.status(400);
 		throw new Error('User not created');
+	}
+});
+
+// @desc confirm the email address of the registered user
+// @route GET /api/users/confirm
+// @access PUBLIC
+
+const confirmUser = asyncHandler(async (req, res) => {
+	try {
+		const emailToken = req.params.token;
+		const decodedToken = jwt.verify(
+			emailToken,
+			process.env.JWT_EMAIL_TOKEN_SECRET
+		);
+		const user = await User.findById(decodedToken.id).select('-password');
+		user.isConfirmed = true;
+		const updatedUser = await user.save();
+		res.json({
+			id: updatedUser._id,
+			email: updatedUser.email,
+			name: updatedUser.name,
+			isAdmin: updatedUser.isAdmin,
+			isConfirmed: updatedUser.isConfirmed,
+			accessToken: updatedUser.accessToken,
+			refreshToken: updatedUser.refreshToken,
+		});
+	} catch (error) {
+		console.log(error);
+		res.status(401);
+		throw new Error('Not authorised. Token failed');
 	}
 });
 
@@ -182,5 +245,6 @@ export {
 	getUserProfile,
 	getAccessToken,
 	registerUser,
+	confirmUser,
 	updateUserProfile,
 };

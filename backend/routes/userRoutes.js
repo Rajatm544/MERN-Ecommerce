@@ -4,6 +4,7 @@ import {
 	getUserProfile,
 	getAccessToken,
 	registerUser,
+	confirmUser,
 	updateUserProfile,
 } from '../controllers/userControllers.js';
 import protectRoute from '../middleware/authMiddleware.js';
@@ -19,6 +20,11 @@ router.route('/').post(registerUser);
 // @route POST /api/users/login
 // @access PUBLIC
 router.route('/login').post(authUser);
+
+// @desc confirm the email address of the registered user
+// @route GET /api/users/confirm
+// @access PUBLIC
+router.route('/confirm/:token').get(confirmUser);
 
 // @desc obtain new access tokens using the refresh tokens
 // @route GET /api/users/refresh
