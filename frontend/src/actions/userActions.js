@@ -9,6 +9,9 @@ import {
 	USER_REGISTER_REQUEST,
 	USER_REGISTER_SUCCESS,
 	USER_REGISTER_FAILURE,
+	USER_CONFIRM_REQUEST,
+	USER_CONFIRM_SUCCESS,
+	USER_CONFIRM_FAILURE,
 	USER_DETAILS_REQUEST,
 	USER_DETAILS_SUCCESS,
 	USER_DETAILS_FAILURE,
@@ -124,12 +127,34 @@ export const registerUser = (name, email, password) => async (dispatch) => {
 		dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
 
 		// login the user after registering
-		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-		localStorage.setItem('userInfo', JSON.stringify(data));
+		// localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
 		dispatch({
 			type: USER_REGISTER_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const confirmUser = (emailToken) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_CONFIRM_REQUEST });
+		const { data } = await axios.get(`/api/users/confirm/${emailToken}`);
+
+		localStorage.removeItem('promptEmailVerfication');
+		dispatch({ type: USER_CONFIRM_SUCCESS, payload: true });
+
+		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		localStorage.setItem('userInfo', JSON.stringify(data));
+	} catch (error) {
+		dispatch({
+			type: USER_CONFIRM_FAILURE,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
