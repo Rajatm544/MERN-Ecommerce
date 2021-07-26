@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button, InputGroup, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
@@ -16,6 +16,18 @@ const LoginPage = ({ location, history }) => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { loading, userInfo, error } = userLogin;
 	const [showRedirectMsg, setShowRedirectMsg] = useState(false);
+	const storedInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+	useEffect(() => {
+		if (
+			storedInfo &&
+			storedInfo.email &&
+			localStorage.getItem('fillEmailOnLoginPage') === 'true'
+		) {
+			localStorage.removeItem('fillEmailOnLoginPage');
+			setEmail(storedInfo.email);
+		}
+	}, [storedInfo]);
 
 	useEffect(() => {
 		const flag = localStorage.getItem('redirectLogin');
@@ -97,7 +109,7 @@ const LoginPage = ({ location, history }) => {
 					<Button type='submit' variant='dark' className='my-1'>
 						Login
 					</Button>
-					<Button type='button' variant='light' className='my-1 ml-2'>
+					{/* <Button type='button' variant='light' className='my-1 ml-2'>
 						<Link
 							to={
 								redirect
@@ -106,9 +118,22 @@ const LoginPage = ({ location, history }) => {
 							}>
 							Register
 						</Link>
-					</Button>
+					</Button> */}
 				</Form>
 			)}
+			<Row>
+				<Col>
+					New Here?{' '}
+					<Link
+						to={
+							redirect
+								? `/register?redirect=${redirect}`
+								: '/register'
+						}>
+						Register
+					</Link>
+				</Col>
+			</Row>
 		</FormContainer>
 	);
 };
