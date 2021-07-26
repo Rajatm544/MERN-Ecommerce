@@ -10,6 +10,7 @@ import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import ConfirmPage from './pages/ConfirmPage';
 
 const App = () => {
 	return (
@@ -23,6 +24,11 @@ const App = () => {
 					<Route path='/profile' component={ProfilePage} />
 					<Route path='/product/:id' component={ProductPage} />
 					<Route path='/cart/:id?' component={CartPage} />
+					<Route
+						path='/user/confirm/:token'
+						component={ConfirmPage}
+						exact
+					/>
 				</Container>
 			</main>
 			<Footer />
