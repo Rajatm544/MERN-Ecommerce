@@ -7,7 +7,7 @@ dotenv.config();
 const sendMail = async (id, email) => {
 	// create a new JWT to verify user via email
 	const emailToken = generateToken(id, 'email');
-	const url = `http://localhost:5000/api/users/confirm/${emailToken}`;
+	const url = `http://localhost:3000/user/confirm/${emailToken}`;
 	const mailOptions = {
 		from: process.env.EMAIL, // sender address
 		to: email,
@@ -22,7 +22,6 @@ const sendMail = async (id, email) => {
 
 	const mailSent = await transporter.sendMail(mailOptions, (err, info) => {
 		if (err) {
-			console.log('error:');
 			console.log(err);
 		} else {
 			console.log(info);
