@@ -13,6 +13,7 @@ import {
 	userLoginReducer,
 	userLoginRefreshReducer,
 	userRegisterReducer,
+	userConfirmReducer,
 	userDetailsReducer,
 	userProfileUpdateReducer,
 } from './reducers/userReducers';
@@ -24,6 +25,7 @@ const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userLoginRefresh: userLoginRefreshReducer,
 	userRegister: userRegisterReducer,
+	userConfirm: userConfirmReducer,
 	userDetails: userDetailsReducer,
 	userProfileUpdate: userProfileUpdateReducer,
 });
@@ -36,7 +38,7 @@ const userInfoFromLocalStorage = localStorage.getItem('userInfo')
 	? JSON.parse(localStorage.getItem('userInfo'))
 	: null;
 
-const refreshTokenFromLocalStoage = localStorage.getItem('refreshToken')
+const tokenInfoFromLocalStoage = localStorage.getItem('refreshToken')
 	? localStorage.getItem('refreshToken')
 	: null;
 
@@ -47,8 +49,8 @@ const initialState = {
 	userLogin: {
 		userInfo: userInfoFromLocalStorage,
 	},
-	refreshToken: {
-		token: refreshTokenFromLocalStoage,
+	userLoginRefresh: {
+		tokenInfo: tokenInfoFromLocalStoage,
 	},
 };
 
