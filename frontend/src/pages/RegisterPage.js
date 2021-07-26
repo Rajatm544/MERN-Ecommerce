@@ -24,6 +24,7 @@ const RegisterPage = ({ location, history }) => {
 
 	useEffect(() => {
 		if (userInfo) {
+			localStorage.setItem('promptEmailVerfication', 'true');
 			history.push(redirect);
 		}
 	}, [history, redirect, userInfo]);
