@@ -33,6 +33,7 @@ const authUser = asyncHandler(async (req, res) => {
 				email: user.email,
 				name: user.name,
 				isAdmin: user.isAdmin,
+				isConfirmed: user.isConfirmed,
 				accessToken,
 				refreshToken,
 			});
