@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product.js';
 import { Row, Col } from 'react-bootstrap';
@@ -12,14 +12,29 @@ const HomePage = () => {
 
 	const productList = useSelector((state) => state.productList);
 	const { products, loading, error } = productList;
+	const [promptVerfication, setPromptVerification] = useState(false);
 
 	useEffect(() => {
 		dispatch(listProducts());
 	}, [dispatch]);
 
+	useEffect(() => {
+		setPromptVerification(
+			localStorage.getItem('promptEmailVerfication') === 'true'
+				? true
+				: false
+		);
+	}, []);
+
 	return (
 		<>
 			<h1>Latest Products.</h1>
+			{promptVerfication ? (
+				<Message variant='info'>
+					Account Created! Please check your email to verify your
+					account and start shopping.
+				</Message>
+			) : null}
 			{loading ? (
 				<Loader />
 			) : error ? (
