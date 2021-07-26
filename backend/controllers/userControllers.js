@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import Token from '../models/tokenModel.js';
 import generateToken from '../utils/generateToken.js';
-import transporter from '../utils/transporter.js';
+import sendMail from '../utils/sendMail.js';
 import jwt from 'jsonwebtoken';
 
 // @desc authenticate user and get token
@@ -68,36 +68,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	// if user was created successfully
 	if (user) {
+		await sendMail(user._id, email);
+
 		const refreshToken = generateToken(user._id, 'refresh');
-		const newToken = await Token.create({
-			email,
-			token: refreshToken,
-		});
-
-		// create a new JWT to verify user via email
-		const emailToken = generateToken(user._id, 'email');
-		const url = `http://localhost:5000/api/users/confirm/${emailToken}`;
-		const mailOptions = {
-			from: process.env.EMAIL, // sender address
-			to: email,
-			subject: 'Confirm your email for Kosells', // Subject line
-			html: `<p>
-					Click the link below to verify your account
-					<a href="${url}">${url}</a>
-				</p>
-				
-			`,
-		};
-
-		await transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				console.log('error:');
-				console.log(err);
-			} else {
-				console.log(info);
-			}
-		});
-
 		res.status(201).json({
 			id: user._id,
 			email: user.email,
@@ -106,7 +79,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			isConfirmed: user.isConfirmed,
 			accessToken: generateToken(user._id, 'access'),
 			refreshToken,
-			emailToken,
+			// emailToken,
 		});
 	} else {
 		res.status(400);
