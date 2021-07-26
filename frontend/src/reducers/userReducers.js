@@ -6,6 +6,9 @@ import {
 	USER_REGISTER_FAILURE,
 	USER_REGISTER_SUCCESS,
 	USER_REGISTER_REQUEST,
+	USER_CONFIRM_REQUEST,
+	USER_CONFIRM_SUCCESS,
+	USER_CONFIRM_FAILURE,
 	USER_DETAILS_FAILURE,
 	USER_DETAILS_SUCCESS,
 	USER_DETAILS_REQUEST,
@@ -38,8 +41,21 @@ export const userLoginRefreshReducer = (state = {}, action) => {
 		case USER_LOGIN_REFRESH_REQUEST:
 			return { ...state, loading: true };
 		case USER_LOGIN_REFRESH_SUCCESS:
-			return { loading: false, TokenInfo: action.payload };
+			return { loading: false, tokenInfo: action.payload };
 		case USER_LOGIN_REFRESH_FAILURE:
+			return { loading: false, error: action.payload };
+		default:
+			return { ...state };
+	}
+};
+
+export const userConfirmReducer = (state = { isConfirmed: false }, action) => {
+	switch (action.type) {
+		case USER_CONFIRM_REQUEST:
+			return { ...state, loading: true };
+		case USER_CONFIRM_SUCCESS:
+			return { loading: false, isConfirmed: action.payload };
+		case USER_CONFIRM_FAILURE:
 			return { loading: false, error: action.payload };
 		default:
 			return { ...state };
@@ -71,6 +87,7 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
 			return { ...state };
 	}
 };
+
 export const userProfileUpdateReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_PROFILE_UPDATE_REQUEST:
