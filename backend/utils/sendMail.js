@@ -44,9 +44,9 @@ const sendMail = async (id, email, option) => {
 			html: `<p>
 					Forgot your password? No worries! Just click this link to 
 					<a href="${url}">reset your password</a>. 
+					<br><br><br>
 					
-					
-					Note that this link is valid for only the next 10 minutes. 
+					Note that this link is valid for only the next 5 minutes. 
 				</p>
 				
 			`,
