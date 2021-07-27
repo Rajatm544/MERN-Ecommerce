@@ -8,17 +8,12 @@ const Message = ({ variant, children }) => {
 		if (variant === 'danger' || variant === 'info') {
 			setTimeout(() => setVisible(false), 10000);
 		} else {
-			setTimeout(() => setVisible(false), 5000);
+			setTimeout(() => setVisible(false), 8000);
 		}
 	});
 
 	if (visible) {
-		return (
-			<Alert variant={variant} dismissable>
-				{/* <Alert.Heading>Oh snap!</Alert.Heading> */}
-				{children}
-			</Alert>
-		);
+		return <Alert variant={variant}>{children}</Alert>;
 	} else return null;
 };
 
