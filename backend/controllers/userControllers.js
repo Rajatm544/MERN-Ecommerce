@@ -69,7 +69,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	// if user was created successfully
 	if (user) {
-		await sendMail(user._id, email);
+		await sendMail(user._id, email, 'email verification');
 
 		const refreshToken = generateToken(user._id, 'refresh');
 		res.status(201).json({
@@ -85,6 +85,71 @@ const registerUser = asyncHandler(async (req, res) => {
 	} else {
 		res.status(400);
 		throw new Error('User not created');
+	}
+});
+
+// @desc send a mail with the link to reset password
+// @route POST /api/users/reset
+// @access PUBLIC
+
+const mailForPasswordReset = asyncHandler(async (req, res) => {
+	try {
+		const { email } = req.body;
+
+		const user = await User.findOne({ email });
+
+		if (user && user.isConfirmed) {
+			// send the mail and return the user details
+
+			await sendMail(user._id, email, 'forgot password');
+
+			res.status(201).json({
+				id: user._id,
+				email: user.email,
+				name: user.name,
+				isAdmin: user.isAdmin,
+				isConfirmed: user.isConfirmed,
+			});
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(401);
+		throw new Error('Could not send the mail. Please retry.');
+	}
+});
+
+// @desc reset password of any verified user
+// @route PUT /api/users/reset
+// @access PUBLIC
+
+const resetUserPassword = asyncHandler(async (req, res) => {
+	try {
+		const { passwordToken, password } = req.body;
+		const decodedToken = jwt.verify(
+			passwordToken,
+			process.env.JWT_FORGOT_PASSWORD_TOKEN_SECRET
+		);
+		const user = await User.findById(decodedToken.id);
+
+		if (user && password) {
+			user.password = password;
+			const updatedUser = await user.save();
+
+			if (updatedUser) {
+				res.status(200).json({
+					id: updatedUser._id,
+					email: updatedUser.email,
+					name: updatedUser.name,
+					isAdmin: updatedUser.isAdmin,
+				});
+			} else {
+				res.status(401);
+				throw new Error('Unable to update password');
+			}
+		}
+	} catch (error) {
+		res.status(400);
+		throw new Error('User not found.');
 	}
 });
 
@@ -220,5 +285,7 @@ export {
 	getAccessToken,
 	registerUser,
 	confirmUser,
+	mailForPasswordReset,
+	resetUserPassword,
 	updateUserProfile,
 };
