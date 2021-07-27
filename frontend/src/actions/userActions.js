@@ -9,6 +9,9 @@ import {
 	USER_REGISTER_REQUEST,
 	USER_REGISTER_SUCCESS,
 	USER_REGISTER_FAILURE,
+	USER_RESET_PASSWORD_REQUEST,
+	USER_RESET_PASSWORD_SUCCESS,
+	USER_RESET_PASSWORD_FAILURE,
 	USER_CONFIRM_REQUEST,
 	USER_CONFIRM_SUCCESS,
 	USER_CONFIRM_FAILURE,
@@ -162,6 +165,36 @@ export const confirmUser = (emailToken) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const resetUserPassword =
+	(passwordToken, password) => async (dispatch) => {
+		try {
+			dispatch({ type: USER_RESET_PASSWORD_REQUEST });
+
+			// make the api call to reset the password
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			};
+
+			const { data } = await axios.put(
+				'/api/users/reset',
+				{ passwordToken, password },
+				config
+			);
+
+			dispatch({ type: USER_RESET_PASSWORD_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: USER_RESET_PASSWORD_FAILURE,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
 
 export const getUserDetails = (id) => async (dispatch, getState) => {
 	try {
