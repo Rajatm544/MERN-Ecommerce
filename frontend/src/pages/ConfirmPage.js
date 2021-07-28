@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -11,9 +11,22 @@ const ConfirmPage = ({ match, history }) => {
 	const userConfirm = useSelector((state) => state.userConfirm);
 	const { loading, error, isConfirmed } = userConfirm;
 
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 	useEffect(() => {
-		dispatch(confirmUser(match.params.token));
-	}, [dispatch, match]);
+		if (userInfo) {
+			setIsLoggedIn(true);
+		} else {
+			setIsLoggedIn(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		dispatch(confirmUser(match.params.token, isLoggedIn));
+		// else dispatch(confirmUser(match.params.token, true));
+	}, [dispatch, match, isLoggedIn]);
 
 	if (loading || (!isConfirmed && !error)) {
 		return <Loader />;
@@ -37,7 +50,7 @@ const ConfirmPage = ({ match, history }) => {
 						login and start exploring the best deals on all your
 						favorite products.
 					</Card.Text>
-					<Link to='/login'>Login</Link>
+					{/* <Link to='/login'>Login</Link> */}
 				</Card.Body>
 			</Card>
 		);
