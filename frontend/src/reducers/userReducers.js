@@ -9,6 +9,9 @@ import {
 	USER_RESET_PASSWORD_FAILURE,
 	USER_RESET_PASSWORD_SUCCESS,
 	USER_RESET_PASSWORD_REQUEST,
+	USER_EMAIL_VERIFICATION_REQUEST,
+	USER_EMAIL_VERIFICATION_SUCCESS,
+	USER_EMAIL_VERIFICATION_FAILURE,
 	USER_CONFIRM_REQUEST,
 	USER_CONFIRM_SUCCESS,
 	USER_CONFIRM_FAILURE,
@@ -47,6 +50,19 @@ export const userLoginRefreshReducer = (state = {}, action) => {
 			return { loading: false, tokenInfo: action.payload };
 		case USER_LOGIN_REFRESH_FAILURE:
 			return { loading: false, error: action.payload };
+		default:
+			return { ...state };
+	}
+};
+
+export const userSendEmailVerficationReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_EMAIL_VERIFICATION_REQUEST:
+			return { isLoading: true };
+		case USER_EMAIL_VERIFICATION_SUCCESS:
+			return { isLoading: true, emailSent: action.payload };
+		case USER_EMAIL_VERIFICATION_FAILURE:
+			return { isLoading: true, hasError: action.payload };
 		default:
 			return { ...state };
 	}
