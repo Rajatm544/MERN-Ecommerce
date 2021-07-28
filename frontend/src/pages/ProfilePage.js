@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, Row, InputGroup, Col } from 'react-bootstrap';
+import { Form, Button, Row, InputGroup, Col, Card } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import {
+	sendVerficationEmail,
 	getUserDetails,
 	updateUserProfile,
 	refreshLogin,
@@ -29,6 +30,13 @@ const RegisterPage = ({ location, history }) => {
 
 	const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
 	const { success } = userProfileUpdate;
+
+	const userSendEmailVerfication = useSelector(
+		(state) => state.userSendEmailVerfication
+	);
+	const { emailSent, hasError } = userSendEmailVerfication;
+	// const showLoading = userSendEmailVerfication.loading;
+	// const showError = userSendEmailVerfication.error;
 
 	useEffect(() => {
 		if (error) {
@@ -76,11 +84,55 @@ const RegisterPage = ({ location, history }) => {
 			dispatch(updateUserProfile({ id: user.id, name, email }));
 		}
 	};
-	console.log(error);
 	return (
-		<Row className='mt-5'>
-			<Col md={3}>
+		<Row className={userInfo && userInfo.isConfirmed ? 'mt-4' : 'mt-2'}>
+			{userInfo && !userInfo.isConfirmed ? (
+				<>
+					{emailSent && (
+						<Message variant='success'>
+							A verification link has been sent your mail!
+						</Message>
+					)}
+					{hasError && <Message variant='danger'>{hasError}</Message>}
+					<Card style={{ margin: '0' }} className='mb-3'>
+						<Card.Body className='ps-0 '>
+							<Card.Title style={{ fontWeight: 'bold' }}>
+								Account Not Verified
+							</Card.Title>
+							<Card.Text>
+								{`${userInfo.name}, `} your account is not yet
+								verfied. Please{' '}
+								<Button
+									variant='link'
+									className='p-0'
+									style={{
+										fontSize: '0.9em',
+										margin: '0 0 0.1em 0',
+										focus: 'none',
+									}}
+									onClick={() =>
+										dispatch(
+											sendVerficationEmail(userInfo.email)
+										)
+									}>
+									click here
+								</Button>{' '}
+								to send a verfication email.
+							</Card.Text>
+							{/* <Link to='/login'>Login</Link> */}
+						</Card.Body>
+					</Card>
+				</>
+			) : null}
+			<Col
+				md={3}
+				style={
+					userInfo && !userInfo.isConfirmed
+						? { opacity: '0.5', pointerEvents: 'none' }
+						: { opacity: '1', pointerEvents: '' }
+				}>
 				<h2>Update Profile</h2>
+
 				{message && <Message variant='warning'>{message}</Message>}
 				{error && error !== 'Not authorised. Token failed' && (
 					<Message variant='danger'>{error}</Message>
@@ -174,7 +226,13 @@ const RegisterPage = ({ location, history }) => {
 					</Form>
 				)}
 			</Col>
-			<Col md={9}>
+			<Col
+				md={9}
+				style={
+					userInfo && !userInfo.isConfirmed
+						? { opacity: '0.5', pointerEvents: 'none' }
+						: { opacity: '1', pointerEvents: '' }
+				}>
 				<h2>My Orders</h2>
 			</Col>
 		</Row>
