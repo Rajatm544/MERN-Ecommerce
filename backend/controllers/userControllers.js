@@ -16,32 +16,26 @@ const authUser = asyncHandler(async (req, res) => {
 	const refreshToken = generateToken(user._id, 'refresh');
 
 	if (user && (await user.matchPassword(password))) {
-		if (user.isConfirmed) {
-			const existingToken = await Token.findOne({ email });
-			if (!existingToken) {
-				const newToken = await Token.create({
-					email,
-					token: refreshToken,
-				});
-			} else {
-				existingToken.token = refreshToken;
-				existingToken.save();
-			}
-
-			res.json({
-				id: user._id,
-				email: user.email,
-				name: user.name,
-				isAdmin: user.isAdmin,
-				isConfirmed: user.isConfirmed,
-				accessToken,
-				refreshToken,
+		const existingToken = await Token.findOne({ email });
+		if (!existingToken) {
+			const newToken = await Token.create({
+				email,
+				token: refreshToken,
 			});
 		} else {
-			res.json({
-				message: 'Please confirm you email',
-			});
+			existingToken.token = refreshToken;
+			existingToken.save();
 		}
+
+		res.json({
+			id: user._id,
+			email: user.email,
+			name: user.name,
+			isAdmin: user.isAdmin,
+			isConfirmed: user.isConfirmed,
+			accessToken,
+			refreshToken,
+		});
 	} else {
 		res.status(401);
 		throw new Error(user ? 'Invalid Password' : 'Invalid email');
@@ -97,7 +91,7 @@ const mailForEmailVerification = asyncHandler(async (req, res) => {
 		const { email } = req.body;
 
 		const user = await User.findOne({ email });
-
+		console.log(user);
 		if (user) {
 			if (!user.isConfirmed) {
 				// send the mail
@@ -200,14 +194,15 @@ const confirmUser = asyncHandler(async (req, res) => {
 		const user = await User.findById(decodedToken.id).select('-password');
 		user.isConfirmed = true;
 		const updatedUser = await user.save();
+		const foundToken = await Token.findOne({ email: user.email });
 		res.json({
 			id: updatedUser._id,
 			email: updatedUser.email,
 			name: updatedUser.name,
 			isAdmin: updatedUser.isAdmin,
 			isConfirmed: updatedUser.isConfirmed,
-			accessToken: updatedUser.accessToken,
-			refreshToken: updatedUser.refreshToken,
+			accessToken: generateToken(user._id, 'access'),
+			refreshToken: foundToken,
 		});
 	} catch (error) {
 		console.log(error);
