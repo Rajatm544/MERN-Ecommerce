@@ -88,6 +88,39 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc send a mail with the link to verify mail
+// @route POST /api/users/confirm
+// @access PUBLIC
+
+const mailForEmailVerification = asyncHandler(async (req, res) => {
+	try {
+		const { email } = req.body;
+
+		const user = await User.findOne({ email });
+
+		if (user) {
+			if (!user.isConfirmed) {
+				// send the mail
+				await sendMail(user._id, email, 'email verification');
+				res.status(201).json({
+					id: user._id,
+					email: user.email,
+					name: user.name,
+					isAdmin: user.isAdmin,
+					isConfirmed: user.isConfirmed,
+				});
+			} else {
+				res.status(400);
+				throw new Error('User already confirmed');
+			}
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(401);
+		throw new Error('Could not send the mail. Please retry.');
+	}
+});
+
 // @desc send a mail with the link to reset password
 // @route POST /api/users/reset
 // @access PUBLIC
@@ -285,6 +318,7 @@ export {
 	getAccessToken,
 	registerUser,
 	confirmUser,
+	mailForEmailVerification,
 	mailForPasswordReset,
 	resetUserPassword,
 	updateUserProfile,

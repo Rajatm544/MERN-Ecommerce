@@ -5,6 +5,7 @@ import {
 	getAccessToken,
 	registerUser,
 	confirmUser,
+	mailForEmailVerification,
 	mailForPasswordReset,
 	resetUserPassword,
 	updateUserProfile,
@@ -27,6 +28,11 @@ router.route('/login').post(authUser);
 // @route GET /api/users/confirm
 // @access PUBLIC
 router.route('/confirm/:token').get(confirmUser);
+
+// @desc send a mail with the link to verify mail
+// @route POST /api/users/confirm
+// @access PUBLIC
+router.route('/confirm').post(mailForEmailVerification);
 
 // @desc send a mail with the link to reset password
 // @route POST /api/users/reset
