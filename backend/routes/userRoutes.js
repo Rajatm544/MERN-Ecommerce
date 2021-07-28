@@ -29,7 +29,7 @@ router.route('/login').post(authUser);
 // @access PUBLIC
 router.route('/confirm/:token').get(confirmUser);
 
-// @desc send a mail with the link to verify mail
+// @desc send a mail with the link to verify mail, to be used if the user forgot to verify mail after registration
 // @route POST /api/users/confirm
 // @access PUBLIC
 router.route('/confirm').post(mailForEmailVerification);
