@@ -12,6 +12,9 @@ import {
 	USER_RESET_PASSWORD_REQUEST,
 	USER_RESET_PASSWORD_SUCCESS,
 	USER_RESET_PASSWORD_FAILURE,
+	USER_EMAIL_VERIFICATION_REQUEST,
+	USER_EMAIL_VERIFICATION_SUCCESS,
+	USER_EMAIL_VERIFICATION_FAILURE,
 	USER_CONFIRM_REQUEST,
 	USER_CONFIRM_SUCCESS,
 	USER_CONFIRM_FAILURE,
@@ -47,6 +50,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 		});
 		localStorage.setItem('refreshToken', data.refreshToken);
 		localStorage.setItem('userInfo', JSON.stringify(data));
+		localStorage.removeItem('promptEmailVerfication');
 	} catch (error) {
 		dispatch({
 			type: USER_LOGIN_FAILURE,
@@ -144,20 +148,24 @@ export const registerUser = (name, email, password) => async (dispatch) => {
 	}
 };
 
-export const confirmUser = (emailToken) => async (dispatch, getState) => {
+export const sendVerficationEmail = (email) => async (dispatch) => {
 	try {
-		dispatch({ type: USER_CONFIRM_REQUEST });
-		const { data } = await axios.get(`/api/users/confirm/${emailToken}`);
+		dispatch({ type: USER_EMAIL_VERIFICATION_REQUEST });
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
 
-		localStorage.removeItem('promptEmailVerfication');
-		dispatch({ type: USER_CONFIRM_SUCCESS, payload: true });
-
-		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-		localStorage.setItem('userInfo', JSON.stringify(data));
+		const { data } = await axios.post(
+			'/api/users/confirm',
+			{ email },
+			config
+		);
+		dispatch({ type: USER_EMAIL_VERIFICATION_SUCCESS, payload: data });
 	} catch (error) {
 		dispatch({
-			type: USER_CONFIRM_FAILURE,
+			type: USER_EMAIL_VERIFICATION_FAILURE,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
@@ -165,6 +173,40 @@ export const confirmUser = (emailToken) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const confirmUser =
+	(emailToken, alreadyLoggedIn = false) =>
+	async (dispatch, getState) => {
+		try {
+			dispatch({ type: USER_CONFIRM_REQUEST });
+			const { data } = await axios.get(
+				`/api/users/confirm/${emailToken}`
+			);
+
+			localStorage.removeItem('promptEmailVerfication');
+			dispatch({ type: USER_CONFIRM_SUCCESS, payload: true });
+
+			if (alreadyLoggedIn) {
+				dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+				dispatch({
+					type: USER_LOGIN_REFRESH_SUCCESS,
+					payload: data.refreshToken,
+				});
+				localStorage.setItem('refreshToken', data.refreshToken);
+				localStorage.setItem('userInfo', JSON.stringify(data));
+			}
+
+			localStorage.removeItem('promptEmailVerfication');
+		} catch (error) {
+			dispatch({
+				type: USER_CONFIRM_FAILURE,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
 
 export const resetUserPassword =
 	(passwordToken, password) => async (dispatch) => {
