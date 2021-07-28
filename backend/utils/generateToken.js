@@ -15,7 +15,7 @@ const generateToken = (id, option) => {
 		});
 	} else if (option === 'forgot password') {
 		return jwt.sign({ id }, process.env.JWT_FORGOT_PASSWORD_TOKEN_SECRET, {
-			expiresIn: 60 * 5,
+			expiresIn: 60 * 10,
 		});
 	}
 };
