@@ -6,6 +6,7 @@ import products from './data/products.js';
 import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
+import Token from './models/tokenModel.js';
 import connectDB from './config/db.js';
 
 dotenv.config();
@@ -17,6 +18,7 @@ const importData = async () => {
 		await User.deleteMany();
 		await Product.deleteMany();
 		await Order.deleteMany();
+		await Token.deleteMany();
 
 		// create an array os users to seed into the DB
 		const newUsers = await User.insertMany(users);
@@ -45,6 +47,7 @@ const destroyData = async () => {
 		await User.deleteMany();
 		await Product.deleteMany();
 		await Order.deleteMany();
+		await Token.deleteMany();
 
 		console.log('Data deleted from the DB'.red.inverse);
 		process.exit();
