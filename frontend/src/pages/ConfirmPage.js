@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
@@ -46,11 +47,13 @@ const ConfirmPage = ({ match, history }) => {
 				<Card.Body>
 					<Card.Title>Account Confirmed</Card.Title>
 					<Card.Text>
-						Your account has been successfully verified! Please
+						{setIsLoggedIn
+							? 'Your account has been successfully verified! Go on and shop for the best deals of the day!'
+							: `Your account has been successfully verified! Please
 						login and start exploring the best deals on all your
-						favorite products.
+						favorite products.`}
 					</Card.Text>
-					{/* <Link to='/login'>Login</Link> */}
+					{!setIsLoggedIn ? <Link to='/login'>Login</Link> : null}
 				</Card.Body>
 			</Card>
 		);

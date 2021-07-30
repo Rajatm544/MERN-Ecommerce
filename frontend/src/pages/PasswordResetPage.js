@@ -61,8 +61,6 @@ const PasswordResetPage = ({ match, history }) => {
 			{resetPassword && (
 				<Message variant='success'>
 					Password Changed Successfully.
-					<br />
-					Login and bag the best deals of the day!
 				</Message>
 			)}
 			{error && <Message variant='danger'>{error}</Message>}
