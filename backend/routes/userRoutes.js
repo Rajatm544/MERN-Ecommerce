@@ -2,6 +2,7 @@ import express from 'express';
 import {
 	authUser,
 	getUserProfile,
+	getUserData,
 	getAccessToken,
 	registerUser,
 	confirmUser,
@@ -61,5 +62,10 @@ router
 	.route('/profile')
 	.get(protectRoute, getUserProfile)
 	.put(protectRoute, updateUserProfile);
+
+// @desc get user data for google login in the frontend
+// @route POST /api/users/passport/data
+// @access PUBLIC
+router.route('/passport/data').post(getUserData);
 
 export default router;

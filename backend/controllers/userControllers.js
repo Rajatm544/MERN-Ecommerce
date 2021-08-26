@@ -245,6 +245,26 @@ const getAccessToken = asyncHandler(async (req, res) => {
 	);
 });
 
+// @desc get user data for google login in the frontend
+// @route POST /api/users/passport/data
+// @access PUBLIC
+const getUserData = asyncHandler(async (req, res) => {
+	const { id } = req.body;
+	const user = await User.findById(id).select('-googleID');
+	if (user) {
+		res.json({
+			id: user._id,
+			email: user.email,
+			name: user.name,
+			isAdmin: user.isAdmin,
+			isConfirmed: user.isConfirmed,
+		});
+	} else {
+		res.status(400);
+		throw new Error('User not authorised to view this page');
+	}
+});
+
 // @desc get data for an authenticated user
 // @route GET /api/users/profile
 // @access PRIVATE
@@ -310,6 +330,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 export {
 	authUser,
 	getUserProfile,
+	getUserData,
 	getAccessToken,
 	registerUser,
 	confirmUser,
