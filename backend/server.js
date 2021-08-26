@@ -3,12 +3,17 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
 import cors from 'cors';
+import passport from 'passport';
+import passportSetup from './config/passportSetup.js';
+import cookieSession from 'cookie-session';
 
 // middleware
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import setupPassport from './config/passportSetup.js';
 
 dotenv.config();
 const app = express();
@@ -20,9 +25,25 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
+// use cookie sessions
+app.use(
+	cookieSession({
+		maxAge: 1000 * 60 * 60 * 24,
+		keys: [process.env.COOKIE_SESSION_KEY],
+	})
+);
+
+// initialise passport middleware to use sessions
+app.use(passport.initialize());
+app.use(passport.session());
+
+// setup passport
+setupPassport();
+
 // configure all the routes
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 // middleware to act as fallback for all 404 errors
 app.use(notFound);
