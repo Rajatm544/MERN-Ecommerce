@@ -18,4 +18,27 @@ const googleLoginFailure = asyncHandler(async (req, res) => {
 	res.send('failed');
 });
 
-export { googleLoginSuccess, googleLoginFailure, passportLoggedUser };
+// @desc login user using the github strategy
+// @route GET /api/auth/github/redirect/success
+// @access PUBLIC
+const githubLoginSuccess = asyncHandler(async (req, res) => {
+	// console.log(req.user);
+	// res.send('success');
+	res.redirect(
+		`http://localhost:3000/login?login=success&id=${req.user._id}`
+	);
+});
+
+// @desc login user using the github strategy
+// @route GET /api/auth/github/redirect/failure
+// @access PUBLIC
+const githubLoginFailure = asyncHandler(async (req, res) => {
+	res.send('failed');
+});
+
+export {
+	googleLoginSuccess,
+	googleLoginFailure,
+	githubLoginSuccess,
+	githubLoginFailure,
+};
