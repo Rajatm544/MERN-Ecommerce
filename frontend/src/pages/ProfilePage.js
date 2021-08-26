@@ -41,7 +41,7 @@ const RegisterPage = ({ location, history }) => {
 	useEffect(() => {
 		if (error) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
-			dispatch(refreshLogin(user.email));
+			user && dispatch(refreshLogin(user.email));
 		}
 	}, [error, dispatch]);
 
@@ -52,9 +52,15 @@ const RegisterPage = ({ location, history }) => {
 			// if user is null, first fetch it and then set its details to the local state
 			if (!user || !user.name || success) {
 				dispatch({ type: USER_PROFILE_UPDATE_RESET });
-				dispatch(getUserDetails('profile'));
+				userInfo
+					? userInfo.isSocialLogin
+						? dispatch(getUserDetails(userInfo.id))
+						: dispatch(getUserDetails('profile'))
+					: dispatch(getUserDetails('profile'));
 				if (success) {
-					dispatch(getUserDetails('profile'));
+					userInfo.isSocialLogin
+						? dispatch(getUserDetails(userInfo.id))
+						: dispatch(getUserDetails('profile'));
 				}
 			} else {
 				setName(user.name);
@@ -164,62 +170,69 @@ const RegisterPage = ({ location, history }) => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</Form.Group>
-						<Form.Group className='my-2'>
-							<Form.Label>Password</Form.Label>
-							<InputGroup>
-								<Form.Control
-									size='lg'
-									type={typePassword}
-									placeholder='Enter your password'
-									value={password}
-									style={{ borderRight: 'none' }}
-									onChange={(e) =>
-										setPassword(e.target.value)
-									}></Form.Control>
-								<InputGroup.Text
-									id='basic-addon2'
-									onClick={showHidePassword}
-									style={{
-										background: 'transparent',
-										borderLeft: 'none',
-										padding: '0.5em 0.5em 0.5em 0',
-									}}>
-									{typePassword === 'text' ? (
-										<i className='far fa-eye-slash'></i>
-									) : (
-										<i className='far fa-eye'></i>
-									)}
-								</InputGroup.Text>
-							</InputGroup>
-						</Form.Group>
-						<Form.Group className='my-2'>
-							<Form.Label>Confirm Password</Form.Label>
-							<InputGroup className='mb-3'>
-								<Form.Control
-									size='lg'
-									type={typeConfirmPassword}
-									placeholder='Confirm password'
-									value={confirmPassword}
-									style={{ borderRight: 'none' }}
-									onChange={(e) =>
-										setConfirmPassword(e.target.value)
-									}></Form.Control>
-								<InputGroup.Text
-									id='basic-addon2'
-									onClick={showHideConfirmPassword}
-									style={{
-										background: 'transparent',
-										borderLeft: 'none',
-										padding: '0.5em 0.5em 0.5em 0',
-									}}>
-									{typeConfirmPassword === 'text' ? (
-										<i className='far fa-eye-slash'></i>
-									) : (
-										<i className='far fa-eye'></i>
-									)}
-								</InputGroup.Text>
-							</InputGroup>
-						</Form.Group>
+						{userInfo && !userInfo.isSocialLogin && (
+							<>
+								<Form.Group className='my-2'>
+									<Form.Label>Password</Form.Label>
+									<InputGroup>
+										<Form.Control
+											size='lg'
+											type={typePassword}
+											placeholder='Enter your password'
+											value={password}
+											style={{ borderRight: 'none' }}
+											onChange={(e) =>
+												setPassword(e.target.value)
+											}></Form.Control>
+										<InputGroup.Text
+											id='basic-addon2'
+											onClick={showHidePassword}
+											style={{
+												background: 'transparent',
+												borderLeft: 'none',
+												padding: '0.5em 0.5em 0.5em 0',
+											}}>
+											{typePassword === 'text' ? (
+												<i className='far fa-eye-slash'></i>
+											) : (
+												<i className='far fa-eye'></i>
+											)}
+										</InputGroup.Text>
+									</InputGroup>
+								</Form.Group>
+								<Form.Group className='my-2'>
+									<Form.Label>Confirm Password</Form.Label>
+									<InputGroup className='mb-3'>
+										<Form.Control
+											size='lg'
+											type={typeConfirmPassword}
+											placeholder='Confirm password'
+											value={confirmPassword}
+											style={{ borderRight: 'none' }}
+											onChange={(e) =>
+												setConfirmPassword(
+													e.target.value
+												)
+											}></Form.Control>
+										<InputGroup.Text
+											id='basic-addon2'
+											onClick={showHideConfirmPassword}
+											style={{
+												background: 'transparent',
+												borderLeft: 'none',
+												padding: '0.5em 0.5em 0.5em 0',
+											}}>
+											{typeConfirmPassword === 'text' ? (
+												<i className='far fa-eye-slash'></i>
+											) : (
+												<i className='far fa-eye'></i>
+											)}
+										</InputGroup.Text>
+									</InputGroup>
+								</Form.Group>
+							</>
+						)}
+
 						<Button type='submit' variant='dark' className='my-1'>
 							Update Profile
 						</Button>
