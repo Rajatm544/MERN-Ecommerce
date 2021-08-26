@@ -18,12 +18,4 @@ const googleLoginFailure = asyncHandler(async (req, res) => {
 	res.send('failed');
 });
 
-// @desc send data for req.user after passport login
-// @route GET /api/auth/passport/login/data
-// @access PUBLIC
-const passportLoggedUser = (req, res) => {
-	// res.json(this.user);
-	console.log(req.user);
-};
-
 export { googleLoginSuccess, googleLoginFailure, passportLoggedUser };

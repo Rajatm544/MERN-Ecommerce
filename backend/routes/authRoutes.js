@@ -4,7 +4,6 @@ import {
 	googleLoginFailure,
 	passportLoggedUser,
 } from '../controllers/authControllers.js';
-import passportProtectRoute from '../middleware/passportMiddleware.js';
 import passport from 'passport';
 
 const router = express.Router();
@@ -39,12 +38,5 @@ router.route('/google/redirect/success').get(googleLoginSuccess);
 // @route GET /api/auth/google/redirect
 // @access PUBLIC
 router.route('/google/redirect/failure').get(googleLoginFailure);
-
-// @desc send data for req.user after passport login
-// @route GET /api/users/passport/login/data
-// @access PRIVATE
-router.route('/passport/login/data').get(passportLoggedUser);
-
-// router.route('/profile').get(protectRoute, getUserProfile);
 
 export default router;
