@@ -1,14 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { Card, Image } from 'react-bootstrap';
 import googleLogin from '../assets/googleLogo.png';
+import githubLogin from '../assets/githubLogo.png';
 
 const SocialLoginOptions = () => {
-	const handleGoogleLogin = async () => {
-		const { data } = await axios.get('/api/auth/google');
-		console.log(data);
-	};
-
 	return (
 		// <Card>
 		<div style={{ width: '98%', margin: '1.5em 0' }}>
@@ -39,17 +34,30 @@ const SocialLoginOptions = () => {
 				style={{
 					margin: '0',
 					padding: '0',
+					display: 'flex',
+					fleFlow: 'row wrap',
+					alignItems: 'center',
+					justifyContent: 'space-around',
 				}}>
 				<a href='http://localhost:5000/api/auth/google'>
 					<Image
 						rounded
-						onClick={handleGoogleLogin}
 						style={{
 							width: '3em',
 							height: '3em',
 							objectFit: 'cover',
 						}}
 						src={googleLogin}></Image>
+				</a>
+				<a href='http://localhost:5000/api/auth/github'>
+					<Image
+						rounded
+						style={{
+							width: '3em',
+							height: '3em',
+							objectFit: 'cover',
+						}}
+						src={githubLogin}></Image>
 				</a>
 			</Card.Body>
 		</div>
