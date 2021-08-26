@@ -43,7 +43,10 @@ export const loginUser = (email, password) => async (dispatch) => {
 			config
 		);
 
-		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: { ...data, isSocialLogin: false },
+		});
 		dispatch({
 			type: USER_LOGIN_REFRESH_SUCCESS,
 			payload: data.refreshToken,
@@ -70,34 +73,38 @@ export const refreshLogin = (email) => async (dispatch, getState) => {
 			// refreshToken: { token },
 		} = getState();
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		};
-
-		const { data } = await axios.post(
-			'/api/users/refresh',
-			{
-				email,
-				token: userInfo.refreshToken,
-			},
-			config
-		);
-
-		if (data.success) {
-			dispatch({ type: USER_LOGIN_REFRESH_SUCCESS, payload: data });
-			const updatedUser = {
-				...userInfo,
-				accessToken: data.accessToken,
-				refreshToken: userInfo.refreshToken,
+		if (userInfo.isSocialLogin) {
+			dispatch({ type: USER_LOGIN_REFRESH_SUCCESS, payload: null });
+		} else {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+				},
 			};
-			localStorage.setItem('userInfo', JSON.stringify(updatedUser));
-			dispatch({ type: USER_LOGIN_SUCCESS, payload: updatedUser });
-		} else if (!data.success) {
-			localStorage.removeItem('userInfo');
-			localStorage.setItem('redirectLogin', 'true');
-			dispatch({ type: USER_LOGOUT });
+
+			const { data } = await axios.post(
+				'/api/users/refresh',
+				{
+					email,
+					token: userInfo.refreshToken,
+				},
+				config
+			);
+
+			if (data.success) {
+				dispatch({ type: USER_LOGIN_REFRESH_SUCCESS, payload: data });
+				const updatedUser = {
+					...userInfo,
+					accessToken: data.accessToken,
+					refreshToken: userInfo.refreshToken,
+				};
+				localStorage.setItem('userInfo', JSON.stringify(updatedUser));
+				dispatch({ type: USER_LOGIN_SUCCESS, payload: updatedUser });
+			} else if (!data.success) {
+				localStorage.removeItem('userInfo');
+				localStorage.setItem('redirectLogin', 'true');
+				dispatch({ type: USER_LOGOUT });
+			}
 		}
 	} catch (error) {
 		dispatch({
@@ -246,16 +253,31 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userInfo.accessToken}`,
-			},
-		};
+		if (userInfo.isSocialLogin) {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			};
 
-		const { data } = await axios.get(`/api/users/${id}`, config);
+			let { data } = await axios.post(
+				'/api/users/passport/data/',
+				{ id },
+				config
+			);
+			dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+		} else {
+			const config = {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${userInfo.accessToken}`,
+				},
+			};
 
-		dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+			const { data } = await axios.get(`/api/users/${id}`, config);
+
+			dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+		}
 	} catch (error) {
 		dispatch({
 			type: USER_DETAILS_FAILURE,
