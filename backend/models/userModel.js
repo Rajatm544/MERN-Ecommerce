@@ -30,6 +30,10 @@ const userSchema = mongoose.Schema(
 			type: String,
 			unique: true,
 		},
+		githubID: {
+			type: String,
+			unique: true,
+		},
 	},
 	{
 		timestamps: true,
