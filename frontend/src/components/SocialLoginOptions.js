@@ -5,15 +5,8 @@ import googleLogin from '../assets/googleLogo.png';
 
 const SocialLoginOptions = () => {
 	const handleGoogleLogin = async () => {
-		const { data } = await axios.get(
-			'http://localhost:5000/api/auth/google'
-		);
-		const { loggedInUser } = await axios.get(
-			'api/users/google/redirect/success'
-		);
-		if (loggedInUser) {
-			console.log(loggedInUser);
-		}
+		const { data } = await axios.get('/api/auth/google');
+		console.log(data);
 	};
 
 	return (

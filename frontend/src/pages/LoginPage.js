@@ -61,7 +61,7 @@ const LoginPage = ({ location, history }) => {
 					});
 			}
 		}
-	}, [dispatch]);
+	}, [dispatch, history]);
 
 	useEffect(() => {
 		if (

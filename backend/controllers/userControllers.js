@@ -317,6 +317,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 				email: updatedUser.email,
 				name: updatedUser.name,
 				isAdmin: updatedUser.isAdmin,
+				isConfirmed: updatedUser.isConfirmed,
 				accessToken: generateToken(updatedUser._id, 'access'),
 				refreshToken,
 			});
