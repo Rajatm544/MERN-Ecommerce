@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
 		},
 		password: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 		isAdmin: {
 			type: Boolean,
@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema(
 			type: Boolean,
 			required: true,
 			default: false,
+		},
+		googleID: {
+			type: String,
+			unique: true,
 		},
 	},
 	{
