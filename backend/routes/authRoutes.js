@@ -6,6 +6,8 @@ import {
 	githubLoginFailure,
 	twitterLoginSuccess,
 	twitterLoginFailure,
+	linkedinLoginSuccess,
+	linkedinLoginFailure,
 } from '../controllers/authControllers.js';
 import passport from 'passport';
 
@@ -74,7 +76,7 @@ router.route('/github/redirect/success').get(githubLoginSuccess);
 router.route('/github/redirect/failure').get(githubLoginFailure);
 
 // @desc redirect route for the passport twitter strategy
-// @route GET /api/auth/twitter/redirect
+// @route GET /api/auth/twitter
 // @access PUBLIC
 router.route('/twitter').get(passport.authenticate('twitter'));
 
@@ -98,5 +100,31 @@ router.route('/twitter/redirect/success').get(twitterLoginSuccess);
 // @route GET /api/auth/twitter/redirect
 // @access PUBLIC
 router.route('/twitter/redirect/failure').get(twitterLoginFailure);
+
+// @desc redirect route for the passport linkedin strategy
+// @route GET /api/auth/linkedin/
+// @access PUBLIC
+router.route('/linkedin').get(passport.authenticate('linkedin'));
+
+// @desc redirect route for the passport linkedin strategy
+// @route GET /api/auth/linkedin/redirect
+// @access PUBLIC
+router.get(
+	'/linkedin/redirect',
+	passport.authenticate('linkedin', {
+		successRedirect: '/api/auth/linkedin/redirect/success',
+		failureRedirect: '/api/auth/linkedin/redirect/failure',
+	})
+);
+
+// @desc redirect route for the passport linkedin strategy
+// @route GET /api/auth/linkedin/redirect
+// @access PUBLIC
+router.route('/linkedin/redirect/success').get(linkedinLoginSuccess);
+
+// @desc redirect route for the passport linkedin strategy
+// @route GET /api/auth/linkedin/redirect
+// @access PUBLIC
+router.route('/linkedin/redirect/failure').get(linkedinLoginFailure);
 
 export default router;
