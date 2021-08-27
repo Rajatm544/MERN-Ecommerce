@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import GoogleStrategy from 'passport-google-oauth20';
 import GithubStrategy from 'passport-github2';
 import TwitterStrategy from 'passport-twitter';
+import LinkedInStrategy from 'passport-linkedin-oauth2';
 import User from '../models/userModel.js';
 
 dotenv.config();
@@ -91,6 +92,35 @@ passport.use(
 						isConfirmed: true,
 						twitterID: profile.id,
 						email: profile._json.email,
+					}).then((user) => {
+						done(null, user);
+					});
+				} else {
+					done(null, foundUser);
+				}
+			});
+		}
+	)
+);
+
+passport.use(
+	new LinkedInStrategy.Strategy(
+		{
+			clientID: process.env.LINKEDIN_CLIENT_ID,
+			clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+			callbackURL: 'http://localhost:5000/api/auth/linkedin/redirect',
+			scope: ['r_emailaddress', 'r_liteprofile'],
+			state: true,
+		},
+		(accessToken, refreshToken, profile, done) => {
+			User.findOne({ linkedinID: profile.id }).then((foundUser) => {
+				if (!foundUser) {
+					User.create({
+						name: profile.displayName,
+						isAdmin: false,
+						isConfirmed: true,
+						linkedinID: profile.id,
+						email: profile.emails[0].value,
 					}).then((user) => {
 						done(null, user);
 					});
