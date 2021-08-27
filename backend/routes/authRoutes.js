@@ -4,6 +4,8 @@ import {
 	googleLoginFailure,
 	githubLoginSuccess,
 	githubLoginFailure,
+	twitterLoginSuccess,
+	twitterLoginFailure,
 } from '../controllers/authControllers.js';
 import passport from 'passport';
 
@@ -70,5 +72,31 @@ router.route('/github/redirect/success').get(githubLoginSuccess);
 // @route GET /api/auth/github/redirect
 // @access PUBLIC
 router.route('/github/redirect/failure').get(githubLoginFailure);
+
+// @desc redirect route for the passport twitter strategy
+// @route GET /api/auth/twitter/redirect
+// @access PUBLIC
+router.route('/twitter').get(passport.authenticate('twitter'));
+
+// @desc redirect route for the passport twitter strategy
+// @route GET /api/auth/twitter/redirect
+// @access PUBLIC
+router.get(
+	'/twitter/redirect',
+	passport.authenticate('twitter', {
+		successRedirect: '/api/auth/twitter/redirect/success',
+		failureRedirect: '/api/auth/twitter/redirect/failure',
+	})
+);
+
+// @desc redirect route for the passport twitter strategy
+// @route GET /api/auth/twitter/redirect
+// @access PUBLIC
+router.route('/twitter/redirect/success').get(twitterLoginSuccess);
+
+// @desc redirect route for the passport twitter strategy
+// @route GET /api/auth/twitter/redirect
+// @access PUBLIC
+router.route('/twitter/redirect/failure').get(twitterLoginFailure);
 
 export default router;
