@@ -38,6 +38,10 @@ const userSchema = mongoose.Schema(
 			type: String,
 			unique: true,
 		},
+		linkedinID: {
+			type: String,
+			unique: true,
+		},
 	},
 	{
 		timestamps: true,
