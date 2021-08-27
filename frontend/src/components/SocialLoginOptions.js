@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, Image } from 'react-bootstrap';
-import googleLogin from '../assets/googleLogo.png';
-import githubLogin from '../assets/githubLogo.png';
-import twitterLogin from '../assets/twitterLogo.png';
+import googleLogo from '../assets/googleLogo.png';
+import githubLogo from '../assets/githubLogo.png';
+import twitterLogo from '../assets/twitterLogo.png';
+import linkedinLogo from '../assets/linkedinLogo.png';
 
 const SocialLoginOptions = () => {
 	return (
@@ -48,7 +49,7 @@ const SocialLoginOptions = () => {
 							height: '3em',
 							objectFit: 'cover',
 						}}
-						src={googleLogin}></Image>
+						src={googleLogo}></Image>
 				</a>
 				<a href='http://localhost:5000/api/auth/github'>
 					<Image
@@ -58,7 +59,7 @@ const SocialLoginOptions = () => {
 							height: '3em',
 							objectFit: 'cover',
 						}}
-						src={githubLogin}></Image>
+						src={githubLogo}></Image>
 				</a>
 				<a href='http://localhost:5000/api/auth/twitter'>
 					<Image
@@ -68,7 +69,17 @@ const SocialLoginOptions = () => {
 							height: '3em',
 							objectFit: 'contain',
 						}}
-						src={twitterLogin}></Image>
+						src={twitterLogo}></Image>
+				</a>
+				<a href='http://localhost:5000/api/auth/linkedin'>
+					<Image
+						rounded
+						style={{
+							width: '3em',
+							height: '3em',
+							objectFit: 'contain',
+						}}
+						src={linkedinLogo}></Image>
 				</a>
 			</Card.Body>
 		</div>
