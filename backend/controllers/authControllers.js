@@ -36,9 +36,27 @@ const githubLoginFailure = asyncHandler(async (req, res) => {
 	res.send('failed');
 });
 
+// @desc login user using the twitter strategy
+// @route GET /api/auth/twitter/redirect/success
+// @access PUBLIC
+const twitterLoginSuccess = asyncHandler(async (req, res) => {
+	res.redirect(
+		`http://localhost:3000/login?login=success&id=${req.user._id}`
+	);
+});
+
+// @desc login user using the twitter strategy
+// @route GET /api/auth/twitter/redirect/failure
+// @access PUBLIC
+const twitterLoginFailure = asyncHandler(async (req, res) => {
+	res.send('failed');
+});
+
 export {
 	googleLoginSuccess,
 	googleLoginFailure,
 	githubLoginSuccess,
 	githubLoginFailure,
+	twitterLoginSuccess,
+	twitterLoginFailure,
 };
