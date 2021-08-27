@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Image } from 'react-bootstrap';
 import googleLogin from '../assets/googleLogo.png';
 import githubLogin from '../assets/githubLogo.png';
+import twitterLogin from '../assets/twitterLogo.png';
 
 const SocialLoginOptions = () => {
 	return (
@@ -12,7 +13,7 @@ const SocialLoginOptions = () => {
 					display: 'flex',
 					flexFlow: 'row nowrap',
 					alignItems: 'center',
-					justifyContent: 'space-between',
+					justifyContent: 'space-evenly',
 				}}>
 				<div
 					style={{
@@ -58,6 +59,16 @@ const SocialLoginOptions = () => {
 							objectFit: 'cover',
 						}}
 						src={githubLogin}></Image>
+				</a>
+				<a href='http://localhost:5000/api/auth/twitter'>
+					<Image
+						rounded
+						style={{
+							width: '3em',
+							height: '3em',
+							objectFit: 'contain',
+						}}
+						src={twitterLogin}></Image>
 				</a>
 			</Card.Body>
 		</div>
