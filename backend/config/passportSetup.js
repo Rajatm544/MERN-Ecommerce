@@ -2,6 +2,7 @@ import passport from 'passport';
 import dotenv from 'dotenv';
 import GoogleStrategy from 'passport-google-oauth20';
 import GithubStrategy from 'passport-github2';
+import TwitterStrategy from 'passport-twitter';
 import User from '../models/userModel.js';
 
 dotenv.config();
@@ -35,12 +36,10 @@ const setupPassport = () => {
 							googleID: profile.id,
 							email: profile._json.email,
 						}).then((user) => {
-							// console.log('User created ', user);
 							done(null, user);
 						});
 					} else {
 						done(null, foundUser);
-						// console.log('User exists ', foundUser);
 					}
 				});
 			}
@@ -64,17 +63,43 @@ const setupPassport = () => {
 							githubID: profile.id,
 							email: profile._json.email,
 						}).then((user) => {
-							// console.log('User created ', user);
 							done(null, user);
 						});
 					} else {
 						done(null, foundUser);
-						// console.log('User exists ', foundUser);
 					}
 				});
 			}
 		)
 	);
 };
+
+passport.use(
+	new TwitterStrategy(
+		{
+			consumerKey: process.env.TWITTER_CONSUMER_KEY,
+			consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+			callbackURL: 'http://localhost:5000/api/auth/twitter/redirect',
+			includeEmail: true,
+		},
+		(accessToken, refreshToken, profile, done) => {
+			User.findOne({ twitterID: profile.id }).then((foundUser) => {
+				if (!foundUser) {
+					User.create({
+						name: profile.displayName,
+						isAdmin: false,
+						isConfirmed: true,
+						twitterID: profile.id,
+						email: profile._json.email,
+					}).then((user) => {
+						done(null, user);
+					});
+				} else {
+					done(null, foundUser);
+				}
+			});
+		}
+	)
+);
 
 export default setupPassport;
