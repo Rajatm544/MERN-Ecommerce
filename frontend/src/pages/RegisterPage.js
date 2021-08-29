@@ -53,7 +53,23 @@ const RegisterPage = ({ location, history }) => {
 
 	return (
 		<FormContainer>
-			<h1>Sign Up</h1>
+			<div
+				style={{
+					display: 'flex',
+					flexFlow: 'row wrap',
+					alignItems: 'center',
+				}}>
+				<h1
+					style={{ cursor: 'pointer' }}
+					onClick={() => history.push('/login')}>
+					Sign In
+				</h1>
+				<h1
+					style={{ marginLeft: '1em', cursor: 'pointer' }}
+					onClick={() => history.push('/register')}>
+					Sign Up
+				</h1>
+			</div>
 			{message && <Message variant='warning'>{message}</Message>}
 			{error && <Message variant='danger'>{error}</Message>}
 			{loading ? (
@@ -141,7 +157,7 @@ const RegisterPage = ({ location, history }) => {
 					</Button>
 				</Form>
 			)}
-			<Row>
+			{/* <Row>
 				<Col className='mt-1'>
 					Have an Account?{' '}
 					<Link
@@ -151,7 +167,7 @@ const RegisterPage = ({ location, history }) => {
 						Login
 					</Link>
 				</Col>
-			</Row>
+			</Row> */}
 		</FormContainer>
 	);
 };

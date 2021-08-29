@@ -45,8 +45,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '3em',
-							height: '3em',
+							width: '2.8em',
+							height: '2.8em',
 							objectFit: 'cover',
 						}}
 						src={googleLogo}></Image>
@@ -55,8 +55,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '3em',
-							height: '3em',
+							width: '2.8em',
+							height: '2.8em',
 							objectFit: 'cover',
 						}}
 						src={githubLogo}></Image>
@@ -65,8 +65,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '3em',
-							height: '3em',
+							width: '2.8em',
+							height: '2.8em',
 							objectFit: 'contain',
 						}}
 						src={twitterLogo}></Image>
@@ -75,8 +75,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '3em',
-							height: '3em',
+							width: '2.8em',
+							height: '2.8em',
 							objectFit: 'contain',
 						}}
 						src={linkedinLogo}></Image>

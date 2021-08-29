@@ -129,7 +129,20 @@ const LoginPage = ({ location, history }) => {
 		return (
 			<>
 				<FormContainer>
-					<h1>Sign In</h1>
+					<div
+						style={{
+							display: 'flex',
+							flexFlow: 'row wrap',
+							alignItems: 'center',
+						}}>
+						<h1>Sign In</h1>
+						<h1
+							style={{ marginLeft: '1em', cursor: 'pointer' }}
+							onClick={() => history.push('/register')}>
+							Sign Up
+						</h1>
+					</div>
+
 					{error && <Message variant='danger'>{error}</Message>}
 					{showRedirectMsg && (
 						<Message variant='info'>
@@ -205,7 +218,7 @@ const LoginPage = ({ location, history }) => {
 									</Button>
 								</Col>
 							</Form>
-							<Row>
+							{/* <Row>
 								<Col style={{ fontSize: '1.1em' }}>
 									New Here?{' '}
 									<Link
@@ -217,7 +230,7 @@ const LoginPage = ({ location, history }) => {
 										Register
 									</Link>
 								</Col>
-							</Row>
+							</Row> */}
 							<SocialLoginOptions />
 						</>
 					)}
