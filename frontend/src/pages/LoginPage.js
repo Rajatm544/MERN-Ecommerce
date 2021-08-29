@@ -26,8 +26,22 @@ const LoginPage = ({ location, history }) => {
 	const storedInfo = JSON.parse(localStorage.getItem('userInfo'));
 
 	useEffect(() => {
+		if (!location.search.includes('success') && userInfo)
+			history.push(redirect);
+	}, [history, redirect, location, userInfo]);
+
+	useEffect(() => {
+		const flag = localStorage.getItem('redirectLogin');
+		if (flag && flag === 'true') {
+			setShowRedirectMsg(true);
+		} else {
+			setShowRedirectMsg(false);
+		}
+	}, []);
+
+	useEffect(() => {
 		// check for url params
-		if (window.location.search) {
+		if (window.location.search.includes('success')) {
 			const queries = window.location.search.split('&');
 			const isSuccess = queries[0].split('=')[1] === 'success';
 			const id = queries[1].split('=')[1];
@@ -51,17 +65,16 @@ const LoginPage = ({ location, history }) => {
 							type: USER_LOGIN_SUCCESS,
 							payload: userData,
 						});
-						// localStorage.setItem('refreshToken', data.refreshToken);
 						localStorage.setItem(
 							'userInfo',
 							JSON.stringify(userData)
 						);
 						localStorage.removeItem('promptEmailVerfication');
-						history.push('/');
+						history.push('/shipping');
 					});
 			}
 		}
-	}, [dispatch, history]);
+	}, [dispatch, history, redirect]);
 
 	useEffect(() => {
 		if (
@@ -73,21 +86,6 @@ const LoginPage = ({ location, history }) => {
 			setEmail(storedInfo.email);
 		}
 	}, [storedInfo]);
-
-	useEffect(() => {
-		const flag = localStorage.getItem('redirectLogin');
-		if (flag && flag === 'true') {
-			setShowRedirectMsg(true);
-		} else {
-			setShowRedirectMsg(false);
-		}
-	}, []);
-
-	useEffect(() => {
-		if (userInfo) {
-			history.push(redirect);
-		}
-	}, [history, redirect, userInfo]);
 
 	const showHide = (e) => {
 		e.preventDefault();
