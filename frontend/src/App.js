@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ConfirmPage from './pages/ConfirmPage';
+import ShippingPage from './pages/ShippingPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
 						component={ConfirmPage}
 						exact
 					/>
+					<Route path='/shipping' component={ShippingPage} />
 				</Container>
 			</main>
 			<Footer />
