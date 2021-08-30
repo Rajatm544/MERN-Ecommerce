@@ -12,6 +12,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ConfirmPage from './pages/ConfirmPage';
 import ShippingPage from './pages/ShippingPage';
+import PaymentPage from './pages/PaymentPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
 						exact
 					/>
 					<Route path='/shipping' component={ShippingPage} />
+					<Route path='/payment' component={PaymentPage} />
 				</Container>
 			</main>
 			<Footer />
