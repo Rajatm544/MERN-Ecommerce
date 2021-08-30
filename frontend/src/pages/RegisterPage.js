@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Form, Button, Row, InputGroup, Col } from 'react-bootstrap';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
