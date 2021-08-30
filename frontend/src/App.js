@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage';
 import ConfirmPage from './pages/ConfirmPage';
 import ShippingPage from './pages/ShippingPage';
 import PaymentPage from './pages/PaymentPage';
+import PlaceOrderPage from './pages/PlaceOrderPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
 					/>
 					<Route path='/shipping' component={ShippingPage} />
 					<Route path='/payment' component={PaymentPage} />
+					<Route path='/placeorder' component={PlaceOrderPage} />
 				</Container>
 			</main>
 			<Footer />
