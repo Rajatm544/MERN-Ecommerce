@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CheckoutStatus from '../components/CheckoutStatus';
 import Message from '../components/Message';
+import { createOrder } from '../actions/orderActions';
 
-const PlaceOrderPage = () => {
+const PlaceOrderPage = ({ history }) => {
+	const dispatch = useDispatch();
 	const cart = useSelector((state) => state.cart);
 	const { cartItems, shippingAddress, paymentMethod } = cart;
+
+	const orderCreate = useSelector((state) => state.orderCreate);
+	const { order, loading, success, error } = orderCreate;
+
+	useEffect(() => {
+		if (order && success) {
+			history.push(`/order/${order._id}`);
+		}
+	}, [order, success, history]);
 
 	// All prices
 	cart.itemsPrice = cartItems
@@ -23,7 +34,17 @@ const PlaceOrderPage = () => {
 
 	const handleOrder = (e) => {
 		e.preventDefault();
-		console.log('yy');
+		dispatch(
+			createOrder({
+				orderItems: cartItems,
+				shippingAddress,
+				paymentMethod,
+				itemsPrice: cart.itemsPrice,
+				shippingPrice: cart.shippingPrice,
+				taxPrice: cart.taxPrice,
+				totalPrice: cart.totalPrice,
+			})
+		);
 	};
 	return (
 		<>
@@ -117,6 +138,11 @@ const PlaceOrderPage = () => {
 									<Col>$ {cart.totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
+							{error && (
+								<ListGroup.Item>
+									<Message variant='danger'>{error}</Message>
+								</ListGroup.Item>
+							)}
 							<ListGroup.Item className='d-grid gap-2'>
 								<Button
 									variant='dark'
