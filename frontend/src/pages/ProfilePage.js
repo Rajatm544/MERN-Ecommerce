@@ -35,8 +35,6 @@ const RegisterPage = ({ location, history }) => {
 		(state) => state.userSendEmailVerfication
 	);
 	const { emailSent, hasError } = userSendEmailVerfication;
-	// const showLoading = userSendEmailVerfication.loading;
-	// const showError = userSendEmailVerfication.error;
 
 	useEffect(() => {
 		if (error) {
@@ -160,7 +158,17 @@ const RegisterPage = ({ location, history }) => {
 								onChange={(e) => setName(e.target.value)}
 							/>
 						</Form.Group>
-						<Form.Group controlId='email' className='my-2'>
+						<Form.Group
+							controlId='email'
+							className='my-2'
+							style={
+								userInfo && userInfo.isSocialLogin
+									? {
+											pointerEvents: 'none',
+											opacity: '0.8',
+									  }
+									: {}
+							}>
 							<Form.Label>Email Address</Form.Label>
 							<Form.Control
 								size='lg'
