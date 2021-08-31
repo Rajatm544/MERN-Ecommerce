@@ -124,7 +124,7 @@ const PlaceOrderPage = () => {
 									className='btn-block'
 									disabled={!cartItems.length}
 									onClick={handleOrder}>
-									Continue
+									Place Order
 								</Button>
 							</ListGroup.Item>
 						</ListGroup>
