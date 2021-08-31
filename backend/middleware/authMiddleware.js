@@ -28,6 +28,14 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 			res.status(401);
 			throw new Error('Not authorised. Token failed');
 		}
+	} else if (
+		req.headers.authorization &&
+		req.headers.authorization.startsWith('SocialLogin')
+	) {
+		const id = req.headers.authorization.split(' ')[1];
+		req.user = await User.findById(id);
+		token = id;
+		next();
 	}
 
 	if (!token) {
