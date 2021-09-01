@@ -2,6 +2,7 @@ import express from 'express';
 import {
 	addOrderItems,
 	getOrderById,
+	updateOrderToPay,
 } from '../controllers/orderControllers.js';
 import protectRoute from '../middleware/authMiddleware.js';
 
@@ -16,4 +17,10 @@ router.route('/').post(protectRoute, addOrderItems);
 // @route GET /api/orders/:id
 // @access PRIVATE
 router.route('/:id').get(protectRoute, getOrderById);
+
+// @desc  get an order by id
+// @route GET /api/orders/:id/pay
+// @access PRIVATE
+router.route('/:id/pay').put(protectRoute, updateOrderToPay);
+
 export default router;
