@@ -1,5 +1,8 @@
 import express from 'express';
-import { addOrderItems } from '../controllers/orderControllers.js';
+import {
+	addOrderItems,
+	getOrderById,
+} from '../controllers/orderControllers.js';
 import protectRoute from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -9,4 +12,8 @@ const router = express.Router();
 // @access PRIVATE
 router.route('/').post(protectRoute, addOrderItems);
 
+// @desc  get an order by id
+// @route GET /api/orders/:id
+// @access PRIVATE
+router.route('/:id').get(protectRoute, getOrderById);
 export default router;
