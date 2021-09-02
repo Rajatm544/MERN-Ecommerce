@@ -14,6 +14,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
+import configRoutes from './routes/configRoutes.js';
 import setupPassport from './config/passportSetup.js';
 
 dotenv.config();
@@ -46,6 +47,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/config', configRoutes);
 
 // middleware to act as fallback for all 404 errors
 app.use(notFound);
