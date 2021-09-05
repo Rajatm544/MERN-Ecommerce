@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, Row, InputGroup, Col, Card } from 'react-bootstrap';
+import {
+	Form,
+	Button,
+	Row,
+	InputGroup,
+	Col,
+	Card,
+	Table,
+} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import {
@@ -9,6 +18,7 @@ import {
 	updateUserProfile,
 	refreshLogin,
 } from '../actions/userActions';
+import { listMyOrders } from '../actions/orderActions';
 import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 
 const RegisterPage = ({ location, history }) => {
@@ -31,6 +41,13 @@ const RegisterPage = ({ location, history }) => {
 	const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
 	const { success } = userProfileUpdate;
 
+	const orderListUser = useSelector((state) => state.orderListUser);
+	const {
+		loading: loadingOrdersList,
+		orders,
+		error: errorOrdersList,
+	} = orderListUser;
+
 	const userSendEmailVerfication = useSelector(
 		(state) => state.userSendEmailVerfication
 	);
@@ -50,6 +67,7 @@ const RegisterPage = ({ location, history }) => {
 			// if user is null, first fetch it and then set its details to the local state
 			if (!user || !user.name || success) {
 				dispatch({ type: USER_PROFILE_UPDATE_RESET });
+				dispatch(listMyOrders());
 				userInfo
 					? userInfo.isSocialLogin
 						? dispatch(getUserDetails(userInfo.id))
@@ -78,6 +96,20 @@ const RegisterPage = ({ location, history }) => {
 		setTypeConfirmPassword(
 			typeConfirmPassword === 'password' ? 'text' : 'password'
 		);
+	};
+
+	const getDateString = (date) => {
+		const options = {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		};
+		const timeStr = new Date(date).toLocaleTimeString('en', {
+			timeStyle: 'short',
+			hour12: false,
+			timeZone: 'IST',
+		});
+		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
 	};
 
 	const handleSubmit = (e) => {
@@ -251,10 +283,79 @@ const RegisterPage = ({ location, history }) => {
 				md={9}
 				style={
 					userInfo && !userInfo.isConfirmed
-						? { opacity: '0.5', pointerEvents: 'none' }
-						: { opacity: '1', pointerEvents: '' }
+						? {
+								opacity: '0.5',
+								pointerEvents: 'none',
+						  }
+						: {
+								opacity: '1',
+								pointerEvents: '',
+						  }
 				}>
 				<h2>My Orders</h2>
+				{loadingOrdersList ? (
+					<Loader />
+				) : errorOrdersList ? (
+					<Message variant='danger'>{errorOrdersList}</Message>
+				) : (
+					<Table striped bordered responsive className='table-sm'>
+						<thead className='text-center'>
+							<th>ID</th>
+							<th>Date</th>
+							<th>Total</th>
+							<th>Paid</th>
+							<th>Delivered</th>
+							<th></th>
+						</thead>
+						<tbody>
+							{orders.map((order, idx) => (
+								<tr
+									key={idx}
+									style={{
+										textAlign: 'center',
+										padding: '0',
+									}}>
+									<td>{order._id}</td>
+									<td>{getDateString(order.createdAt)}</td>
+									<td>{order.totalPrice}</td>
+									<td>
+										{order.isPaid ? (
+											getDateString(order.paidAt)
+										) : (
+											<i
+												className='fas fa-times'
+												style={{
+													color: 'red',
+												}}></i>
+										)}
+									</td>
+									<td>
+										{order.isDelivered ? (
+											getDateString(order.deliveredAt)
+										) : (
+											<i
+												className='fas fa-times'
+												style={{
+													color: 'red',
+												}}></i>
+										)}
+									</td>
+									<td>
+										<LinkContainer
+											to={`/order/${order._id}`}>
+											<Button
+												variant='link'
+												className='btn-sm'
+												style={{ margin: '0' }}>
+												Details
+											</Button>
+										</LinkContainer>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+				)}
 			</Col>
 		</Row>
 	);
