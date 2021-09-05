@@ -60,6 +60,20 @@ const OrderPage = ({ match }) => {
 		dispatch(payOrder(orderID, paymentResult));
 	};
 
+	const getDateString = (date) => {
+		const options = {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		};
+		const timeStr = new Date(date).toLocaleTimeString('en', {
+			timeStyle: 'short',
+			hour12: true,
+			timeZone: 'IST',
+		});
+		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
+	};
+
 	return loading ? (
 		<Loader />
 	) : error ? (
@@ -115,7 +129,8 @@ const OrderPage = ({ match }) => {
 									<div>
 										{order.isPaid ? (
 											<Message variant='success'>
-												Paid at: {order.paidAt}
+												Paid at:{' '}
+												{getDateString(order.paidAt)}
 											</Message>
 										) : (
 											<Message variant='danger'>
@@ -221,7 +236,7 @@ const OrderPage = ({ match }) => {
 												<PayPalButton
 													style={{
 														shape: 'rect',
-														color: 'white',
+														color: 'blue',
 														layout: 'vertical',
 														label: 'paypal',
 													}}
