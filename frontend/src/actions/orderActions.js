@@ -8,6 +8,9 @@ import {
 	ORDER_PAY_REQUEST,
 	ORDER_PAY_SUCCESS,
 	ORDER_PAY_FAILURE,
+	ORDER_USER_LIST_REQUEST,
+	ORDER_USER_LIST_SUCCESS,
+	ORDER_USER_LIST_FAILURE,
 } from '../constants/orderConstants';
 
 import axios from 'axios';
@@ -81,6 +84,7 @@ export const getOrderDetails = (orderID) => async (dispatch, getState) => {
 		});
 	}
 };
+
 export const payOrder =
 	(orderID, paymentResult) => async (dispatch, getState) => {
 		try {
@@ -121,3 +125,37 @@ export const payOrder =
 			});
 		}
 	};
+
+export const listMyOrders = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: ORDER_USER_LIST_REQUEST });
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const config = userInfo.isSocialLogin
+			? {
+					headers: {
+						Authorization: `SocialLogin ${userInfo.id}`,
+					},
+			  }
+			: {
+					headers: {
+						Authorization: `Bearer ${userInfo.accessToken}`,
+					},
+			  };
+
+		const { data } = await axios.get(`/api/orders/myorders`, config);
+
+		dispatch({ type: ORDER_USER_LIST_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: ORDER_USER_LIST_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
