@@ -11,6 +11,7 @@ import {
 	resetUserPassword,
 	updateUserProfile,
 	getAllUsers,
+	deleteUser,
 } from '../controllers/userControllers.js';
 import { protectRoute, isAdmin } from '../middleware/authMiddleware.js';
 
@@ -68,5 +69,10 @@ router
 // @route POST /api/users/passport/data
 // @access PUBLIC
 router.route('/passport/data').post(getUserData);
+
+// @desc Delete a user
+// @route DELETE /api/users/:id
+// @access PRIVATE/ADMIN
+router.route('/:id').delete(protectRoute, isAdmin, deleteUser);
 
 export default router;
