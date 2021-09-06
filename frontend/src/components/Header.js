@@ -12,15 +12,20 @@ const Header = () => {
 	const { userInfo } = userLogin;
 	const { cartItems } = cart;
 
-	const [show, setShow] = useState(false);
+	const [show1, setShow1] = useState(false);
+	const [show2, setShow2] = useState(false);
 	const [count, setCount] = useState(0);
 
 	useEffect(() => {
 		setCount(cartItems.reduce((acc, item) => acc + item.qty, 0));
 	}, [cartItems]);
 
-	const handleDropdown = (e) => {
-		show ? setShow(false) : setShow(!show);
+	const handleDropdown1 = (e) => {
+		show1 ? setShow1(false) : setShow1(!show1);
+	};
+
+	const handleDropdown2 = (e) => {
+		show2 ? setShow2(false) : setShow2(!show2);
 	};
 
 	const handleLogout = () => {
@@ -31,12 +36,12 @@ const Header = () => {
 		<header>
 			<section
 				style={{
-					display: show ? 'block' : 'none',
+					display: show1 ? 'block' : 'none',
 					minWidth: '100%',
 					height: '100%',
 					position: 'absolute',
 				}}
-				onClick={() => setShow(false)}></section>
+				onClick={() => setShow1(false)}></section>
 			<Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
 				<Container style={{ maxWidth: '85%' }}>
 					<LinkContainer to='/'>
@@ -83,8 +88,8 @@ const Header = () => {
 								<NavDropdown
 									title={userInfo.name}
 									id={userInfo.id}
-									show={show}
-									onClick={handleDropdown}>
+									show={show1}
+									onClick={handleDropdown1}>
 									<LinkContainer to='/profile'>
 										<NavDropdown.Item>
 											Profile
@@ -103,6 +108,29 @@ const Header = () => {
 										Sign In
 									</Nav.Link>
 								</LinkContainer>
+							)}
+							{userInfo && userInfo.isAdmin && (
+								<NavDropdown
+									title='Admin'
+									id='adminMenu'
+									show={show2}
+									onClick={handleDropdown2}>
+									<LinkContainer to='/admin/userlist'>
+										<NavDropdown.Item>
+											Users
+										</NavDropdown.Item>
+									</LinkContainer>
+									<LinkContainer to='/admin/productlist'>
+										<NavDropdown.Item>
+											Products
+										</NavDropdown.Item>
+									</LinkContainer>
+									<LinkContainer to='/admin/orderlist'>
+										<NavDropdown.Item>
+											Orders
+										</NavDropdown.Item>
+									</LinkContainer>
+								</NavDropdown>
 							)}
 						</Nav>
 					</Navbar.Collapse>
