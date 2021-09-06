@@ -25,6 +25,9 @@ import {
 	USER_PROFILE_UPDATE_REQUEST,
 	USER_PROFILE_UPDATE_SUCCESS,
 	USER_PROFILE_UPDATE_FAILURE,
+	USER_LIST_REQUEST,
+	USER_LIST_SUCCESS,
+	USER_LIST_FAILURE,
 } from '../constants/userConstants';
 import { ORDER_USER_LIST_RESET } from '../constants/orderConstants';
 import axios from 'axios';
@@ -319,6 +322,39 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: USER_PROFILE_UPDATE_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+export const listAllUsers = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_LIST_REQUEST });
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const config = userInfo.isSocialLogin
+			? {
+					headers: {
+						Authorization: `SocialLogin ${userInfo.id}`,
+					},
+			  }
+			: {
+					headers: {
+						Authorization: `Bearer ${userInfo.accessToken}`,
+					},
+			  };
+
+		const { data } = await axios.get('/api/users/', config);
+
+		dispatch({ type: USER_LIST_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: USER_LIST_FAILURE,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
