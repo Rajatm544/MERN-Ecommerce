@@ -10,13 +10,11 @@ const tokenSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		// expire_at: { type: Date, default: Date.now, expires: 1000 * 60 * 60 },
 	},
 	{ timestamps: true }
 );
 
 tokenSchema.index({ createdAt: 1 }, { expires: '7d' });
-// console.log(tokenSchema.indexes());
 
 const Token = mongoose.model('Token', tokenSchema);
 
