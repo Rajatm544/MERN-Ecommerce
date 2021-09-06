@@ -10,15 +10,16 @@ import {
 	mailForPasswordReset,
 	resetUserPassword,
 	updateUserProfile,
+	getAllUsers,
 } from '../controllers/userControllers.js';
-import protectRoute from '../middleware/authMiddleware.js';
+import { protectRoute, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// @desc register a new user
+// @desc register a new user & get all users if admin
 // @route POST /api/users/
-// @access PUBLIC
-router.route('/').post(registerUser);
+// @access PUBLIC || PRIVATE?ADMIN
+router.route('/').post(registerUser).get(protectRoute, isAdmin, getAllUsers);
 
 // @desc authenticate user and get token
 // @route POST /api/users/login

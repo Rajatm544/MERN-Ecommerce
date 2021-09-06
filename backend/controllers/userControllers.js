@@ -5,6 +5,14 @@ import generateToken from '../utils/generateToken.js';
 import sendMail from '../utils/sendMail.js';
 import jwt from 'jsonwebtoken';
 
+// @desc Get all the users info
+// @route GET /api/users
+// @access PRIVATE/ADMIN
+const getAllUsers = asyncHandler(async (req, res) => {
+	const allUsers = await User.find({});
+	res.json(allUsers);
+});
+
 // @desc authenticate user and get token
 // @route POST /api/users/login
 // @access PUBLIC
@@ -340,4 +348,5 @@ export {
 	mailForPasswordReset,
 	resetUserPassword,
 	updateUserProfile,
+	getAllUsers,
 };
