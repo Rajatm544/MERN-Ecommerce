@@ -36,12 +36,15 @@ const Header = () => {
 		<header>
 			<section
 				style={{
-					display: show1 ? 'block' : 'none',
+					display: show1 || show2 ? 'block' : 'none',
 					minWidth: '100%',
 					height: '100%',
 					position: 'absolute',
 				}}
-				onClick={() => setShow1(false)}></section>
+				onClick={() => {
+					setShow1(false);
+					setShow2(false);
+				}}></section>
 			<Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
 				<Container style={{ maxWidth: '85%' }}>
 					<LinkContainer to='/'>
