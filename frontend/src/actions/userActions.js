@@ -28,6 +28,9 @@ import {
 	USER_LIST_REQUEST,
 	USER_LIST_SUCCESS,
 	USER_LIST_FAILURE,
+	USER_DELETE_REQUEST,
+	USER_DELETE_SUCCESS,
+	USER_DELETE_FAILURE,
 } from '../constants/userConstants';
 import { ORDER_USER_LIST_RESET } from '../constants/orderConstants';
 import axios from 'axios';
@@ -329,6 +332,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 		});
 	}
 };
+
 export const listAllUsers = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: USER_LIST_REQUEST });
@@ -355,6 +359,40 @@ export const listAllUsers = () => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: USER_LIST_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+	try {
+		dispatch({ type: USER_DELETE_REQUEST });
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const config = userInfo.isSocialLogin
+			? {
+					headers: {
+						Authorization: `SocialLogin ${userInfo.id}`,
+					},
+			  }
+			: {
+					headers: {
+						Authorization: `Bearer ${userInfo.accessToken}`,
+					},
+			  };
+
+		const { data } = await axios.delete(`/api/users/${id}`, config);
+
+		dispatch({ type: USER_DELETE_SUCCESS });
+	} catch (error) {
+		dispatch({
+			type: USER_DELETE_FAILURE,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
