@@ -44,6 +44,7 @@ const UserListPage = ({ history }) => {
 							<th>ID</th>
 							<th>NAME</th>
 							<th>EMAIL</th>
+							<th>CONFIRMED</th>
 							<th>ADMIN</th>
 							<th>ACTION</th>
 						</tr>
@@ -60,6 +61,17 @@ const UserListPage = ({ history }) => {
 										</a>
 									</td>
 									<td>
+										{user.isConfirmed ? (
+											<i
+												className='fas fa-check'
+												style={{ color: 'green' }}></i>
+										) : (
+											<i
+												className='fas fa-times'
+												style={{ color: 'red' }}></i>
+										)}
+									</td>
+									<td>
 										{user.isAdmin ? (
 											<i
 												className='fas fa-check'
@@ -70,6 +82,7 @@ const UserListPage = ({ history }) => {
 												style={{ color: 'red' }}></i>
 										)}
 									</td>
+
 									<td
 										style={{
 											display: 'flex',
