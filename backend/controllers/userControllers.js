@@ -48,33 +48,17 @@ const updateUser = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.params.id).select('-password');
 	if (user) {
 		user.name = req.body.name || user.name;
-		if (req.body.email) user.isConfirmed = req.body.email === user.email;
+		user.isConfirmed = req.body.email === user.email;
 		user.email = req.body.email || user.email;
-		user.isAdmin = Boolean(req.body.isAdmin);
+		user.isAdmin = req.body.isAdmin;
 		const updatedUser = await user.save();
-
 		if (updatedUser) {
-			const refreshToken = generateToken(updatedUser._id, 'refresh');
-			const existingToken = await Token.findOne({
-				email: updatedUser.email,
-			});
-			if (existingToken) {
-				existingToken.token = refreshToken;
-				existingToken.save();
-			} else {
-				Token.create({
-					user: updatedUser._id,
-					token: refreshToken,
-				});
-			}
 			res.json({
 				id: updatedUser._id,
 				email: updatedUser.email,
 				name: updatedUser.name,
 				isAdmin: updatedUser.isAdmin,
 				isConfirmed: updatedUser.isConfirmed,
-				accessToken: generateToken(updatedUser._id, 'access'),
-				refreshToken,
 			});
 		}
 	} else {
