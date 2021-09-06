@@ -29,6 +29,60 @@ const deleteUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc get user by ID
+// @route GET /api/users/:id
+// @access PRIVATE/ADMIN
+const getUserById = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id).select('-password');
+	if (user) res.json(user);
+	else {
+		res.status(404);
+		throw new Error('User does not exist');
+	}
+});
+
+// @desc update user from the admin panel
+// @route PUT /api/users/:id
+// @access PRIVATE/ADMIN
+const updateUser = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id).select('-password');
+	if (user) {
+		user.name = req.body.name || user.name;
+		if (req.body.email) user.isConfirmed = req.body.email === user.email;
+		user.email = req.body.email || user.email;
+		user.isAdmin = Boolean(req.body.isAdmin);
+		const updatedUser = await user.save();
+
+		if (updatedUser) {
+			const refreshToken = generateToken(updatedUser._id, 'refresh');
+			const existingToken = await Token.findOne({
+				email: updatedUser.email,
+			});
+			if (existingToken) {
+				existingToken.token = refreshToken;
+				existingToken.save();
+			} else {
+				Token.create({
+					user: updatedUser._id,
+					token: refreshToken,
+				});
+			}
+			res.json({
+				id: updatedUser._id,
+				email: updatedUser.email,
+				name: updatedUser.name,
+				isAdmin: updatedUser.isAdmin,
+				isConfirmed: updatedUser.isConfirmed,
+				accessToken: generateToken(updatedUser._id, 'access'),
+				refreshToken,
+			});
+		}
+	} else {
+		res.status(400);
+		throw new Error('User not found.');
+	}
+});
+
 // @desc authenticate user and get token
 // @route POST /api/users/login
 // @access PUBLIC
@@ -316,7 +370,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user.id);
 	if (user) {
 		user.name = req.body.name || user.name;
-		user.isConfirmed = req.body.email === user.email;
+		if (req.body.email) user.isConfirmed = req.body.email === user.email;
 		user.email = req.body.email || user.email;
 		if (req.body.password) {
 			user.password = req.body.password;
@@ -366,4 +420,6 @@ export {
 	updateUserProfile,
 	getAllUsers,
 	deleteUser,
+	getUserById,
+	updateUser,
 };
