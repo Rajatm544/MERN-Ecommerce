@@ -16,6 +16,7 @@ import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import PasswordResetPage from './pages/PasswordResetPage';
+import UserListPage from './pages/UserListPage';
 
 const App = () => {
 	return (
@@ -41,7 +42,8 @@ const App = () => {
 					<Route path='/shipping' component={ShippingPage} />
 					<Route path='/payment' component={PaymentPage} />
 					<Route path='/placeorder' component={PlaceOrderPage} />
-					<Route path='/order/:id' exact component={OrderPage} />
+					<Route path='/order/:id' component={OrderPage} />
+					<Route path='/admin/userlist' component={UserListPage} />
 				</Container>
 			</main>
 			<Footer />
