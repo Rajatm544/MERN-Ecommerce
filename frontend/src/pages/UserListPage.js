@@ -77,7 +77,7 @@ const UserListPage = ({ history }) => {
 											justifyContent: 'space-around',
 										}}>
 										<LinkContainer
-											to={`/user/${user._id}/edit`}>
+											to={`/admin/user/${user._id}/edit`}>
 											<Button
 												variant='link'
 												className='btn-sm'>
