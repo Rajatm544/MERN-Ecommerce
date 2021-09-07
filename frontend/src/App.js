@@ -18,6 +18,7 @@ import OrderPage from './pages/OrderPage';
 import PasswordResetPage from './pages/PasswordResetPage';
 import UserListPage from './pages/UserListPage';
 import UserEditPage from './pages/UserEditPage';
+import ProductListPage from './pages/ProductListPage';
 
 const App = () => {
 	return (
@@ -48,6 +49,10 @@ const App = () => {
 					<Route
 						path='/admin/user/:id/edit'
 						component={UserEditPage}
+					/>
+					<Route
+						path='/admin/productlist'
+						component={ProductListPage}
 					/>
 				</Container>
 			</main>
