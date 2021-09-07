@@ -8,6 +8,9 @@ import {
 	PRODUCT_DELETE_FAILURE,
 	PRODUCT_DELETE_REQUEST,
 	PRODUCT_DELETE_SUCCESS,
+	PRODUCT_CREATE_REQUEST,
+	PRODUCT_CREATE_SUCCESS,
+	PRODUCT_CREATE_FAILURE,
 } from '../constants/productConstants';
 import axios from 'axios';
 
@@ -73,6 +76,42 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: PRODUCT_DELETE_FAILURE,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export const createProduct = () => async (dispatch, getState) => {
+	try {
+		dispatch({ type: PRODUCT_CREATE_REQUEST });
+
+		const {
+			userLogin: { userInfo },
+		} = getState();
+
+		const config = userInfo.isSocialLogin
+			? {
+					headers: {
+						'Content-Type': 'application/javascript',
+						Authorization: `SocialLogin ${userInfo.id}`,
+					},
+			  }
+			: {
+					headers: {
+						'Content-Type': 'application/javascript',
+						Authorization: `Bearer ${userInfo.accessToken}`,
+					},
+			  };
+
+		const { data } = await axios.post(`/api/products/`, {}, config);
+
+		dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
+	} catch (error) {
+		dispatch({
+			type: PRODUCT_CREATE_FAILURE,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message
