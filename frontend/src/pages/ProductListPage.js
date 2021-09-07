@@ -70,11 +70,9 @@ const ProductListPage = ({ history, match }) => {
 					</Button>
 				</Col>
 			</Row>
-			{loadingDelete && <Loader />}
 			{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-			{loadingCreate && <Loader />}
 			{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-			{loading ? (
+			{loading || loadingCreate || loadingDelete ? (
 				<Loader />
 			) : error ? (
 				<Message variant='danger'>{error}</Message>
