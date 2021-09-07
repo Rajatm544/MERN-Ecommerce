@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { listProductDetails, updateProduct } from '../actions/productActions';
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import axios from 'axios';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { listProductDetails, updateProduct } from '../actions/productActions';
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditPage = ({ match, history }) => {
 	const productId = match.params.id;
@@ -17,6 +18,8 @@ const ProductEditPage = ({ match, history }) => {
 	const [image, setImage] = useState('');
 	const [price, setPrice] = useState(0.0);
 	const [countInStock, setCountInStock] = useState(0);
+	const [uploading, setUploading] = useState(false);
+	const [errorImageUpload, setErrorImageUpload] = useState('');
 	const dispatch = useDispatch();
 
 	const productDetails = useSelector((state) => state.productDetails);
@@ -28,6 +31,11 @@ const ProductEditPage = ({ match, history }) => {
 		success: successUpdate,
 		error: errorUpdate,
 	} = productUpdate;
+
+	useEffect(() => {
+		dispatch(listProductDetails(productId));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		if (successUpdate) {
@@ -48,6 +56,10 @@ const ProductEditPage = ({ match, history }) => {
 		}
 	}, [product, dispatch, productId, history, successUpdate]);
 
+	// useEffect(() => {
+	// 	dispatch(listProductDetails(productId));
+	// }, [product]);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(
@@ -62,6 +74,27 @@ const ProductEditPage = ({ match, history }) => {
 				image,
 			})
 		);
+	};
+
+	const handleFile = async (e) => {
+		const file = e.target.files[0];
+		const formData = new FormData();
+		formData.append('image', file);
+		setUploading(true);
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			};
+
+			const { data } = await axios.post('/api/upload', formData, config);
+			setImage(data);
+			setUploading(false);
+		} catch (error) {
+			setErrorImageUpload('Please choose a valid image');
+			setUploading(false);
+		}
 	};
 
 	return (
@@ -114,18 +147,35 @@ const ProductEditPage = ({ match, history }) => {
 										}
 									/>
 								</Form.Group>
-								<Form.Group controlId='image' className='my-2'>
-									<Form.Label>Image</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter image URL'
-										type='text'
-										value={image}
-										onChange={(e) =>
-											setImage(e.target.value)
-										}
-									/>
-								</Form.Group>
+								{errorImageUpload && (
+									<Message variant='danger'>
+										{errorImageUpload}
+									</Message>
+								)}
+								{uploading ? (
+									<div>...</div>
+								) : (
+									<Form.Group
+										controlId='image'
+										className='my-2'>
+										<Form.Label>Image</Form.Label>
+										<Form.Control
+											size='lg'
+											placeholder='Enter image URL'
+											type='text'
+											value={image}
+											onChange={(e) =>
+												setImage(e.target.value)
+											}
+										/>
+										<Form.File
+											id='image-file'
+											label='Choose File'
+											custom
+											onChange={handleFile}></Form.File>
+									</Form.Group>
+								)}
+
 								<Form.Group controlId='brand' className='my-2'>
 									<Form.Label>Brand</Form.Label>
 									<Form.Control
@@ -186,7 +236,7 @@ const ProductEditPage = ({ match, history }) => {
 									type='submit'
 									variant='dark'
 									className='my-1'>
-									Edit Product
+									Update Product
 								</Button>
 							</Form>
 						)}
