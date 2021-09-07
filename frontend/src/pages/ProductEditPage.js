@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { listProductDetails } from '../actions/productActions';
-// import { USER_UPDATE_RESET } from '../constants/userConstants';
+import { listProductDetails, updateProduct } from '../actions/productActions';
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditPage = ({ match, history }) => {
 	const productId = match.params.id;
@@ -22,29 +22,46 @@ const ProductEditPage = ({ match, history }) => {
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, product, error } = productDetails;
 
-	const userUpdate = useSelector((state) => state.userUpdate);
+	const productUpdate = useSelector((state) => state.productUpdate);
 	const {
 		loading: loadingUpdate,
-		error: errorUpdate,
 		success: successUpdate,
-	} = userUpdate;
+		error: errorUpdate,
+	} = productUpdate;
 
 	useEffect(() => {
-		if (!product || product._id !== productId) {
-			dispatch(listProductDetails(productId));
+		if (successUpdate) {
+			dispatch({ type: PRODUCT_UPDATE_RESET });
+			history.push('/admin/productlist');
 		} else {
-			setName(product.name);
-			setPrice(product.price);
-			setImage(product.image);
-			setBrand(product.brand);
-			setCategory(product.category);
-			setDescription(product.description);
-			setCountInStock(product.countInStock);
+			if (!product || product._id !== productId) {
+				dispatch(listProductDetails(productId));
+			} else {
+				setName(product.name);
+				setPrice(product.price);
+				setImage(product.image);
+				setBrand(product.brand);
+				setCategory(product.category);
+				setDescription(product.description);
+				setCountInStock(product.countInStock);
+			}
 		}
-	}, [product, dispatch, productId, history]);
+	}, [product, dispatch, productId, history, successUpdate]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		dispatch(
+			updateProduct({
+				_id: productId,
+				name,
+				brand,
+				price,
+				category,
+				description,
+				countInStock,
+				image,
+			})
+		);
 	};
 
 	return (
