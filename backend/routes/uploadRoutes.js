@@ -33,18 +33,18 @@ const upload = multer({
 	// Configure the list of file types that are valid
 	fileFilter(req, file, cb) {
 		if (!file.originalname.match(/\.(jpeg|jpg|png|webp|svg)$/)) {
-			return cb(
-				new Error(
-					'Unsupported file format, please choose a different file and retry.'
-				)
-			);
+			return cb(new Error('Unsupported file format'));
 		}
 		cb(undefined, true);
 	},
 });
 
 router.post('/', upload.single('image'), (req, res) => {
-	res.send(`${req.file.path}`);
+	if (req.file) res.send(req.file.location);
+	else {
+		res.status(401);
+		throw new Error('Invalid file type');
+	}
 });
 
 export default router;
