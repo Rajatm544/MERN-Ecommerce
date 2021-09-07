@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Rajatm544/MERN-Ecommerce#readme",
   "dependencies": {
+    "aws-sdk": "^2.983.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cookie-session": "^1.4.0",
@@ -34,6 +35,8 @@
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.0",
+    "multer": "^1.4.3",
+    "multer-s3": "^2.9.0",
     "nodemailer": "^6.6.3",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
