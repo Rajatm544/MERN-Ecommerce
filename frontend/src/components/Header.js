@@ -20,12 +20,22 @@ const Header = () => {
 		setCount(cartItems.reduce((acc, item) => acc + item.qty, 0));
 	}, [cartItems]);
 
-	const handleDropdown1 = (e) => {
-		show1 ? setShow1(false) : setShow1(!show1);
+	const handleDropdown2 = (e) => {
+		if (show2) {
+			setShow2(false);
+		} else {
+			setShow2(true);
+			setShow1(false);
+		}
 	};
 
-	const handleDropdown2 = (e) => {
-		show2 ? setShow2(false) : setShow2(!show2);
+	const handleDropdown1 = (e) => {
+		if (show1) {
+			setShow1(false);
+		} else {
+			setShow1(true);
+			setShow2(false);
+		}
 	};
 
 	const handleLogout = () => {
