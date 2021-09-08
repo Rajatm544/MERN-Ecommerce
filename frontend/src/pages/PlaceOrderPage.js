@@ -6,17 +6,18 @@ import CheckoutStatus from '../components/CheckoutStatus';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { createOrder } from '../actions/orderActions';
+import { CART_RESET } from '../constants/cartConstants';
 
 const PlaceOrderPage = ({ history }) => {
 	const dispatch = useDispatch();
 	const cart = useSelector((state) => state.cart);
 	const { cartItems, shippingAddress, paymentMethod } = cart;
-
 	const orderCreate = useSelector((state) => state.orderCreate);
 	const { order, loading, success, error } = orderCreate;
 
 	useEffect(() => {
 		if (success) {
+			dispatch({ type: CART_RESET, payload: shippingAddress });
 			history.push(`/order/${order._id}`);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,6 +49,7 @@ const PlaceOrderPage = ({ history }) => {
 			})
 		);
 	};
+
 	return (
 		<>
 			<CheckoutStatus step1 step2 step3 step4 />
