@@ -69,7 +69,6 @@ const OrderPage = ({ match }) => {
 		const timeStr = new Date(date).toLocaleTimeString('en', {
 			timeStyle: 'short',
 			hour12: true,
-			hour12: true,
 			timeZone: 'IST',
 		});
 		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
