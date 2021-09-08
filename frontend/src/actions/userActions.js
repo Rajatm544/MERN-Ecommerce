@@ -35,7 +35,10 @@ import {
 	USER_UPDATE_SUCCESS,
 	USER_UPDATE_FAILURE,
 } from '../constants/userConstants';
-import { ORDER_USER_LIST_RESET } from '../constants/orderConstants';
+import {
+	ORDER_CREATE_RESET,
+	ORDER_USER_LIST_RESET,
+} from '../constants/orderConstants';
 import axios from 'axios';
 
 export const loginUser = (email, password) => async (dispatch) => {
@@ -131,8 +134,10 @@ export const refreshLogin = (email) => async (dispatch, getState) => {
 export const logoutUser = () => (dispatch) => {
 	localStorage.removeItem('userInfo');
 	localStorage.removeItem('redirectLogin');
+	localStorage.removeItem('cartItems');
 	dispatch({ type: USER_LOGOUT });
 	dispatch({ type: USER_DETAILS_RESET });
+	dispatch({ type: ORDER_CREATE_RESET });
 	dispatch({ type: ORDER_USER_LIST_RESET });
 };
 
