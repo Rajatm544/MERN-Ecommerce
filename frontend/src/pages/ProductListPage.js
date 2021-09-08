@@ -49,7 +49,7 @@ const ProductListPage = ({ history, match }) => {
 	]);
 
 	const handleDelete = (id) => {
-		if (window.confirm('Are you sure you wanna delete user?'))
+		if (window.confirm('Are you sure you wanna delete this product?'))
 			dispatch(deleteProduct(id));
 	};
 	const handleCreateProduct = (product) => {
