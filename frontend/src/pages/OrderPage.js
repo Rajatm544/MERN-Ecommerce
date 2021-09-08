@@ -48,7 +48,7 @@ const OrderPage = ({ match }) => {
 			const script = document.createElement('script');
 			script.async = true;
 			script.type = 'text/javascript';
-			script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&currency=INR`;
+			script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&currency=USD`;
 			script.onload = () => setSDKReady(true);
 			document.body.appendChild(script);
 		};
@@ -68,6 +68,7 @@ const OrderPage = ({ match }) => {
 		};
 		const timeStr = new Date(date).toLocaleTimeString('en', {
 			timeStyle: 'short',
+			hour12: true,
 			hour12: true,
 			timeZone: 'IST',
 		});
@@ -242,7 +243,7 @@ const OrderPage = ({ match }) => {
 														layout: 'vertical',
 														label: 'paypal',
 													}}
-													currency='INR'
+													currency='USD'
 													amount={order.totalPrice}
 													onSuccess={
 														successPaymentHandler
