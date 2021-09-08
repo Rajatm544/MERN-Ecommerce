@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-bootstrap';
 
-const Message = ({ variant, children }) => {
+const Message = ({ variant, duration, children }) => {
 	const [visible, setVisible] = useState(true);
 
-	// useEffect(() => {
-	// 	if (variant === 'danger' || variant === 'info') {
-	// 		setTimeout(() => setVisible(false), 10000);
-	// 	} else {
-	// 		setTimeout(() => setVisible(false), 8000);
-	// 	}
-	// });
+	useEffect(() => {
+		if (duration) {
+			setTimeout(() => setVisible(false), duration * 1000);
+		}
+	});
 
 	if (visible) {
 		return <Alert variant={variant}>{children}</Alert>;
