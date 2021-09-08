@@ -3,6 +3,7 @@ import {
 	addOrderItems,
 	getOrderById,
 	updateOrderToPay,
+	updateOrderToDeliver,
 	getMyOrders,
 	getAllOrders,
 } from '../controllers/orderControllers.js';
@@ -28,9 +29,14 @@ router.route('/myorders').get(protectRoute, getMyOrders);
 // @access PRIVATE
 router.route('/:id').get(protectRoute, getOrderById);
 
-// @desc  get an order by id
-// @route GET /api/orders/:id/pay
+// @desc  update the order object once paid
+// @route PUT /api/orders/:id/pay
 // @access PRIVATE
 router.route('/:id/pay').put(protectRoute, updateOrderToPay);
+
+// @desc  update the order object once delivered
+// @route PUT /api/orders/:id/pay
+// @access PRIVATE/ADMIN
+router.route('/:id/deliver').put(protectRoute, isAdmin, updateOrderToDeliver);
 
 export default router;
