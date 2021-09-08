@@ -69,8 +69,16 @@ const RegisterPage = ({ location, history }) => {
 					Sign Up
 				</h1>
 			</div>
-			{message && <Message variant='warning'>{message}</Message>}
-			{error && <Message variant='danger'>{error}</Message>}
+			{message && (
+				<Message variant='warning' duration={10}>
+					{message}
+				</Message>
+			)}
+			{error && (
+				<Message variant='danger' duration={10}>
+					{error}
+				</Message>
+			)}
 			{loading ? (
 				<Loader />
 			) : (

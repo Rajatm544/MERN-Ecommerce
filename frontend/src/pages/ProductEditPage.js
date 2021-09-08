@@ -109,7 +109,9 @@ const ProductEditPage = ({ match, history }) => {
 				{loadingUpdate ? (
 					<Loader />
 				) : errorUpdate ? (
-					<Message variant='danger'>{errorUpdate}</Message>
+					<Message variant='danger' duration={10}>
+						{errorUpdate}
+					</Message>
 				) : (
 					<>
 						{loading ? (
@@ -117,7 +119,9 @@ const ProductEditPage = ({ match, history }) => {
 						) : (
 							<Form onSubmit={handleSubmit}>
 								{error && (
-									<Message variant='danger'>{error}</Message>
+									<Message variant='danger' duration={10}>
+										{error}
+									</Message>
 								)}
 
 								<Form.Group controlId='name' className='mb-2'>
@@ -148,7 +152,7 @@ const ProductEditPage = ({ match, history }) => {
 									/>
 								</Form.Group>
 								{errorImageUpload && (
-									<Message variant='danger'>
+									<Message variant='danger' duration={10}>
 										{errorImageUpload}
 									</Message>
 								)}

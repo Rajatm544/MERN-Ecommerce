@@ -57,7 +57,9 @@ const UserEditPage = ({ match, history }) => {
 				{loadingUpdate ? (
 					<Loader />
 				) : errorUpdate ? (
-					<Message variant='danger'>{errorUpdate}</Message>
+					<Message variant='danger' duration={10}>
+						{errorUpdate}
+					</Message>
 				) : (
 					<>
 						{loading ? (
@@ -65,7 +67,9 @@ const UserEditPage = ({ match, history }) => {
 						) : (
 							<Form onSubmit={handleSubmit}>
 								{error && (
-									<Message variant='danger'>{error}</Message>
+									<Message variant='danger' duration={10}>
+										{error}
+									</Message>
 								)}
 
 								<Form.Group controlId='name' className='mb-2'>

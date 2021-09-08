@@ -30,7 +30,7 @@ const HomePage = () => {
 		<>
 			<h1>Latest Products.</h1>
 			{promptVerfication ? (
-				<Message variant='info'>
+				<Message variant='info' duration={10}>
 					Account Created! Please check your email to verify your
 					account and start shopping.
 				</Message>
@@ -38,7 +38,9 @@ const HomePage = () => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger'>{error}</Message>
+				<Message variant='danger' duration={10}>
+					{error}
+				</Message>
 			) : products ? (
 				<Row>
 					{products.map((product) => {

@@ -38,7 +38,9 @@ const ProductPage = ({ history, match }) => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger'>{error}</Message>
+				<Message variant='danger' duration={10}>
+					{error}
+				</Message>
 			) : product ? (
 				<Row>
 					<Col md={6}>

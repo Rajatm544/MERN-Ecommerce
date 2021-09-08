@@ -125,11 +125,15 @@ const RegisterPage = ({ location, history }) => {
 			{userInfo && !userInfo.isConfirmed ? (
 				<>
 					{emailSent && (
-						<Message variant='success'>
+						<Message variant='success' duration={8}>
 							A verification link has been sent your mail!
 						</Message>
 					)}
-					{hasError && <Message variant='danger'>{hasError}</Message>}
+					{hasError && (
+						<Message variant='danger' duration={10}>
+							{hasError}
+						</Message>
+					)}
 					<Card style={{ margin: '0' }} className='mb-3'>
 						<Card.Body className='ps-0 '>
 							<Card.Title style={{ fontWeight: 'bold' }}>
@@ -169,12 +173,20 @@ const RegisterPage = ({ location, history }) => {
 				}>
 				<h2>Update Profile</h2>
 
-				{message && <Message variant='warning'>{message}</Message>}
+				{message && (
+					<Message variant='warning' duration={8}>
+						{message}
+					</Message>
+				)}
 				{error && error !== 'Not authorised. Token failed' && (
-					<Message variant='danger'>{error}</Message>
+					<Message variant='danger' duration={10}>
+						{error}
+					</Message>
 				)}
 				{success && (
-					<Message variant='success'>Profile Updated!</Message>
+					<Message variant='success' duration={8}>
+						Profile Updated!
+					</Message>
 				)}
 				{loading ? (
 					<Loader />
@@ -296,7 +308,9 @@ const RegisterPage = ({ location, history }) => {
 				{loadingOrdersList ? (
 					<Loader />
 				) : errorOrdersList ? (
-					<Message variant='danger'>{errorOrdersList}</Message>
+					<Message variant='danger' duration={10}>
+						{errorOrdersList}
+					</Message>
 				) : (
 					<Table striped bordered responsive className='table-sm'>
 						<thead className='text-center'>

@@ -36,7 +36,7 @@ const ConfirmPage = ({ match, history }) => {
 			history.push('/login');
 		}, 11000);
 		return (
-			<Message variant='danger'>
+			<Message variant='danger' duration={10}>
 				Verfication Failed. Please try to login again.
 			</Message>
 		);

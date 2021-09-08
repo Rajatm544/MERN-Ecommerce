@@ -32,7 +32,9 @@ const UserListPage = ({ history }) => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger'>{error}</Message>
+				<Message variant='danger' duration={10}>
+					{error}
+				</Message>
 			) : (
 				<Table
 					striped

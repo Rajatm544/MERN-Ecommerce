@@ -70,12 +70,22 @@ const ProductListPage = ({ history, match }) => {
 					</Button>
 				</Col>
 			</Row>
-			{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-			{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+			{errorDelete && (
+				<Message variant='danger' duration={10}>
+					{errorDelete}
+				</Message>
+			)}
+			{errorCreate && (
+				<Message variant='danger' duration={10}>
+					{errorCreate}
+				</Message>
+			)}
 			{loading || loadingCreate || loadingDelete ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger'>{error}</Message>
+				<Message variant='danger' duration={10}>
+					{error}
+				</Message>
 			) : (
 				<Table
 					striped

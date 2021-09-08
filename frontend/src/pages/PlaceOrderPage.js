@@ -113,9 +113,7 @@ const PlaceOrderPage = ({ history }) => {
 											))}
 										</ListGroup>
 									) : (
-										<Message variant='info'>
-											Your cart is empty
-										</Message>
+										<Message>Your cart is empty</Message>
 									)}
 								</ListGroup.Item>
 							</ListGroup>
@@ -152,7 +150,9 @@ const PlaceOrderPage = ({ history }) => {
 									</ListGroup.Item>
 									{error && (
 										<ListGroup.Item>
-											<Message variant='danger'>
+											<Message
+												variant='danger'
+												duration={10}>
 												{error}
 											</Message>
 										</ListGroup.Item>

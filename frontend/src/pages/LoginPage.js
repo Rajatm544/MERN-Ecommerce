@@ -140,9 +140,13 @@ const LoginPage = ({ location, history }) => {
 						</h1>
 					</div>
 
-					{error && <Message variant='danger'>{error}</Message>}
+					{error && (
+						<Message variant='danger' duration={10}>
+							{error}
+						</Message>
+					)}
 					{showRedirectMsg && (
-						<Message variant='info'>
+						<Message variant='info' duration={10}>
 							Your session has expired. Please login again.
 						</Message>
 					)}

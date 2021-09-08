@@ -77,7 +77,9 @@ const OrderPage = ({ match }) => {
 	return loading ? (
 		<Loader />
 	) : error ? (
-		<Message variant='danger'>{error}</Message>
+		<Message variant='danger' duration={10}>
+			{error}
+		</Message>
 	) : (
 		<>
 			<h1>Order {orderID}</h1>
@@ -183,9 +185,7 @@ const OrderPage = ({ match }) => {
 											)}
 										</ListGroup>
 									) : (
-										<Message variant='info'>
-											No order
-										</Message>
+										<Message>No order</Message>
 									)}
 								</ListGroup.Item>
 							</ListGroup>
@@ -198,7 +198,9 @@ const OrderPage = ({ match }) => {
 									</ListGroup.Item>
 									{error && (
 										<ListGroup.Item>
-											<Message variant='danger'>
+											<Message
+												variant='danger'
+												duration={10}>
 												{error}
 											</Message>
 										</ListGroup.Item>
