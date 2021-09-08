@@ -434,6 +434,25 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
 		dispatch({ type: USER_UPDATE_SUCCESS });
 		dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+
+		if (data.id === userInfo.id) {
+			// // login the user after updating the information
+			const newUserInfo = {
+				...userInfo,
+				...userInfo,
+				id: data.id,
+				name: data.name,
+				email: data.email,
+				isAdmin: data.isAdmin,
+				isConfirmed: data.isConfirmed,
+			};
+			dispatch({
+				type: USER_LOGIN_SUCCESS,
+				payload: newUserInfo,
+			});
+
+			localStorage.setItem('userInfo', JSON.stringify(newUserInfo));
+		}
 	} catch (error) {
 		dispatch({
 			type: USER_UPDATE_FAILURE,
