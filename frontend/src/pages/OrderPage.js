@@ -1,31 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PayPalButton } from 'react-paypal-button-v2';
 import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import {
+	getOrderDetails,
+	payOrder,
+	deliverOrder,
+} from '../actions/orderActions';
+import {
+	ORDER_PAY_RESET,
+	ORDER_DELIVER_RESET,
+} from '../constants/orderConstants';
 
-const OrderPage = ({ match }) => {
+const OrderPage = ({ match, history }) => {
 	const [SDKReady, setSDKReady] = useState(false);
 	const dispatch = useDispatch();
 	const orderID = match.params.id;
 	const orderDetails = useSelector((state) => state.orderDetails);
 	const { loading, order, error } = orderDetails;
+
 	const orderPay = useSelector((state) => state.orderPay);
 	const { loading: loadingPay, success: successPay } = orderPay;
+
+	const orderDeliver = useSelector((state) => state.orderDeliver);
+	const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
 	useEffect(() => {
-		if (!order || order._id !== orderID || successPay) {
-			dispatch({ type: ORDER_PAY_RESET });
+		if (!order || order._id !== orderID || successPay || successDeliver) {
+			if (successPay) dispatch({ type: ORDER_PAY_RESET });
+			if (successDeliver) dispatch({ type: ORDER_DELIVER_RESET });
 			dispatch(getOrderDetails(orderID));
 		}
-	}, [order, orderID, dispatch, successPay]);
+	}, [order, orderID, dispatch, successPay, successDeliver]);
 
 	useEffect(() => {
 		const addScript = async () => {
@@ -52,12 +65,17 @@ const OrderPage = ({ match }) => {
 			script.onload = () => setSDKReady(true);
 			document.body.appendChild(script);
 		};
+		if(!userInfo) history.push('/login')
 		if (!SDKReady) addScript();
-	}, [userInfo, SDKReady]);
+	}, [userInfo, SDKReady, history]);
 
 	const successPaymentHandler = (paymentResult) => {
-		console.log(paymentResult);
+		// console.log(paymentResult);
 		dispatch(payOrder(orderID, paymentResult));
+	};
+
+	const successDeliveryHandler = () => {
+		dispatch(deliverOrder(orderID));
 	};
 
 	const getDateString = (date) => {
@@ -113,7 +131,7 @@ const OrderPage = ({ match }) => {
 										{order.isDelivered ? (
 											<Message variant='success'>
 												Delivered at:{' '}
-												{order.deliveredAt}
+												{getDateString(order.deliveredAt)}
 											</Message>
 										) : (
 											<Message variant='danger'>
@@ -251,6 +269,26 @@ const OrderPage = ({ match }) => {
 											)}
 										</ListGroup.Item>
 									)}
+									{userInfo &&
+										userInfo.isAdmin &&
+										order.isPaid &&
+										!order.isDelivered && (
+											<ListGroup.Item>
+												{loadingDeliver && <Loader />}
+												<div className='d-grid'>
+													<Button
+														type='button'
+														variant='info'
+														size='lg'
+														onClick={
+															successDeliveryHandler
+														}
+													>
+														Mark as Delivered
+													</Button>
+												</div>
+											</ListGroup.Item>
+										)}
 								</ListGroup>
 							</Card>
 						</Col>
