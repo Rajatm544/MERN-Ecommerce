@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
+import morgan from 'morgan';
 import cors from 'cors';
 import passport from 'passport';
 import passportSetup from './config/passportSetup.js';
@@ -20,6 +21,9 @@ import setupPassport from './config/passportSetup.js';
 
 dotenv.config();
 const app = express();
+
+// use morgan in development mode
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // connect to the mongoDB database
 connectDB();
