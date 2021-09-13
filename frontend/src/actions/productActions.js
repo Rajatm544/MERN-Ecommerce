@@ -14,6 +14,9 @@ import {
 	PRODUCT_UPDATE_REQUEST,
 	PRODUCT_UPDATE_SUCCESS,
 	PRODUCT_UPDATE_FAILURE,
+	PRODUCT_CREATE_REVIEW_REQUEST,
+	PRODUCT_CREATE_REVIEW_SUCCESS,
+	PRODUCT_CREATE_REVIEW_FAILURE,
 } from '../constants/productConstants';
 import axios from 'axios';
 
@@ -162,3 +165,44 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 		});
 	}
 };
+
+export const createProductReview =
+	(productID, review) => async (dispatch, getState) => {
+		try {
+			dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
+
+			const {
+				userLogin: { userInfo },
+			} = getState();
+
+			const config = userInfo.isSocialLogin
+				? {
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `SocialLogin ${userInfo.id}`,
+						},
+				  }
+				: {
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `Bearer ${userInfo.accessToken}`,
+						},
+				  };
+
+			await axios.post(
+				`/api/products/${productID}/reviews`,
+				review,
+				config
+			);
+
+			dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
+		} catch (error) {
+			dispatch({
+				type: PRODUCT_CREATE_REVIEW_FAILURE,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
