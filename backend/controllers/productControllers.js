@@ -93,7 +93,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @route POST /api/products/:id/reviews
 // @access PRIVATE
 const createProductReview = asyncHandler(async (req, res) => {
-	const { review, comment } = req.body;
+	const { rating, review } = req.body;
 	const product = await Product.findById(req.params.id);
 	if (product) {
 		const reviewedAlready = product.reviews.find(
@@ -107,8 +107,8 @@ const createProductReview = asyncHandler(async (req, res) => {
 		const newReview = {
 			name: req.user.name,
 			user: req.user._id,
-			rating: Number(review),
-			review: comment,
+			rating: Number(rating),
+			review,
 		};
 
 		product.reviews.push(newReview);
