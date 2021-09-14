@@ -62,7 +62,7 @@ const ProductPage = ({ history, match }) => {
 	}, [match, dispatch, successCreateReview]);
 
 	useEffect(() => {
-		if (product && product.reviews && product.reviews.length) {
+		if (product && product.reviews && userInfo) {
 			let flag = 0;
 			for (let review of product.reviews) {
 				if (review.user === userInfo.id) {
@@ -261,6 +261,7 @@ const ProductPage = ({ history, match }) => {
 										You have already reviewed this product
 									</Message>
 								)}
+								{console.log(hasOrderedItem)}
 								{hasOrderedItem && showReviewForm && (
 									<>
 										<h2>Write a Customer Review</h2>
