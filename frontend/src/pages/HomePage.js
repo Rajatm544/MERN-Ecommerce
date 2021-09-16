@@ -7,16 +7,16 @@ import { listProducts } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-const HomePage = () => {
+const HomePage = ({ match }) => {
+	const keyword = match.params.keyword;
 	const dispatch = useDispatch();
-
 	const productList = useSelector((state) => state.productList);
 	const { products, loading, error } = productList;
 	const [promptVerfication, setPromptVerification] = useState(false);
 
 	useEffect(() => {
-		dispatch(listProducts());
-	}, [dispatch]);
+		dispatch(listProducts(keyword));
+	}, [dispatch, keyword]);
 
 	useEffect(() => {
 		setPromptVerification(
@@ -43,13 +43,22 @@ const HomePage = () => {
 				</Message>
 			) : products ? (
 				<Row>
-					{products.map((product) => {
-						return (
-							<Col sm={12} md={6} lg={4} xl={3} key={product._id}>
-								<Product product={product} />
-							</Col>
-						);
-					})}
+					{products.length ? (
+						products.map((product) => {
+							return (
+								<Col
+									sm={12}
+									md={6}
+									lg={4}
+									xl={3}
+									key={product._id}>
+									<Product product={product} />
+								</Col>
+							);
+						})
+					) : (
+						<Col>No Items Found for this search query...</Col>
+					)}
 				</Row>
 			) : (
 				''
