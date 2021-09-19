@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Product from '../components/Product.js';
+import Product from '../components/Product';
+import Paginate from '../components/Paginate';
 import { Row, Col } from 'react-bootstrap';
 import { listProducts } from '../actions/productActions';
 
@@ -9,14 +10,15 @@ import Message from '../components/Message';
 
 const HomePage = ({ match }) => {
 	const keyword = match.params.keyword;
+	const pageNumber = Number(match.params.pageNumber) || 1;
 	const dispatch = useDispatch();
 	const productList = useSelector((state) => state.productList);
-	const { products, loading, error } = productList;
+	const { products, loading, error, pages, page } = productList;
 	const [promptVerfication, setPromptVerification] = useState(false);
 
 	useEffect(() => {
-		dispatch(listProducts(keyword));
-	}, [dispatch, keyword]);
+		dispatch(listProducts(keyword, pageNumber));
+	}, [dispatch, keyword, pageNumber]);
 
 	useEffect(() => {
 		setPromptVerification(
@@ -42,24 +44,32 @@ const HomePage = ({ match }) => {
 					{error}
 				</Message>
 			) : products ? (
-				<Row>
-					{products.length ? (
-						products.map((product) => {
-							return (
-								<Col
-									sm={12}
-									md={6}
-									lg={4}
-									xl={3}
-									key={product._id}>
-									<Product product={product} />
-								</Col>
-							);
-						})
-					) : (
-						<Col>No Items Found for this search query...</Col>
-					)}
-				</Row>
+				<>
+					<Row>
+						{products.length ? (
+							products.map((product) => {
+								return (
+									<Col
+										sm={12}
+										md={6}
+										lg={4}
+										xl={3}
+										key={product._id}>
+										<Product product={product} />
+									</Col>
+								);
+							})
+						) : (
+							<Col>No Items Found for this search query...</Col>
+						)}
+					</Row>
+					<Paginate
+						className='mt-auto text-center'
+						page={pageNumber}
+						keyword={keyword ? keyword : ''}
+						pages={pages}
+					/>
+				</>
 			) : (
 				''
 			)}
