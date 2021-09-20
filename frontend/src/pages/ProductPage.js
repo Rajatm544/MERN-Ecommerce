@@ -225,7 +225,7 @@ const ProductPage = ({ history, match }) => {
 											<Button
 												onClick={handleAddToCart}
 												type='button'
-												className='btn-block btn-lg btn-dark'
+												className='btn-block btn-lg'
 												disabled={
 													product.countInStock <= 0
 												}>

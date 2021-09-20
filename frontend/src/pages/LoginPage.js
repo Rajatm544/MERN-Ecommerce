@@ -203,7 +203,7 @@ const LoginPage = ({ location, history }) => {
 									}}>
 									<Button
 										type='submit'
-										variant='dark'
+										// variant='dark'
 										className='my-1'>
 										Login
 									</Button>
@@ -275,7 +275,7 @@ const LoginPage = ({ location, history }) => {
 								}}>
 								<Button
 									type='submit'
-									variant='dark'
+									// variant='dark'
 									className='mt-3'>
 									Submit
 								</Button>

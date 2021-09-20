@@ -90,7 +90,7 @@ const CartPage = ({ match, location, history }) => {
 									<Col md={2}>
 										<Button
 											type='button'
-											variant='dark'
+											// variant='dark'
 											onClick={() =>
 												handleRemoveFromCart(
 													item.product
@@ -128,7 +128,7 @@ const CartPage = ({ match, location, history }) => {
 						<ListGroup.Item>
 							<Button
 								type='button'
-								variant='dark'
+								// variant='dark'
 								className='btn-block'
 								disabled={!cartItems.length}
 								onClick={handleCheckout}>

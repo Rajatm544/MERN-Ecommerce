@@ -238,7 +238,7 @@ const ProductEditPage = ({ match, history }) => {
 								</Form.Group>
 								<Button
 									type='submit'
-									variant='dark'
+									// variant='dark'
 									className='my-1'>
 									Update Product
 								</Button>

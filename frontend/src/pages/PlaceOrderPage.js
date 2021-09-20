@@ -161,7 +161,7 @@ const PlaceOrderPage = ({ history }) => {
 									)}
 									<ListGroup.Item className='d-grid gap-2'>
 										<Button
-											variant='dark'
+											// variant='dark'
 											type='button'
 											className='btn-block'
 											disabled={!cartItems.length}

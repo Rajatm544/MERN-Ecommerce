@@ -128,7 +128,7 @@ const PasswordResetPage = ({ match, history }) => {
 							</InputGroup.Text>
 						</InputGroup>
 					</Form.Group>
-					<Button type='submit' variant='dark' className='my-1'>
+					<Button type='submit' className='my-1'>
 						Submit
 					</Button>
 				</Form>

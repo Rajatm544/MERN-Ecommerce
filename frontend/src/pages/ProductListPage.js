@@ -65,10 +65,7 @@ const ProductListPage = ({ history, match }) => {
 					<h1>Products</h1>
 				</Col>
 				<Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Button
-						className='my-3'
-						onClick={handleCreateProduct}
-						variant='dark'>
+					<Button className='my-3' onClick={handleCreateProduct}>
 						<i className='fas fa-plus'></i> Create Product
 					</Button>
 				</Col>

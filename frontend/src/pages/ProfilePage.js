@@ -285,7 +285,7 @@ const RegisterPage = ({ location, history }) => {
 							</>
 						)}
 
-						<Button type='submit' variant='dark' className='my-1'>
+						<Button type='submit' className='my-1'>
 							Update Profile
 						</Button>
 					</Form>
