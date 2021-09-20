@@ -19,3 +19,51 @@ h2 {
 .rating span {
     margin: 0.1rem;
 }
+
+/* Carousel */
+/* Carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item:active {
+    display: flex
+}
+
+.carousel-inner {
+    /* text-align: center; */
+}
+
+.carousel-caption {
+    font-size: large;
+    /* position: relative !important; */
+    /* text-align: center; */
+    /* bottom: 0 !important; */
+    /* padding: 20px 30px !important;
+    left: 0 !important;
+    right: 0 !important;
+    box-sizing: border-box; */
+}
+
+.carousel img {
+    height: 30vh;
+    /* width: 300px; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* margin-bottom: 60px; */
+    /* border-radius: 50%; */
+}
+
+.carousel a {
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .carousel-caption h2 {
+        font-size: 2.5vw;
+    }
+}
+
+@media (max-width: 430px) {
+    .carousel {
+        display: none;
+    }
+}
