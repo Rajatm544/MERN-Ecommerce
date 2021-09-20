@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product';
 import Paginate from '../components/Paginate';
 import { Row, Col } from 'react-bootstrap';
 import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
 
 import Loader from '../components/Loader';
@@ -31,7 +33,14 @@ const HomePage = ({ match }) => {
 
 	return (
 		<>
-			{!keyword && <ProductCarousel />}
+			<Meta />
+			{!keyword ? (
+				<ProductCarousel />
+			) : (
+				<Link className='btn btn-outline btn-outline-dark my-2' to='/'>
+					Go Back
+				</Link>
+			)}
 			<h1>Latest Products.</h1>
 			{promptVerfication ? (
 				<Message variant='info' duration={10}>

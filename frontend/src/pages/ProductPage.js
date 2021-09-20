@@ -12,6 +12,7 @@ import {
 	Form,
 } from 'react-bootstrap';
 import Rating from '../components/Rating';
+import Meta from '../components/Meta';
 import {
 	listProductDetails,
 	createProductReview,
@@ -134,6 +135,7 @@ const ProductPage = ({ history, match }) => {
 				</Message>
 			) : product ? (
 				<>
+					<Meta title={`${product?.name}`} />
 					<Row>
 						<Col md={6}>
 							<Image
