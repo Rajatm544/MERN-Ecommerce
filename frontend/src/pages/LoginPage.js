@@ -224,14 +224,22 @@ const LoginPage = ({ location, history }) => {
 									style={{
 										display: 'flex',
 									}}>
-									<Button type='submit' className='my-1'>
+									<Button
+										type='submit'
+										style={{
+											padding: '0.5em 1em',
+											width: '8rem',
+										}}>
 										Login
 									</Button>
 									<Button
 										type='button'
 										variant='link'
+										style={{
+											marginTop: '-1em',
+											padding: '0',
+										}}
 										className='ms-auto'
-										size='sm'
 										onClick={() => setForgotPassword(true)}>
 										Forgot Password?
 									</Button>
@@ -265,14 +273,20 @@ const LoginPage = ({ location, history }) => {
 							onSubmit={handleEmailSubmit}
 							style={{ width: '33em' }}>
 							<Form.Group controlId='email'>
-								<Form.Label>Email Address</Form.Label>
-								<Form.Control
-									size='lg'
-									placeholder='Enter Email Address'
-									type='email'
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
+								<FloatingLabel
+									controlId='emailinput'
+									label='Email address'
+									className='mb-3'>
+									<Form.Control
+										size='lg'
+										placeholder='Enter Email Address'
+										type='email'
+										value={email}
+										onChange={(e) =>
+											setEmail(e.target.value)
+										}
+									/>
+								</FloatingLabel>
 							</Form.Group>
 							<Col
 								style={{
@@ -280,19 +294,22 @@ const LoginPage = ({ location, history }) => {
 								}}>
 								<Button
 									type='submit'
-									// variant='dark'
-									className='mt-3'>
+									style={{
+										padding: '0.5em 1em',
+										width: '8rem',
+									}}>
 									Submit
 								</Button>
 								<Button
 									type='button'
 									variant='link'
 									className='ms-auto'
-									size='sm'
+									style={{
+										marginTop: '-1em',
+										padding: '0',
+									}}
 									onClick={() => setForgotPassword(false)}>
-									{/* <Link to='/user/password/reset'> */}I
-									remember my password
-									{/* </Link> */}
+									I remember my password
 								</Button>
 							</Col>
 						</Form>
