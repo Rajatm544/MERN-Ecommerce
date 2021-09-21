@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button, InputGroup, FloatingLabel } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
@@ -82,30 +82,77 @@ const RegisterPage = ({ location, history }) => {
 			{loading ? (
 				<Loader />
 			) : (
-				<Form onSubmit={handleSubmit}>
+				<Form onSubmit={handleSubmit} style={{ width: '33em' }}>
 					<Form.Group controlId='name' className='mb-2'>
-						<Form.Label>Name</Form.Label>
-						<Form.Control
-							size='lg'
-							placeholder='Enter Name'
-							type='text'
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						/>
+						{/* <Form.Label>Name</Form.Label> */}
+						<FloatingLabel
+							controlId='nameinput'
+							label='Name'
+							className='mb-3'>
+							<Form.Control
+								size='lg'
+								placeholder='Enter Name'
+								type='text'
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+							/>
+						</FloatingLabel>
 					</Form.Group>
 					<Form.Group controlId='email' className='my-2'>
-						<Form.Label>Email Address</Form.Label>
-						<Form.Control
-							size='lg'
-							placeholder='Enter Email Address'
-							type='email'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
+						{/* <Form.Label>Email Address</Form.Label> */}
+						<FloatingLabel
+							controlId='emailinput'
+							label='Email Address'
+							className='mb-3'>
+							<Form.Control
+								size='lg'
+								placeholder='Enter Email Address'
+								type='email'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>
+						</FloatingLabel>
 					</Form.Group>
-					<Form.Group className='my-2'>
-						<Form.Label>Password</Form.Label>
-						<InputGroup>
+					<Form.Group>
+						<InputGroup style={{ width: '100%' }}>
+							<FloatingLabel
+								controlId='passwordinput'
+								label='Password'
+								className='mb-3'>
+								<Form.Control
+									size='lg'
+									type={typePassword}
+									placeholder='Enter your password'
+									value={password}
+									style={{
+										borderRight: 'none',
+										width: '205%',
+									}}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}></Form.Control>
+							</FloatingLabel>
+							<div className='input-group-append'>
+								<InputGroup.Text
+									onClick={showHidePassword}
+									style={{
+										paddingLeft: '1em',
+										fontSize: '1rem',
+										width: '17.5%',
+										height: '78%',
+										marginLeft: '15rem',
+										background: 'transparent',
+									}}>
+									{typePassword === 'text' ? (
+										<i className='far fa-eye-slash'></i>
+									) : (
+										<i className='far fa-eye'></i>
+									)}
+								</InputGroup.Text>
+							</div>
+						</InputGroup>
+						{/* <Form.Label>Password</Form.Label> */}
+						{/* <InputGroup>
 							<Form.Control
 								size='lg'
 								type={typePassword}
@@ -129,10 +176,47 @@ const RegisterPage = ({ location, history }) => {
 									<i className='far fa-eye'></i>
 								)}
 							</InputGroup.Text>
-						</InputGroup>
+						</InputGroup> */}
 					</Form.Group>
-					<Form.Group className='my-2'>
-						<Form.Label>Confirm Password</Form.Label>
+					<Form.Group>
+						<InputGroup style={{ width: '100%' }}>
+							<FloatingLabel
+								controlId='confirmpasswordinput'
+								label='Confirm password'
+								className='mb-3'>
+								<Form.Control
+									size='lg'
+									type={typeConfirmPassword}
+									placeholder='Confirm your password'
+									value={confirmPassword}
+									style={{
+										borderRight: 'none',
+										width: '205%',
+									}}
+									onChange={(e) =>
+										setConfirmPassword(e.target.value)
+									}></Form.Control>
+							</FloatingLabel>
+							<div className='input-group-append'>
+								<InputGroup.Text
+									onClick={showHideConfirmPassword}
+									style={{
+										paddingLeft: '1em',
+										fontSize: '1rem',
+										width: '17.5%',
+										height: '78%',
+										marginLeft: '15rem',
+										background: 'transparent',
+									}}>
+									{typeConfirmPassword === 'text' ? (
+										<i className='far fa-eye-slash'></i>
+									) : (
+										<i className='far fa-eye'></i>
+									)}
+								</InputGroup.Text>
+							</div>
+						</InputGroup>
+						{/* <Form.Label>Confirm Password</Form.Label>
 						<InputGroup className='mb-3'>
 							<Form.Control
 								size='lg'
@@ -157,9 +241,15 @@ const RegisterPage = ({ location, history }) => {
 									<i className='far fa-eye'></i>
 								)}
 							</InputGroup.Text>
-						</InputGroup>
+						</InputGroup> */}
 					</Form.Group>
-					<Button type='submit' variant='dark' className='my-1'>
+					<Button
+						type='submit'
+						className='ms-auto'
+						style={{
+							padding: '0.5em 1em',
+							width: '8rem',
+						}}>
 						Register
 					</Button>
 				</Form>
