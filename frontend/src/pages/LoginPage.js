@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, InputGroup, Col, Card } from 'react-bootstrap';
+import {
+	Form,
+	Button,
+	InputGroup,
+	Col,
+	Card,
+	FloatingLabel,
+} from 'react-bootstrap';
 import { loginUser } from '../actions/userActions';
 import { USER_LOGIN_SUCCESS } from '../constants/userConstants';
 import axios from 'axios';
@@ -158,53 +165,66 @@ const LoginPage = ({ location, history }) => {
 								onSubmit={handleSubmit}
 								style={{ width: '33em' }}>
 								<Form.Group controlId='email'>
-									<Form.Label>Email Address</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter Email Address'
-										type='email'
-										value={email}
-										onChange={(e) =>
-											setEmail(e.target.value)
-										}
-									/>
-								</Form.Group>
-								<Form.Group className='my-1'>
-									<Form.Label>Password</Form.Label>
-									<InputGroup className='mb-3'>
+									<FloatingLabel
+										controlId='emailinput'
+										label='Email address'
+										className='mb-3'>
 										<Form.Control
 											size='lg'
-											type={type}
-											placeholder='Enter your password'
-											value={password}
-											style={{ borderRight: 'none' }}
+											placeholder='Enter Email Address'
+											type='email'
+											value={email}
 											onChange={(e) =>
-												setPassword(e.target.value)
-											}></Form.Control>
-										<InputGroup.Text
-											id='basic-addon2'
-											onClick={showHide}
-											style={{
-												background: 'transparent',
-												borderLeft: 'none',
-												padding: '0.5em 0.5em 0.5em 0',
-											}}>
-											{type === 'text' ? (
-												<i className='far fa-eye-slash'></i>
-											) : (
-												<i className='far fa-eye'></i>
-											)}
-										</InputGroup.Text>
+												setEmail(e.target.value)
+											}
+										/>
+									</FloatingLabel>
+								</Form.Group>
+								<Form.Group>
+									<InputGroup style={{ width: '100%' }}>
+										<FloatingLabel
+											controlId='passwordinput'
+											label='Password'
+											className='mb-3'>
+											<Form.Control
+												size='lg'
+												type={type}
+												placeholder='Enter your password'
+												value={password}
+												style={{
+													borderRight: 'none',
+													width: '205%',
+												}}
+												onChange={(e) =>
+													setPassword(e.target.value)
+												}
+											/>
+										</FloatingLabel>
+										<div className='input-group-append'>
+											<InputGroup.Text
+												onClick={showHide}
+												style={{
+													paddingLeft: '1em',
+													fontSize: '1rem',
+													width: '17.5%',
+													height: '78%',
+													marginLeft: '15rem',
+													background: 'transparent',
+												}}>
+												{type === 'text' ? (
+													<i className='far fa-eye-slash'></i>
+												) : (
+													<i className='far fa-eye'></i>
+												)}
+											</InputGroup.Text>
+										</div>
 									</InputGroup>
 								</Form.Group>
 								<Col
 									style={{
 										display: 'flex',
 									}}>
-									<Button
-										type='submit'
-										// variant='dark'
-										className='my-1'>
+									<Button type='submit' className='my-1'>
 										Login
 									</Button>
 									<Button
@@ -213,25 +233,10 @@ const LoginPage = ({ location, history }) => {
 										className='ms-auto'
 										size='sm'
 										onClick={() => setForgotPassword(true)}>
-										{/* <Link to='/user/password/reset'> */}
 										Forgot Password?
-										{/* </Link> */}
 									</Button>
 								</Col>
 							</Form>
-							{/* <Row>
-								<Col style={{ fontSize: '1.1em' }}>
-									New Here?{' '}
-									<Link
-										to={
-											redirect
-												? `/register?redirect=${redirect}`
-												: '/register'
-										}>
-										Register
-									</Link>
-								</Col>
-							</Row> */}
 							<SocialLoginOptions />
 						</>
 					)}

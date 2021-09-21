@@ -8,13 +8,18 @@ import linkedinLogo from '../assets/linkedinLogo.png';
 const SocialLoginOptions = () => {
 	return (
 		// <Card>
-		<div style={{ width: '98%', margin: '1.5em 0' }}>
+		<div
+			style={{
+				width: '98%',
+				margin: '1em 0',
+			}}>
 			<div
 				style={{
 					display: 'flex',
 					flexFlow: 'row nowrap',
 					alignItems: 'center',
 					justifyContent: 'space-evenly',
+					marginBottom: '1em',
 				}}>
 				<div
 					style={{
