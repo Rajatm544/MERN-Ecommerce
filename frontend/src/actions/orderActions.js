@@ -204,36 +204,41 @@ export const listMyOrders = () => async (dispatch, getState) => {
 	}
 };
 
-export const listAllOrders = () => async (dispatch, getState) => {
-	try {
-		dispatch({ type: ORDER_ALL_LIST_REQUEST });
+export const listAllOrders =
+	(pageNumber = '') =>
+	async (dispatch, getState) => {
+		try {
+			dispatch({ type: ORDER_ALL_LIST_REQUEST });
 
-		const {
-			userLogin: { userInfo },
-		} = getState();
+			const {
+				userLogin: { userInfo },
+			} = getState();
 
-		const config = userInfo.isSocialLogin
-			? {
-					headers: {
-						Authorization: `SocialLogin ${userInfo.id}`,
-					},
-			  }
-			: {
-					headers: {
-						Authorization: `Bearer ${userInfo.accessToken}`,
-					},
-			  };
+			const config = userInfo.isSocialLogin
+				? {
+						headers: {
+							Authorization: `SocialLogin ${userInfo.id}`,
+						},
+				  }
+				: {
+						headers: {
+							Authorization: `Bearer ${userInfo.accessToken}`,
+						},
+				  };
 
-		const { data } = await axios.get('/api/orders/', config);
+			const { data } = await axios.get(
+				`/api/orders?pageNumber=${pageNumber}`,
+				config
+			);
 
-		dispatch({ type: ORDER_ALL_LIST_SUCCESS, payload: data });
-	} catch (error) {
-		dispatch({
-			type: ORDER_ALL_LIST_FAILURE,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.message,
-		});
-	}
-};
+			dispatch({ type: ORDER_ALL_LIST_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: ORDER_ALL_LIST_FAILURE,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
