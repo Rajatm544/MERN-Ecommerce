@@ -19,7 +19,11 @@ const ProductCarousel = () => {
 		<>
 			{loading && <Loader />}
 			{error && <Message variant='danger'>{error}</Message>}
-			<Carousel pause='hover' className='bg-primary'>
+			<Carousel
+				pause='hover'
+				className='bg-primary'
+				indicators={false}
+				interval={10000}>
 				{products &&
 					products.map((product) => (
 						<CarouselItem key={product._id}>
@@ -30,7 +34,7 @@ const ProductCarousel = () => {
 									fluid
 								/>
 								<Carousel.Caption className='carousel-caption'>
-									{product.name}(${product.price})
+									{product.name} (${product.price})
 								</Carousel.Caption>
 							</Link>
 						</CarouselItem>
