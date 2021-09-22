@@ -101,8 +101,17 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route GET /api/orders
 // @access PRIVATE/ADMIN
 const getAllOrders = asyncHandler(async (req, res) => {
-	const allOrders = await Order.find({}).populate('user', 'id name');
-	res.json(allOrders);
+	const page = Number(req.query.pageNumber) || 1;
+	const pageSize = 10;
+
+	const count = await Order.countDocuments({});
+	const orders = await Order.find({})
+		.limit(pageSize)
+		.skip(pageSize * (page - 1))
+		.populate('user', 'id name')
+		.sort('-createdAt');
+
+	res.json({ orders, page, pages: Math.ceil(count / pageSize) });
 });
 
 export {
