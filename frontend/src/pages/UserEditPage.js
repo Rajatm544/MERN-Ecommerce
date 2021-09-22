@@ -7,6 +7,7 @@ import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 import { getUserDetails, updateUser } from '../actions/userActions';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
+import Meta from '../components/Meta';
 
 const UserEditPage = ({ match, history }) => {
 	const userId = match.params.id;
@@ -53,6 +54,7 @@ const UserEditPage = ({ match, history }) => {
 				</Button>
 			</Link>
 			<FormContainer>
+				{user && <Meta title={`Edit ${user.name}`} />}
 				<h1>Edit User</h1>
 				{loadingUpdate ? (
 					<Loader />

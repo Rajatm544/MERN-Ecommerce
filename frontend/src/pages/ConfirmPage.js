@@ -6,6 +6,7 @@ import { Card } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { confirmUser } from '../actions/userActions';
+import Meta from '../components/Meta';
 
 const ConfirmPage = ({ match, history }) => {
 	const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const ConfirmPage = ({ match, history }) => {
 		localStorage.setItem('fillEmailOnLoginPage', 'true');
 		return (
 			<Card style={{ border: 'none', margin: '0 auto' }}>
+				<Meta title='Confirm Password' />;
 				<Card.Body>
 					<Card.Title>Account Confirmed</Card.Title>
 					<Card.Text>

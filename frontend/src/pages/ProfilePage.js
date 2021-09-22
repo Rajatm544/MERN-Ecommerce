@@ -20,6 +20,7 @@ import {
 } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
 import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
+import Meta from '../components/Meta';
 
 const RegisterPage = ({ location, history }) => {
 	const [typePassword, setTypePassword] = useState('password');
@@ -122,6 +123,7 @@ const RegisterPage = ({ location, history }) => {
 	};
 	return (
 		<Row className={userInfo && userInfo.isConfirmed ? 'mt-4' : 'mt-2'}>
+			<Meta title='My Profile' />
 			{userInfo && !userInfo.isConfirmed ? (
 				<>
 					{emailSent && (

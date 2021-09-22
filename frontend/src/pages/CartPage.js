@@ -10,6 +10,7 @@ import {
 	Card,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Meta from '../components/Meta';
 import Message from '../components/Message';
 import { addItem, removeItem } from '../actions/cartActions';
 
@@ -36,6 +37,7 @@ const CartPage = ({ match, location, history }) => {
 
 	return (
 		<Row>
+			<Meta title='My Cart' />
 			<Col md={8}>
 				<h1>Shopping Cart.</h1>
 				{!cartItems.length ? (
