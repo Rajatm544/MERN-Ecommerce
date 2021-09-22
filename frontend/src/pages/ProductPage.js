@@ -10,6 +10,7 @@ import {
 	Button,
 	ListGroup,
 	Form,
+	FloatingLabel,
 } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Meta from '../components/Meta';
@@ -277,7 +278,6 @@ const ProductPage = ({ history, match }) => {
 										{loadingCreateReview && <Loader />}
 										<Form onSubmit={handleReviewSubmit}>
 											<Form.Group controlId='rating'>
-												<Form.Label>Rating:</Form.Label>
 												<Form.Control
 													as='select'
 													value={rating}
@@ -286,8 +286,8 @@ const ProductPage = ({ history, match }) => {
 															e.target.value
 														)
 													}>
-													<option default>
-														Select a rating
+													<option selected>
+														Choose Rating
 													</option>
 													<option value='1'>
 														1 - Bad
@@ -307,7 +307,23 @@ const ProductPage = ({ history, match }) => {
 												</Form.Control>
 											</Form.Group>
 											<Form.Group controlId='comment'>
-												<Form.Label>Comment</Form.Label>
+												<FloatingLabel
+													controlId='commenttext'
+													label='Comment'
+													className='my-3'>
+													<Form.Control
+														as='textarea'
+														placeholder='Leave a comment here'
+														row='3'
+														onChange={(e) =>
+															setReview(
+																e.target.value
+															)
+														}
+														value={review}
+													/>
+												</FloatingLabel>
+												{/* <Form.Label>Comment</Form.Label>
 												<Form.Control
 													as='textarea'
 													row='3'
@@ -318,7 +334,7 @@ const ProductPage = ({ history, match }) => {
 													}
 													value={
 														review
-													}></Form.Control>
+													}></Form.Control> */}
 											</Form.Group>
 											<Button
 												className='mt-3'
