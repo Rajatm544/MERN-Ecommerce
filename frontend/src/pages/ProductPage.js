@@ -151,10 +151,18 @@ const ProductPage = ({ history, match }) => {
 									<h3>{product.name}</h3>
 								</ListGroup.Item>
 								<ListGroup.Item>
-									<Rating
-										value={product.rating && product.rating}
-										text={`${product.numReviews} Reviews`}
-									/>
+									{product && product.rating && (
+										<Rating
+											value={product.rating}
+											text={`${
+												product.numReviews
+											} Review${
+												product.numReviews > 1
+													? 's'
+													: ''
+											}`}
+										/>
+									)}
 								</ListGroup.Item>
 								<ListGroup.Item>
 									<strong>Price: </strong>$ {product.price}
@@ -263,7 +271,6 @@ const ProductPage = ({ history, match }) => {
 										You have already reviewed this product
 									</Message>
 								)}
-								{console.log(hasOrderedItem)}
 								{hasOrderedItem && showReviewForm && (
 									<>
 										<h2>Write a Customer Review</h2>
