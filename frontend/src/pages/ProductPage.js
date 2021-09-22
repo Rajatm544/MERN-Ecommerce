@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import {
 	Row,
 	Col,
-	Image,
 	Card,
 	Button,
 	ListGroup,
 	Form,
 	FloatingLabel,
 } from 'react-bootstrap';
+import ImageMagnifier from '../components/ImageMagnifier';
 import Rating from '../components/Rating';
 import Meta from '../components/Meta';
 import {
@@ -139,10 +139,9 @@ const ProductPage = ({ history, match }) => {
 					<Meta title={`${product.name}`} />
 					<Row>
 						<Col md={6}>
-							<Image
+							<ImageMagnifier
 								src={product.image}
 								alt={product.name}
-								fluid
 								title={product.name}
 							/>
 						</Col>
