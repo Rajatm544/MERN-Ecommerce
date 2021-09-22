@@ -6,7 +6,7 @@ import Product from '../models/productModel.js';
 // @access PUBLIC
 const getAllProducts = asyncHandler(async (req, res) => {
 	const page = Number(req.query.pageNumber) || 1;
-	const pageSize = Number(req.query.pageSize) || 3;
+	const pageSize = Number(req.query.pageSize) || 10;
 	const keyword = req.query.keyword
 		? {
 				name: {
