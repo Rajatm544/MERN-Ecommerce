@@ -4,20 +4,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import { listAllOrders } from '../actions/orderActions';
 
 const ProductListPage = ({ history, match }) => {
+	const pageNumber = match.params.pageNumber || 1;
 	const dispatch = useDispatch();
 	const orderListAll = useSelector((state) => state.orderListAll);
-	const { loading, orders, error } = orderListAll;
+	const { loading, orders, error, page, pages } = orderListAll;
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
 	useEffect(() => {
-		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders());
+		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders(pageNumber));
 		else history.push('/login');
-	}, [dispatch, history, userInfo]);
+	}, [dispatch, history, userInfo, pageNumber]);
 
 	const getDateString = (date) => {
 		const options = {
@@ -117,6 +119,12 @@ const ProductListPage = ({ history, match }) => {
 					</tbody>
 				</Table>
 			)}
+			<Paginate
+				pages={pages}
+				page={page}
+				isAdmin={true}
+				forOrders={true}
+			/>
 		</>
 	);
 };
