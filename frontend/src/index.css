@@ -29,11 +29,13 @@ h2 {
 }
 
 .carousel-inner {
-    /* text-align: center; */
+    text-align: center;
 }
 
 .carousel-caption {
-    font-size: large;
+    font-size: 1.2em;
+    padding: 0;
+    margin-bottom: -0.5em;
     /* position: relative !important; */
     /* text-align: center; */
     /* bottom: 0 !important; */
@@ -45,11 +47,10 @@ h2 {
 
 .carousel img {
     height: 30vh;
-    /* width: 300px; */
-    /* margin-left: auto; */
-    /* margin-right: auto; */
-    /* margin-bottom: 60px; */
-    /* border-radius: 50%; */
+    border-radius: 50%;
+    width: 30vh;
+    object-fit: cover;
+    margin: 0.5em auto 2.5em auto;
 }
 
 .carousel a {
