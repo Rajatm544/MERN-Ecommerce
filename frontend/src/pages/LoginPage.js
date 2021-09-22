@@ -133,36 +133,178 @@ const LoginPage = ({ location, history }) => {
 		return (
 			<>
 				<FormContainer>
-					<div
-						style={{
-							display: 'flex',
-							flexFlow: 'row wrap',
-							alignItems: 'center',
-						}}>
-						<h1>Sign In</h1>
-						<h1
-							style={{ marginLeft: '1em', cursor: 'pointer' }}
-							onClick={() => history.push('/register')}>
-							Sign Up
-						</h1>
-					</div>
+					<div className='form-inner-container'>
+						<div className='form-heading'>
+							<h1
+								style={{
+									background: 'ghostwhite',
+									boxShadow:
+										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
+									webkitBoxShadow:
+										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
+									mozBoxShadow:
+										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
+								}}>
+								Sign In
+							</h1>
+							<h1 onClick={() => history.push('/register')}>
+								Sign Up
+							</h1>
+						</div>
 
-					{error && (
-						<Message variant='danger' duration={10}>
-							{error}
-						</Message>
-					)}
-					{showRedirectMsg && (
-						<Message variant='info' duration={10}>
-							Your session has expired. Please login again.
-						</Message>
-					)}
-					{loading ? (
-						<Loader />
-					) : (
-						<>
+						{error && (
+							<Message variant='danger' duration={10}>
+								{error}
+							</Message>
+						)}
+						{showRedirectMsg && (
+							<Message variant='info' duration={10}>
+								Your session has expired. Please login again.
+							</Message>
+						)}
+						{loading ? (
+							<Loader />
+						) : (
+							<>
+								<Form
+									onSubmit={handleSubmit}
+									style={{
+										width: '33em',
+									}}>
+									<Form.Group controlId='email'>
+										<FloatingLabel
+											controlId='emailinput'
+											label='Email address'
+											className='mb-3'>
+											<Form.Control
+												required
+												size='lg'
+												placeholder='Enter Email Address'
+												type='email'
+												value={email}
+												onChange={(e) =>
+													setEmail(e.target.value)
+												}
+											/>
+											<Form.Control.Feedback>
+												Looks good!
+											</Form.Control.Feedback>
+										</FloatingLabel>
+									</Form.Group>
+									<Form.Group>
+										<InputGroup style={{ width: '100%' }}>
+											<FloatingLabel
+												controlId='passwordinput'
+												label='Password'
+												className='mb-3'>
+												<Form.Control
+													required
+													size='lg'
+													type={type}
+													placeholder='Enter your password'
+													value={password}
+													style={{
+														borderRight: 'none',
+														width: '205%',
+													}}
+													onChange={(e) =>
+														setPassword(
+															e.target.value
+														)
+													}
+												/>
+											</FloatingLabel>
+											<div className='input-group-append'>
+												<InputGroup.Text
+													onClick={showHide}
+													style={{
+														paddingLeft: '1em',
+														fontSize: '1rem',
+														width: '17.5%',
+														height: '78%',
+														marginLeft: '15rem',
+														background:
+															'transparent',
+													}}>
+													{type === 'text' ? (
+														<i className='far fa-eye-slash'></i>
+													) : (
+														<i className='far fa-eye'></i>
+													)}
+												</InputGroup.Text>
+											</div>
+										</InputGroup>
+									</Form.Group>
+									<Col
+										style={{
+											display: 'flex',
+										}}>
+										<Button
+											type='button'
+											variant='link'
+											style={{
+												marginTop: '-1em',
+												padding: '0',
+											}}
+											onClick={() =>
+												setForgotPassword(true)
+											}>
+											Forgot Password?
+										</Button>
+										<Button
+											type='submit'
+											className='ms-auto'
+											style={{
+												padding: '0.5em 1em',
+												width: '8rem',
+											}}>
+											Login
+										</Button>
+									</Col>
+								</Form>
+								<SocialLoginOptions />
+							</>
+						)}
+					</div>
+				</FormContainer>
+			</>
+		);
+	} else {
+		return (
+			<>
+				<FormContainer>
+					<div className='form-inner-container'>
+						<div className='form-heading'>
+							<h1
+								style={{
+									background: 'ghostwhite',
+									boxShadow:
+										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
+									webkitBoxShadow:
+										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
+									mozBoxShadow:
+										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
+									cursor: 'default',
+								}}>
+								Reset Password
+							</h1>
+						</div>
+
+						{showLoading ? (
+							<Loader />
+						) : emailSent ? (
+							<Card>
+								<Card.Body className='pl-0'>
+									<Card.Title>Email Sent</Card.Title>
+									<Card.Text>
+										Please use the link sent to your email
+										and reset your password right away!
+									</Card.Text>
+								</Card.Body>
+							</Card>
+						) : (
 							<Form
-								onSubmit={handleSubmit}
+								onSubmit={handleEmailSubmit}
 								style={{ width: '33em' }}>
 								<Form.Group controlId='email'>
 									<FloatingLabel
@@ -180,58 +322,10 @@ const LoginPage = ({ location, history }) => {
 										/>
 									</FloatingLabel>
 								</Form.Group>
-								<Form.Group>
-									<InputGroup style={{ width: '100%' }}>
-										<FloatingLabel
-											controlId='passwordinput'
-											label='Password'
-											className='mb-3'>
-											<Form.Control
-												size='lg'
-												type={type}
-												placeholder='Enter your password'
-												value={password}
-												style={{
-													borderRight: 'none',
-													width: '205%',
-												}}
-												onChange={(e) =>
-													setPassword(e.target.value)
-												}
-											/>
-										</FloatingLabel>
-										<div className='input-group-append'>
-											<InputGroup.Text
-												onClick={showHide}
-												style={{
-													paddingLeft: '1em',
-													fontSize: '1rem',
-													width: '17.5%',
-													height: '78%',
-													marginLeft: '15rem',
-													background: 'transparent',
-												}}>
-												{type === 'text' ? (
-													<i className='far fa-eye-slash'></i>
-												) : (
-													<i className='far fa-eye'></i>
-												)}
-											</InputGroup.Text>
-										</div>
-									</InputGroup>
-								</Form.Group>
 								<Col
 									style={{
 										display: 'flex',
 									}}>
-									<Button
-										type='submit'
-										style={{
-											padding: '0.5em 1em',
-											width: '8rem',
-										}}>
-										Login
-									</Button>
 									<Button
 										type='button'
 										variant='link'
@@ -239,82 +333,25 @@ const LoginPage = ({ location, history }) => {
 											marginTop: '-1em',
 											padding: '0',
 										}}
+										onClick={() =>
+											setForgotPassword(false)
+										}>
+										I remember my password
+									</Button>
+									<Button
+										type='submit'
 										className='ms-auto'
-										onClick={() => setForgotPassword(true)}>
-										Forgot Password?
+										style={{
+											padding: '0.5em 1em',
+											width: '8rem',
+										}}>
+										Submit
 									</Button>
 								</Col>
+								<SocialLoginOptions />
 							</Form>
-							<SocialLoginOptions />
-						</>
-					)}
-				</FormContainer>
-			</>
-		);
-	} else {
-		return (
-			<>
-				<FormContainer>
-					<h1>Reset Password</h1>
-					{showLoading ? (
-						<Loader />
-					) : emailSent ? (
-						<Card>
-							<Card.Body className='pl-0'>
-								<Card.Title>Email Sent</Card.Title>
-								<Card.Text>
-									Please use the link sent to your email and
-									reset your password right away!
-								</Card.Text>
-							</Card.Body>
-						</Card>
-					) : (
-						<Form
-							onSubmit={handleEmailSubmit}
-							style={{ width: '33em' }}>
-							<Form.Group controlId='email'>
-								<FloatingLabel
-									controlId='emailinput'
-									label='Email address'
-									className='mb-3'>
-									<Form.Control
-										size='lg'
-										placeholder='Enter Email Address'
-										type='email'
-										value={email}
-										onChange={(e) =>
-											setEmail(e.target.value)
-										}
-									/>
-								</FloatingLabel>
-							</Form.Group>
-							<Col
-								style={{
-									display: 'flex',
-								}}>
-								<Button
-									type='submit'
-									style={{
-										padding: '0.5em 1em',
-										width: '8rem',
-									}}>
-									Submit
-								</Button>
-								<Button
-									type='button'
-									variant='link'
-									className='ms-auto'
-									style={{
-										marginTop: '-1em',
-										padding: '0',
-									}}
-									onClick={() => setForgotPassword(false)}>
-									I remember my password
-								</Button>
-							</Col>
-						</Form>
-					)}
-					<SocialLoginOptions />
+						)}
+					</div>
 				</FormContainer>
 			</>
 		);
