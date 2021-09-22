@@ -140,9 +140,9 @@ const LoginPage = ({ location, history }) => {
 									background: 'ghostwhite',
 									boxShadow:
 										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
-									webkitBoxShadow:
+									WebkitBoxShadow:
 										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
-									mozBoxShadow:
+									MozBoxShadow:
 										'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
 								}}>
 								Sign In
@@ -280,9 +280,9 @@ const LoginPage = ({ location, history }) => {
 									background: 'ghostwhite',
 									boxShadow:
 										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
-									webkitBoxShadow:
+									WebkitBoxShadow:
 										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
-									mozBoxShadow:
+									MozBoxShadow:
 										'0px -1px 5px 0px rgba(0, 0, 0, 0.2)',
 									cursor: 'default',
 								}}>

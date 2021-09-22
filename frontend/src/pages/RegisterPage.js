@@ -66,9 +66,9 @@ const RegisterPage = ({ location, history }) => {
 						style={{
 							background: 'ghostwhite',
 							boxShadow: '0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
-							webkitBoxShadow:
+							WebkitBoxShadow:
 								'0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
-							mozBoxShadow: '0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
+							MozBoxShadow: '0px 0px 9px 0px rgba(0, 0, 0, 0.2)',
 						}}
 						onClick={() => history.push('/register')}>
 						Sign Up
