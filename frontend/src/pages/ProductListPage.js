@@ -65,8 +65,13 @@ const ProductListPage = ({ history, match }) => {
 					<h1>Products</h1>
 				</Col>
 				<Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Button className='my-3' onClick={handleCreateProduct}>
-						<i className='fas fa-plus'></i> Create Product
+					<Button
+						className='my-3'
+						style={{
+							padding: '0.5em 1em',
+						}}
+						onClick={handleCreateProduct}>
+						<i className='fas fa-plus'> </i> Create Product
 					</Button>
 				</Col>
 			</Row>
@@ -137,7 +142,12 @@ const ProductListPage = ({ history, match }) => {
 														)
 													}
 													variant='danger'>
-													<i className='fas fa-trash'></i>
+													<i
+														style={{
+															fontSize: '0.9em',
+															padding: '0',
+														}}
+														className='fas fa-trash'></i>
 												</Button>
 											</td>
 										</tr>

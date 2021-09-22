@@ -242,7 +242,9 @@ const RegisterPage = ({ location, history }) => {
 											style={{
 												background: 'transparent',
 												borderLeft: 'none',
-												padding: '0.5em 0.5em 0.5em 0',
+												padding:
+													'0.5em 0.5em 0.5em 0.2em',
+												fontSize: '0.9rem',
 											}}>
 											{typePassword === 'text' ? (
 												<i className='far fa-eye-slash'></i>
@@ -272,7 +274,9 @@ const RegisterPage = ({ location, history }) => {
 											style={{
 												background: 'transparent',
 												borderLeft: 'none',
-												padding: '0.5em 0.5em 0.5em 0',
+												padding:
+													'0.5em 0.5em 0.5em 0.2em',
+												fontSize: '0.9rem',
 											}}>
 											{typeConfirmPassword === 'text' ? (
 												<i className='far fa-eye-slash'></i>
@@ -285,7 +289,11 @@ const RegisterPage = ({ location, history }) => {
 							</>
 						)}
 
-						<Button type='submit' className='my-1'>
+						<Button
+							type='submit'
+							style={{
+								padding: '0.5em 1em',
+							}}>
 							Update Profile
 						</Button>
 					</Form>

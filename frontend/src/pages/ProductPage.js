@@ -135,7 +135,7 @@ const ProductPage = ({ history, match }) => {
 				</Message>
 			) : product ? (
 				<>
-					<Meta title={`${product?.name}`} />
+					<Meta title={`${product.name}`} />
 					<Row>
 						<Col md={6}>
 							<Image
