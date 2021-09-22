@@ -10,8 +10,9 @@ const SocialLoginOptions = () => {
 		// <Card>
 		<div
 			style={{
-				width: '98%',
+				width: '33rem',
 				margin: '1em 0',
+				padding: '0',
 			}}>
 			<div
 				style={{
@@ -25,15 +26,23 @@ const SocialLoginOptions = () => {
 					style={{
 						border: '0',
 						borderTop: '1px solid #cdcdcd',
-						width: '35%',
+						width: '15vw',
 						height: '0',
 					}}></div>
-				<p style={{ padding: '0', margin: '0' }}>Or Connect With</p>
+				<p
+					style={{
+						padding: '0',
+						margin: '0 1vw',
+						fontWeight: '400',
+						fontSize: '0.9rem',
+					}}>
+					Or Connect With
+				</p>
 				<div
 					style={{
 						border: '0',
 						borderTop: '1px solid #cdcdcd',
-						width: '35%',
+						width: '15vw',
 						height: '0',
 					}}></div>
 			</div>
