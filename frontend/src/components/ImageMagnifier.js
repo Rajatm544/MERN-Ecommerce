@@ -53,15 +53,15 @@ const ImageMagnifier = ({
 			<div
 				style={{
 					display: showMagnifier ? '' : 'none',
+					// display: window.innerWidth <= 468 ? 'none' : '',
 					position: 'absolute',
 					// prevent maginier blocks the mousemove event of img
 					pointerEvents: 'none',
-					// set size of magnifier
 					height: `${magnifierHeight}px`,
 					width: `${magnifieWidth}px`,
 					// move element center to cursor pos
-					top: `${y - magnifierHeight / 2}px`,
-					left: `${x - magnifieWidth / 2}px`,
+					top: `${y - magnifierHeight / 2.5}px`,
+					left: `${x - magnifieWidth / 2.5}px`,
 					opacity: '1', // reduce opacity so you can verify position
 					border: '1px solid lightgray',
 					backgroundColor: 'white',
