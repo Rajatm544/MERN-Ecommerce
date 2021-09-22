@@ -16,7 +16,7 @@ const HomePage = ({ match }) => {
 	const pageNumber = Number(match.params.pageNumber) || 1;
 	const dispatch = useDispatch();
 	const productList = useSelector((state) => state.productList);
-	const { products, loading, error, pages, page } = productList;
+	const { products, loading, error, pages } = productList;
 	const [promptVerfication, setPromptVerification] = useState(false);
 
 	useEffect(() => {
