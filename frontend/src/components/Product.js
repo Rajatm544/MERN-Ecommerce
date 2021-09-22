@@ -14,18 +14,20 @@ const Product = ({ product }) => {
 				<Link
 					to={`/product/${product._id}`}
 					style={{ color: 'dimgray', textDecoration: 'none' }}>
-					<Card.Title as='p'>
+					<Card.Title as='p' style={{ minHeight: '7ch' }}>
 						<strong>{product.name}</strong>
 					</Card.Title>
 				</Link>
 
 				<Card.Text as='div'>
-					<Rating
-						value={product.rating}
-						text={`${product.numReviews} Review${
-							product.numReviews > 1 ? 's' : ''
-						}`}
-					/>
+					{product && product.rating && (
+						<Rating
+							value={product.rating}
+							text={`${product.numReviews} Review${
+								product.numReviews > 1 ? 's' : ''
+							}`}
+						/>
+					)}
 				</Card.Text>
 
 				<Card.Text as='h4'>&#x20B9; {product.price}</Card.Text>
