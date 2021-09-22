@@ -77,7 +77,16 @@ const App = () => {
 						path='/admin/product/:id/edit'
 						component={ProductEditPage}
 					/>
-					<Route path='/admin/orderlist' component={OrderListPage} />
+					<Route
+						path='/admin/orderlist'
+						component={OrderListPage}
+						exact
+					/>
+					<Route
+						path='/admin/orderlist/:pageNumber'
+						component={OrderListPage}
+						exact
+					/>
 				</Container>
 			</main>
 			<Footer />
