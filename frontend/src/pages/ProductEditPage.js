@@ -118,7 +118,7 @@ const ProductEditPage = ({ match, history }) => {
 	return (
 		<>
 			<Link to='/admin/productlist'>
-				<Button variant='light' className='mt-3'>
+				<Button variant='outline-primary' className='mt-3'>
 					Go Back
 				</Button>
 			</Link>

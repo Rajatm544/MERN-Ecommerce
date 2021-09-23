@@ -63,7 +63,7 @@ const UserEditPage = ({ match, history }) => {
 	return (
 		<>
 			<Link to='/admin/userlist'>
-				<Button variant='light' className='my-3'>
+				<Button variant='outline-primary' className='my-3'>
 					Go Back
 				</Button>
 			</Link>

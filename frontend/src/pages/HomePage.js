@@ -47,7 +47,9 @@ const HomePage = ({ match }) => {
 			{!keyword ? (
 				<ProductCarousel />
 			) : (
-				<Link className='btn btn-outline btn-outline-dark my-2' to='/'>
+				<Link
+					className='btn btn-outline btn-outline-primary my-2'
+					to='/'>
 					Go Back
 				</Link>
 			)}
