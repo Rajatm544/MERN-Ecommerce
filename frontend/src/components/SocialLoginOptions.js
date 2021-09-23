@@ -9,8 +9,8 @@ const SocialLoginOptions = () => {
 	return (
 		// <Card>
 		<div
+			id='social-login'
 			style={{
-				width: '33rem',
 				margin: '1em 0',
 				padding: '0',
 			}}>
@@ -19,32 +19,21 @@ const SocialLoginOptions = () => {
 					display: 'flex',
 					flexFlow: 'row nowrap',
 					alignItems: 'center',
-					justifyContent: 'space-evenly',
+					justifyContent: 'space-between',
 					marginBottom: '1em',
+					padding: '0',
 				}}>
-				<div
-					style={{
-						border: '0',
-						borderTop: '1px solid #cdcdcd',
-						width: '15vw',
-						height: '0',
-					}}></div>
+				<div className='social-login-line'></div>
 				<p
 					style={{
 						padding: '0',
-						margin: '0 1vw',
+						margin: '0 1%',
 						fontWeight: '400',
 						fontSize: '0.9rem',
 					}}>
 					Or Connect With
 				</p>
-				<div
-					style={{
-						border: '0',
-						borderTop: '1px solid #cdcdcd',
-						width: '15vw',
-						height: '0',
-					}}></div>
+				<div className='social-login-line'></div>
 			</div>
 			<Card.Body
 				style={{
@@ -59,8 +48,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '2.8em',
-							height: '2.8em',
+							width: '2.5em',
+							height: '2.5em',
 							objectFit: 'cover',
 						}}
 						src={googleLogo}></Image>
@@ -69,8 +58,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '2.8em',
-							height: '2.8em',
+							width: '2.5em',
+							height: '2.5em',
 							objectFit: 'cover',
 						}}
 						src={githubLogo}></Image>
@@ -79,8 +68,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '2.8em',
-							height: '2.8em',
+							width: '2.5em',
+							height: '2.5em',
 							objectFit: 'contain',
 						}}
 						src={twitterLogo}></Image>
@@ -89,8 +78,8 @@ const SocialLoginOptions = () => {
 					<Image
 						rounded
 						style={{
-							width: '2.8em',
-							height: '2.8em',
+							width: '2.5em',
+							height: '2.5em',
 							objectFit: 'contain',
 						}}
 						src={linkedinLogo}></Image>

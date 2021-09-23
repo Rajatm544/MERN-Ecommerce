@@ -16,6 +16,13 @@ h2 {
     font-size: 1.4rem;
 }
 
+#social-login .social-login-line {
+    border: 0;
+    width: 33%;
+    height: 0;
+    border-top: 1px solid #cdcdcd;
+}
+
 .form-heading {
     display: flex;
     flex-flow: row wrap;
@@ -23,11 +30,11 @@ h2 {
     justify-content: space-between;
     margin: 0 -1em;
     margin-bottom: 1.5em;
-    width: 35em;
+    /* width: 35em; */
 }
 
 .form-inner-container {
-    width:35em;
+    /* width:35em; */
     margin: 1.5em 0;
     padding: 1em;
     padding-top: 0;
