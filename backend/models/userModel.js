@@ -26,21 +26,21 @@ const userSchema = mongoose.Schema(
 			required: true,
 			default: false,
 		},
+		avatar: {
+			type: String,
+			required: true,
+		},
 		googleID: {
 			type: String,
-			unique: true,
 		},
 		githubID: {
 			type: String,
-			unique: true,
 		},
 		twitterID: {
 			type: String,
-			unique: true,
 		},
 		linkedinID: {
 			type: String,
-			unique: true,
 		},
 	},
 	{
