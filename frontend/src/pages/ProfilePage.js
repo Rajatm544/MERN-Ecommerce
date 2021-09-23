@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	Form,
@@ -8,6 +8,8 @@ import {
 	Col,
 	Card,
 	Table,
+	Image,
+	FloatingLabel,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
@@ -21,16 +23,22 @@ import {
 import { listMyOrders } from '../actions/orderActions';
 import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 import Meta from '../components/Meta';
+import axios from 'axios';
 
 const RegisterPage = ({ location, history }) => {
+	const inputFile = useRef(null);
 	const [typePassword, setTypePassword] = useState('password');
 	const [typeConfirmPassword, setTypeConfirmPassword] = useState('password');
 
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
+	const [avatar, setAvatar] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState(null);
+
+	const [uploading, setUploading] = useState(false);
+	const [errorImageUpload, setErrorImageUpload] = useState('');
 	const dispatch = useDispatch();
 
 	const userDetails = useSelector((state) => state.userDetails);
@@ -82,6 +90,7 @@ const RegisterPage = ({ location, history }) => {
 			} else {
 				setName(user.name);
 				setEmail(user.email);
+				setAvatar(user.avatar);
 			}
 		}
 	}, [history, userInfo, user, dispatch, success]);
@@ -113,12 +122,46 @@ const RegisterPage = ({ location, history }) => {
 		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
 	};
 
+	const handleImageUpload = async (e) => {
+		const file = e.target.files[0];
+		const formData = new FormData();
+		formData.append('image', file);
+		setUploading(true);
+		try {
+			const config = {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			};
+
+			const { data } = await axios.post('/api/upload', formData, config);
+			setAvatar(data);
+			setUploading(false);
+		} catch (error) {
+			setErrorImageUpload('Please choose a valid image');
+			setUploading(false);
+		}
+	};
+
+	const handleImageClick = () => {
+		inputFile.current.click();
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match. Please retry.');
 		} else {
-			dispatch(updateUserProfile({ id: user.id, name, email }));
+			dispatch(
+				updateUserProfile({
+					id: user.id,
+					name,
+					email,
+					avatar,
+					password,
+					confirmPassword,
+				})
+			);
 		}
 	};
 	return (
@@ -170,10 +213,18 @@ const RegisterPage = ({ location, history }) => {
 				md={3}
 				style={
 					userInfo && !userInfo.isConfirmed
-						? { opacity: '0.5', pointerEvents: 'none' }
-						: { opacity: '1', pointerEvents: '' }
+						? {
+								opacity: '0.5',
+								pointerEvents: 'none',
+								marginLeft: '-1em',
+						  }
+						: {
+								opacity: '1',
+								pointerEvents: '',
+								marginLeft: '-1em',
+						  }
 				}>
-				<h2>Update Profile</h2>
+				<h2 className='text-center'>My Profile</h2>
 
 				{message && (
 					<Message variant='warning' duration={8}>
@@ -193,112 +244,184 @@ const RegisterPage = ({ location, history }) => {
 				{loading ? (
 					<Loader />
 				) : (
-					<Form onSubmit={handleSubmit}>
-						<Form.Group controlId='name' className='mb-2'>
-							<Form.Label>Name</Form.Label>
-							<Form.Control
-								size='lg'
-								placeholder='Enter Name'
-								type='text'
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-							/>
-						</Form.Group>
-						<Form.Group
-							controlId='email'
-							className='my-2'
-							style={
-								userInfo && userInfo.isSocialLogin
-									? {
-											pointerEvents: 'none',
-											opacity: '0.8',
-									  }
-									: {}
-							}>
-							<Form.Label>Email Address</Form.Label>
-							<Form.Control
-								size='lg'
-								placeholder='Enter Email Address'
-								type='email'
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</Form.Group>
-						{userInfo && !userInfo.isSocialLogin && (
-							<>
-								<Form.Group className='my-2'>
-									<Form.Label>Password</Form.Label>
-									<InputGroup>
-										<Form.Control
-											size='lg'
-											type={typePassword}
-											placeholder='Enter your password'
-											value={password}
-											style={{ borderRight: 'none' }}
-											onChange={(e) =>
-												setPassword(e.target.value)
-											}></Form.Control>
-										<InputGroup.Text
-											id='basic-addon2'
-											onClick={showHidePassword}
-											style={{
-												background: 'transparent',
-												borderLeft: 'none',
-												padding:
-													'0.5em 0.5em 0.5em 0.2em',
-												fontSize: '0.9rem',
-											}}>
-											{typePassword === 'text' ? (
-												<i className='far fa-eye-slash'></i>
-											) : (
-												<i className='far fa-eye'></i>
-											)}
-										</InputGroup.Text>
-									</InputGroup>
-								</Form.Group>
-								<Form.Group className='my-2'>
-									<Form.Label>Confirm Password</Form.Label>
-									<InputGroup className='mb-3'>
-										<Form.Control
-											size='lg'
-											type={typeConfirmPassword}
-											placeholder='Confirm password'
-											value={confirmPassword}
-											style={{ borderRight: 'none' }}
-											onChange={(e) =>
-												setConfirmPassword(
-													e.target.value
-												)
-											}></Form.Control>
-										<InputGroup.Text
-											id='basic-addon2'
-											onClick={showHideConfirmPassword}
-											style={{
-												background: 'transparent',
-												borderLeft: 'none',
-												padding:
-													'0.5em 0.5em 0.5em 0.2em',
-												fontSize: '0.9rem',
-											}}>
-											{typeConfirmPassword === 'text' ? (
-												<i className='far fa-eye-slash'></i>
-											) : (
-												<i className='far fa-eye'></i>
-											)}
-										</InputGroup.Text>
-									</InputGroup>
-								</Form.Group>
-							</>
+					<div style={{ display: 'flex', flexFlow: 'column nowrap' }}>
+						{errorImageUpload && (
+							<Message variant='danger' duration={10}>
+								{errorImageUpload}
+							</Message>
 						)}
-
-						<Button
-							type='submit'
+						<Image
+							src={avatar}
+							alt={name}
 							style={{
-								padding: '0.5em 1em',
-							}}>
-							Update Profile
-						</Button>
-					</Form>
+								height: '5em',
+								width: '5em',
+								marginBottom: '1em',
+								border: '1px solid #ced4da',
+								borderRadius: '50%',
+								cursor: 'pointer',
+								alignSelf: 'center',
+							}}
+							onClick={handleImageClick}
+						/>
+						<input
+							type='file'
+							id='file'
+							ref={inputFile}
+							onChange={handleImageUpload}
+							style={{ display: 'none' }}
+						/>
+						<Form onSubmit={handleSubmit}>
+							<Form.Group controlId='name'>
+								<FloatingLabel
+									controlId='nameinput'
+									label='Name'
+									className='mb-3'>
+									<Form.Control
+										size='lg'
+										placeholder='Enter Name'
+										type='text'
+										value={name}
+										onChange={(e) =>
+											setName(e.target.value)
+										}
+									/>
+								</FloatingLabel>
+							</Form.Group>
+							<Form.Group
+								controlId='email'
+								className='my-2'
+								style={
+									userInfo && userInfo.isSocialLogin
+										? {
+												pointerEvents: 'none',
+												opacity: '0.8',
+										  }
+										: {}
+								}>
+								{/* <Form.Label>Email Address</Form.Label> */}
+								<FloatingLabel
+									controlId='emailinput'
+									label='Email'
+									className='mb-3'>
+									<Form.Control
+										size='lg'
+										placeholder='Enter Email Address'
+										type='email'
+										value={email}
+										onChange={(e) =>
+											setEmail(e.target.value)
+										}
+									/>
+								</FloatingLabel>
+							</Form.Group>
+							{userInfo && !userInfo.isSocialLogin && (
+								<>
+									<Form.Group>
+										<InputGroup>
+											<FloatingLabel
+												controlId='passwordinput'
+												label='Password'
+												style={{ display: 'flex' }}
+												className='mb-3'>
+												<Form.Control
+													size='lg'
+													type={typePassword}
+													placeholder='Enter your password'
+													value={password}
+													style={{
+														borderRight: 'none',
+														width: '100%',
+													}}
+													onChange={(e) =>
+														setPassword(
+															e.target.value
+														)
+													}
+												/>
+												<div className='input-group-append'>
+													<InputGroup.Text
+														onClick={
+															showHidePassword
+														}
+														style={{
+															fontSize: '1rem',
+															height: '100%',
+															marginLeft:
+																'-0.5em',
+															background:
+																'transparent',
+															borderLeft: 'none',
+														}}>
+														{typePassword ===
+														'text' ? (
+															<i className='far fa-eye-slash'></i>
+														) : (
+															<i className='far fa-eye'></i>
+														)}
+													</InputGroup.Text>
+												</div>
+											</FloatingLabel>
+										</InputGroup>
+									</Form.Group>
+									<Form.Group>
+										<InputGroup>
+											<FloatingLabel
+												controlId='confirmpasswordinput'
+												label='Confirm Password'
+												style={{ display: 'flex' }}
+												className='mb-3'>
+												<Form.Control
+													size='lg'
+													type={typeConfirmPassword}
+													placeholder='Confirm password'
+													value={confirmPassword}
+													style={{
+														borderRight: 'none',
+													}}
+													onChange={(e) =>
+														setConfirmPassword(
+															e.target.value
+														)
+													}
+												/>
+												<div className='input-group-append'>
+													<InputGroup.Text
+														onClick={
+															showHideConfirmPassword
+														}
+														style={{
+															fontSize: '1rem',
+															height: '100%',
+															marginLeft:
+																'-0.5em',
+															background:
+																'transparent',
+															borderLeft: 'none',
+														}}>
+														{typeConfirmPassword ===
+														'text' ? (
+															<i className='far fa-eye-slash'></i>
+														) : (
+															<i className='far fa-eye'></i>
+														)}
+													</InputGroup.Text>
+												</div>
+											</FloatingLabel>
+										</InputGroup>
+									</Form.Group>
+								</>
+							)}
+
+							<Button
+								type='submit'
+								style={{
+									padding: '0.5em 1em',
+								}}>
+								Update Profile
+							</Button>
+						</Form>
+					</div>
 				)}
 			</Col>
 			<Col
@@ -314,7 +437,7 @@ const RegisterPage = ({ location, history }) => {
 								pointerEvents: '',
 						  }
 				}>
-				<h2>My Orders</h2>
+				<h2 className='text-center'>My Orders</h2>
 				{loadingOrdersList ? (
 					<Loader />
 				) : errorOrdersList ? (
