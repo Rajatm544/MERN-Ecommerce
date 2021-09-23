@@ -3,6 +3,7 @@ import User from '../models/userModel.js';
 import Token from '../models/tokenModel.js';
 import generateToken from '../utils/generateToken.js';
 import sendMail from '../utils/sendMail.js';
+import generateGravatar from '../utils/generateGravatar.js';
 import jwt from 'jsonwebtoken';
 
 // @desc Get all the users info
@@ -95,6 +96,7 @@ const authUser = asyncHandler(async (req, res) => {
 			name: user.name,
 			isAdmin: user.isAdmin,
 			isConfirmed: user.isConfirmed,
+			avatar: user.avatar,
 			accessToken,
 			refreshToken,
 		});
@@ -117,10 +119,13 @@ const registerUser = asyncHandler(async (req, res) => {
 		throw new Error('Email already registered');
 	}
 
+	const avatar = generateGravatar(email);
+
 	const user = await User.create({
 		name,
 		email,
 		password,
+		avatar,
 	});
 
 	// if user was created successfully
@@ -132,11 +137,11 @@ const registerUser = asyncHandler(async (req, res) => {
 			id: user._id,
 			email: user.email,
 			name: user.name,
+			avatar,
 			isAdmin: user.isAdmin,
 			isConfirmed: user.isConfirmed,
 			accessToken: generateToken(user._id, 'access'),
 			refreshToken,
-			// emailToken,
 		});
 	} else {
 		res.status(400);
@@ -163,6 +168,7 @@ const mailForEmailVerification = asyncHandler(async (req, res) => {
 					email: user.email,
 					name: user.name,
 					isAdmin: user.isAdmin,
+					avatar: user.avatar,
 					isConfirmed: user.isConfirmed,
 				});
 			} else {
@@ -197,6 +203,7 @@ const mailForPasswordReset = asyncHandler(async (req, res) => {
 				email: user.email,
 				name: user.name,
 				isAdmin: user.isAdmin,
+				avatar: user.avatar,
 				isConfirmed: user.isConfirmed,
 			});
 		}
@@ -229,6 +236,7 @@ const resetUserPassword = asyncHandler(async (req, res) => {
 					id: updatedUser._id,
 					email: updatedUser.email,
 					name: updatedUser.name,
+					avatar: updatedUser.avatar,
 					isAdmin: updatedUser.isAdmin,
 				});
 			} else {
@@ -262,6 +270,7 @@ const confirmUser = asyncHandler(async (req, res) => {
 			email: updatedUser.email,
 			name: updatedUser.name,
 			isAdmin: updatedUser.isAdmin,
+			avatar: updatedUser.avatar,
 			isConfirmed: updatedUser.isConfirmed,
 			accessToken: generateToken(user._id, 'access'),
 			refreshToken: foundToken,
@@ -318,6 +327,7 @@ const getUserData = asyncHandler(async (req, res) => {
 			id: user._id,
 			email: user.email,
 			name: user.name,
+			avatar: user.avatar,
 			isAdmin: user.isAdmin,
 			isConfirmed: user.isConfirmed,
 		});
@@ -337,6 +347,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 		res.json({
 			id: user._id,
 			email: user.email,
+			avatar: user.avatar,
 			name: user.name,
 			isAdmin: user.isAdmin,
 		});
@@ -354,11 +365,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user.id);
 	if (user) {
 		user.name = req.body.name || user.name;
+		user.avatar = req.body.avatar || user.avatar;
 		if (req.body.email) user.isConfirmed = req.body.email === user.email;
 		user.email = req.body.email || user.email;
 		if (req.body.password) {
 			user.password = req.body.password;
 		}
+
 		const updatedUser = await user.save();
 
 		if (updatedUser) {
@@ -379,6 +392,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 				id: updatedUser._id,
 				email: updatedUser.email,
 				name: updatedUser.name,
+				avatar: avatar,
 				isAdmin: updatedUser.isAdmin,
 				isConfirmed: updatedUser.isConfirmed,
 				accessToken: generateToken(updatedUser._id, 'access'),
