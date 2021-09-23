@@ -31,7 +31,7 @@ const Product = ({ product }) => {
 				</Card.Text>
 
 				<Card.Text as='h4'>
-					&#x20B9; {product.price.toFixed(2)}
+					&#x20B9; {product.price && product.price.toFixed(2)}
 				</Card.Text>
 			</Card.Body>
 		</Card>
