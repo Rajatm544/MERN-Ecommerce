@@ -51,6 +51,8 @@ const Header = () => {
 					display: show1 || show2 ? 'block' : 'none',
 					minWidth: '100%',
 					height: '100%',
+					// background: 'red',
+					zIndex: '100',
 					position: 'absolute',
 				}}
 				onClick={() => {
