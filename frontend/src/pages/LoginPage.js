@@ -166,11 +166,7 @@ const LoginPage = ({ location, history }) => {
 							<Loader />
 						) : (
 							<>
-								<Form
-									onSubmit={handleSubmit}
-									style={{
-										width: '33em',
-									}}>
+								<Form onSubmit={handleSubmit}>
 									<Form.Group controlId='email'>
 										<FloatingLabel
 											controlId='emailinput'
@@ -186,16 +182,17 @@ const LoginPage = ({ location, history }) => {
 													setEmail(e.target.value)
 												}
 											/>
-											<Form.Control.Feedback>
-												Looks good!
-											</Form.Control.Feedback>
 										</FloatingLabel>
 									</Form.Group>
 									<Form.Group>
-										<InputGroup style={{ width: '100%' }}>
+										<InputGroup>
 											<FloatingLabel
 												controlId='passwordinput'
 												label='Password'
+												style={{
+													display: 'flex',
+													width: '100%',
+												}}
 												className='mb-3'>
 												<Form.Control
 													required
@@ -205,7 +202,6 @@ const LoginPage = ({ location, history }) => {
 													value={password}
 													style={{
 														borderRight: 'none',
-														width: '205%',
 													}}
 													onChange={(e) =>
 														setPassword(
@@ -213,26 +209,26 @@ const LoginPage = ({ location, history }) => {
 														)
 													}
 												/>
+												<div className='input-group-append'>
+													<InputGroup.Text
+														onClick={showHide}
+														style={{
+															fontSize: '1rem',
+															height: '100%',
+															marginLeft:
+																'-0.5em',
+															background:
+																'transparent',
+															borderLeft: 'none',
+														}}>
+														{type === 'text' ? (
+															<i className='far fa-eye-slash'></i>
+														) : (
+															<i className='far fa-eye'></i>
+														)}
+													</InputGroup.Text>
+												</div>
 											</FloatingLabel>
-											<div className='input-group-append'>
-												<InputGroup.Text
-													onClick={showHide}
-													style={{
-														paddingLeft: '1em',
-														fontSize: '1rem',
-														width: '17.5%',
-														height: '78%',
-														marginLeft: '15rem',
-														background:
-															'transparent',
-													}}>
-													{type === 'text' ? (
-														<i className='far fa-eye-slash'></i>
-													) : (
-														<i className='far fa-eye'></i>
-													)}
-												</InputGroup.Text>
-											</div>
 										</InputGroup>
 									</Form.Group>
 									<Col
@@ -303,9 +299,7 @@ const LoginPage = ({ location, history }) => {
 								</Card.Body>
 							</Card>
 						) : (
-							<Form
-								onSubmit={handleEmailSubmit}
-								style={{ width: '33em' }}>
+							<Form onSubmit={handleEmailSubmit}>
 								<Form.Group controlId='email'>
 									<FloatingLabel
 										controlId='emailinput'

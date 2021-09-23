@@ -87,7 +87,7 @@ const RegisterPage = ({ location, history }) => {
 				{loading ? (
 					<Loader />
 				) : (
-					<Form onSubmit={handleSubmit} style={{ width: '33em' }}>
+					<Form onSubmit={handleSubmit}>
 						<Form.Group controlId='name' className='mb-2'>
 							<FloatingLabel
 								controlId='nameinput'
@@ -117,10 +117,14 @@ const RegisterPage = ({ location, history }) => {
 							</FloatingLabel>
 						</Form.Group>
 						<Form.Group>
-							<InputGroup style={{ width: '100%' }}>
+							<InputGroup>
 								<FloatingLabel
 									controlId='passwordinput'
 									label='Password'
+									style={{
+										display: 'flex',
+										width: '100%',
+									}}
 									className='mb-3'>
 									<Form.Control
 										size='lg'
@@ -129,37 +133,37 @@ const RegisterPage = ({ location, history }) => {
 										value={password}
 										style={{
 											borderRight: 'none',
-											width: '205%',
 										}}
 										onChange={(e) =>
 											setPassword(e.target.value)
-										}></Form.Control>
+										}
+									/>
+									<div className='input-group-append'>
+										<InputGroup.Text
+											onClick={showHidePassword}
+											style={{
+												fontSize: '1rem',
+												height: '100%',
+												marginLeft: '-0.5em',
+												background: 'transparent',
+												borderLeft: 'none',
+											}}>
+											{typePassword === 'text' ? (
+												<i className='far fa-eye-slash'></i>
+											) : (
+												<i className='far fa-eye'></i>
+											)}
+										</InputGroup.Text>
+									</div>
 								</FloatingLabel>
-								<div className='input-group-append'>
-									<InputGroup.Text
-										onClick={showHidePassword}
-										style={{
-											paddingLeft: '1em',
-											fontSize: '1rem',
-											width: '17.5%',
-											height: '78%',
-											marginLeft: '15rem',
-											background: 'transparent',
-										}}>
-										{typePassword === 'text' ? (
-											<i className='far fa-eye-slash'></i>
-										) : (
-											<i className='far fa-eye'></i>
-										)}
-									</InputGroup.Text>
-								</div>
 							</InputGroup>
 						</Form.Group>
 						<Form.Group>
-							<InputGroup style={{ width: '100%' }}>
+							<InputGroup>
 								<FloatingLabel
 									controlId='confirmpasswordinput'
 									label='Confirm password'
+									style={{ display: 'flex', width: '100%' }}
 									className='mb-3'>
 									<Form.Control
 										size='lg'
@@ -168,30 +172,29 @@ const RegisterPage = ({ location, history }) => {
 										value={confirmPassword}
 										style={{
 											borderRight: 'none',
-											width: '205%',
 										}}
 										onChange={(e) =>
 											setConfirmPassword(e.target.value)
-										}></Form.Control>
+										}
+									/>
+									<div className='input-group-append'>
+										<InputGroup.Text
+											onClick={showHideConfirmPassword}
+											style={{
+												fontSize: '1rem',
+												height: '100%',
+												marginLeft: '-0.5em',
+												background: 'transparent',
+												borderLeft: 'none',
+											}}>
+											{typeConfirmPassword === 'text' ? (
+												<i className='far fa-eye-slash'></i>
+											) : (
+												<i className='far fa-eye'></i>
+											)}
+										</InputGroup.Text>
+									</div>
 								</FloatingLabel>
-								<div className='input-group-append'>
-									<InputGroup.Text
-										onClick={showHideConfirmPassword}
-										style={{
-											paddingLeft: '1em',
-											fontSize: '1rem',
-											width: '17.5%',
-											height: '78%',
-											marginLeft: '15rem',
-											background: 'transparent',
-										}}>
-										{typeConfirmPassword === 'text' ? (
-											<i className='far fa-eye-slash'></i>
-										) : (
-											<i className='far fa-eye'></i>
-										)}
-									</InputGroup.Text>
-								</div>
 							</InputGroup>
 						</Form.Group>
 						<Row>
