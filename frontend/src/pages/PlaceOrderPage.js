@@ -17,6 +17,7 @@ const PlaceOrderPage = ({ history }) => {
 
 	useEffect(() => {
 		if (success) {
+			localStorage.removeItem('cartItems');
 			dispatch({ type: CART_RESET, payload: shippingAddress });
 			history.push(`/order/${order._id}`);
 		}
