@@ -25,8 +25,9 @@ import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 import Meta from '../components/Meta';
 import axios from 'axios';
 
-const RegisterPage = ({ location, history }) => {
+const ProfilePage = ({ location, history }) => {
 	const inputFile = useRef(null);
+	const [showSubmitButton, setShowSubmitButton] = useState(false);
 	const [typePassword, setTypePassword] = useState('password');
 	const [typeConfirmPassword, setTypeConfirmPassword] = useState('password');
 
@@ -63,11 +64,20 @@ const RegisterPage = ({ location, history }) => {
 	const { emailSent, hasError } = userSendEmailVerfication;
 
 	useEffect(() => {
-		if (error) {
+		if (error && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}
-	}, [error, dispatch]);
+	}, [error, dispatch, userInfo]);
+
+	useEffect(() => {
+		if (userInfo) {
+			if (name && userInfo.name !== name) setShowSubmitButton(true);
+			if (email && userInfo.email !== email) setShowSubmitButton(true);
+			if (avatar && userInfo.avatar !== avatar) setShowSubmitButton(true);
+			if (password || confirmPassword) setShowSubmitButton(true);
+		}
+	}, [name, email, avatar, password, confirmPassword, userInfo]);
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -204,7 +214,6 @@ const RegisterPage = ({ location, history }) => {
 								</Button>{' '}
 								to send a verfication email.
 							</Card.Text>
-							{/* <Link to='/login'>Login</Link> */}
 						</Card.Body>
 					</Card>
 				</>
@@ -415,6 +424,7 @@ const RegisterPage = ({ location, history }) => {
 
 							<Button
 								type='submit'
+								disabled={!showSubmitButton}
 								style={{
 									padding: '0.5em 1em',
 								}}>
@@ -508,4 +518,4 @@ const RegisterPage = ({ location, history }) => {
 	);
 };
 
-export default RegisterPage;
+export default ProfilePage;
