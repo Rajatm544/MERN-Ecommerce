@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Image, FloatingLabel, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
@@ -88,7 +88,13 @@ const ProductEditPage = ({ match, history }) => {
 		);
 	};
 
-	const handleFile = async (e) => {
+	const inputFile = useRef(null);
+
+	const handleImageClick = () => {
+		inputFile.current.click();
+	};
+
+	const handleFileUpload = async (e) => {
 		const file = e.target.files[0];
 		const formData = new FormData();
 		formData.append('image', file);
@@ -112,11 +118,11 @@ const ProductEditPage = ({ match, history }) => {
 	return (
 		<>
 			<Link to='/admin/productlist'>
-				<Button variant='light' className='my-3'>
+				<Button variant='light' className='mt-3'>
 					Go Back
 				</Button>
 			</Link>
-			<FormContainer>
+			<FormContainer style={{ marginTop: '-2em' }}>
 				<h1>Edit Product</h1>
 				{loadingUpdate ? (
 					<Loader />
@@ -136,32 +142,41 @@ const ProductEditPage = ({ match, history }) => {
 									</Message>
 								)}
 
-								<Form.Group controlId='name' className='mb-2'>
-									<Form.Label>Name</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter Name'
-										type='text'
-										value={name}
-										onChange={(e) =>
-											setName(e.target.value)
-										}
-									/>
+								<Form.Group controlId='name'>
+									{/* <Form.Label>Name</Form.Label> */}
+									<FloatingLabel
+										controlId='nameinput'
+										label='Name'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter Name'
+											type='text'
+											value={name}
+											onChange={(e) =>
+												setName(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
-								<Form.Group controlId='price' className='my-2'>
-									<Form.Label>price</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter price'
-										type='number'
-										value={price}
-										min='0'
-										max='1000'
-										step='0.1'
-										onChange={(e) =>
-											setPrice(e.target.value)
-										}
-									/>
+								<Form.Group controlId='price'>
+									<FloatingLabel
+										controlId='priceinput'
+										label='Price'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter price'
+											type='number'
+											value={price}
+											min='0'
+											max='1000'
+											step='0.1'
+											onChange={(e) =>
+												setPrice(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
 								{errorImageUpload && (
 									<Message variant='danger' duration={10}>
@@ -169,91 +184,139 @@ const ProductEditPage = ({ match, history }) => {
 									</Message>
 								)}
 								{uploading ? (
-									<div>...</div>
+									<div>Uploading...</div>
 								) : (
-									<Form.Group
-										controlId='image'
-										className='my-2'>
-										<Form.Label>Image</Form.Label>
-										<Form.Control
-											size='lg'
-											placeholder='Enter image URL'
-											type='text'
-											value={image}
-											onChange={(e) =>
-												setImage(e.target.value)
-											}
-										/>
-										<Form.File
-											id='image-file'
-											label='Choose File'
-											custom
-											onChange={handleFile}></Form.File>
+									<Form.Group controlId='image'>
+										<Row>
+											<Col md={9}>
+												<FloatingLabel
+													controlId='imageinput'
+													label='Image URL'
+													className='mb-3'>
+													<Form.Control
+														size='lg'
+														placeholder='Enter image URL'
+														type='text'
+														value={image}
+														onChange={(e) =>
+															setImage(
+																e.target.value
+															)
+														}
+													/>
+												</FloatingLabel>
+											</Col>
+											<Col md={3}>
+												<input
+													type='file'
+													id='file'
+													ref={inputFile}
+													onChange={handleFileUpload}
+													style={{ display: 'none' }}
+												/>
+												<div
+													className='profile-page-image'
+													style={{
+														alignSelf: 'center',
+													}}>
+													<Image
+														src={image}
+														alt={name}
+														title='Click to input file'
+														style={{
+															width: '100%',
+															border: '1px solid #ced4da',
+															marginBottom: '1em',
+															cursor: 'pointer',
+															borderRadius:
+																'0.25rem',
+														}}
+													/>
+													<div
+														className='image-overlay-product'
+														onClick={
+															handleImageClick
+														}>
+														Click to upload image
+													</div>
+												</div>
+											</Col>
+										</Row>
 									</Form.Group>
 								)}
-
-								<Form.Group controlId='brand' className='my-2'>
-									<Form.Label>Brand</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter brand'
-										type='text'
-										value={brand}
-										onChange={(e) =>
-											setBrand(e.target.value)
-										}
-									/>
+								<Form.Group controlId='brand'>
+									<FloatingLabel
+										controlId='brandinput'
+										label='Brand'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter brand'
+											type='text'
+											value={brand}
+											onChange={(e) =>
+												setBrand(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
-								<Form.Group
-									controlId='category'
-									className='my-2'>
-									<Form.Label>Category</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter category'
-										type='text'
-										value={category}
-										onChange={(e) =>
-											setCategory(e.target.value)
-										}
-									/>
+								<Form.Group controlId='category'>
+									<FloatingLabel
+										controlId='categoryinput'
+										label='Category'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter category'
+											type='text'
+											value={category}
+											onChange={(e) =>
+												setCategory(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
-								<Form.Group
-									controlId='description'
-									className='my-2'>
-									<Form.Label>Description</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter description URL'
-										type='text'
-										value={description}
-										onChange={(e) =>
-											setDescription(e.target.value)
-										}
-									/>
+								<Form.Group controlId='description'>
+									<FloatingLabel
+										controlId='descinput'
+										label='Description'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter description URL'
+											type='text'
+											value={description}
+											onChange={(e) =>
+												setDescription(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
-								<Form.Group
-									controlId='countInStock'
-									className='my-2'>
-									<Form.Label>Count In Stock</Form.Label>
-									<Form.Control
-										size='lg'
-										placeholder='Enter Count In Stock'
-										type='number'
-										min='0'
-										max='1000'
-										value={countInStock}
-										onChange={(e) =>
-											setCountInStock(e.target.value)
-										}
-									/>
+								<Form.Group controlId='countInStock'>
+									<FloatingLabel
+										controlId='countinstockinput'
+										label='CountInStock'
+										className='mb-3'>
+										<Form.Control
+											size='lg'
+											placeholder='Enter Count In Stock'
+											type='number'
+											min='0'
+											max='1000'
+											value={countInStock}
+											onChange={(e) =>
+												setCountInStock(e.target.value)
+											}
+										/>
+									</FloatingLabel>
 								</Form.Group>
-								<Button
-									type='submit'
-									// variant='dark'
-									className='my-1'>
-									Update Product
-								</Button>
+								<div className='d-flex'>
+									<Button
+										type='submit'
+										className='my-1 ms-auto'>
+										Update Product
+									</Button>
+								</div>
 							</Form>
 						)}
 					</>
