@@ -128,20 +128,33 @@ const Header = () => {
 								</NavDropdown>
 							)}
 							{userInfo ? (
-								<NavDropdown
-									title={userInfo.name}
-									id={userInfo.id}
-									show={show1}
-									onClick={handleDropdown1}>
-									<LinkContainer to='/profile'>
-										<NavDropdown.Item>
-											Profile
+								<div
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										marginLeft: '0.8em',
+									}}>
+									<img
+										src={userInfo.avatar}
+										className='nav-avatar'
+										alt={userInfo.name}
+									/>
+									<NavDropdown
+										title={userInfo.name}
+										id={userInfo.id}
+										show={show1}
+										onClick={handleDropdown1}>
+										<LinkContainer to='/profile'>
+											<NavDropdown.Item>
+												Profile
+											</NavDropdown.Item>
+										</LinkContainer>
+										<NavDropdown.Item
+											onClick={handleLogout}>
+											Logout
 										</NavDropdown.Item>
-									</LinkContainer>
-									<NavDropdown.Item onClick={handleLogout}>
-										Logout
-									</NavDropdown.Item>
-								</NavDropdown>
+									</NavDropdown>
+								</div>
 							) : (
 								<LinkContainer to='/login' variant='primary'>
 									<Nav.Link>
