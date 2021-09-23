@@ -292,7 +292,7 @@ const ProductPage = ({ history, match }) => {
 															e.target.value
 														)
 													}>
-													<option selected>
+													<option default>
 														Choose Rating
 													</option>
 													<option value='1'>
