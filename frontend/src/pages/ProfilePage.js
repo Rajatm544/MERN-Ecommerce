@@ -73,9 +73,12 @@ const ProfilePage = ({ location, history }) => {
 	useEffect(() => {
 		if (userInfo) {
 			if (name && userInfo.name !== name) setShowSubmitButton(true);
-			if (email && userInfo.email !== email) setShowSubmitButton(true);
-			if (avatar && userInfo.avatar !== avatar) setShowSubmitButton(true);
-			if (password || confirmPassword) setShowSubmitButton(true);
+			else if (email && userInfo.email !== email)
+				setShowSubmitButton(true);
+			else if (avatar && userInfo.avatar !== avatar)
+				setShowSubmitButton(true);
+			else if (password || confirmPassword) setShowSubmitButton(true);
+			else setShowSubmitButton(false);
 		}
 	}, [name, email, avatar, password, confirmPassword, userInfo]);
 
@@ -234,7 +237,6 @@ const ProfilePage = ({ location, history }) => {
 						  }
 				}>
 				<h2 className='text-center'>My Profile</h2>
-
 				{message && (
 					<Message variant='warning' duration={8}>
 						{message}
@@ -259,20 +261,27 @@ const ProfilePage = ({ location, history }) => {
 								{errorImageUpload}
 							</Message>
 						)}
-						<Image
-							src={avatar}
-							alt={name}
-							style={{
-								height: '5em',
-								width: '5em',
-								marginBottom: '1em',
-								border: '1px solid #ced4da',
-								borderRadius: '50%',
-								cursor: 'pointer',
-								alignSelf: 'center',
-							}}
-							onClick={handleImageClick}
-						/>
+						<div
+							className='profile-page-image'
+							style={{ alignSelf: 'center' }}>
+							<Image
+								src={avatar}
+								alt={name}
+								style={{
+									height: '5em',
+									width: '5em',
+									marginBottom: '1em',
+									border: '1px solid #ced4da',
+									borderRadius: '50%',
+									cursor: 'pointer',
+								}}
+							/>
+							<div
+								className='image-overlay'
+								onClick={handleImageClick}>
+								Click to upload image
+							</div>
+						</div>
 						<input
 							type='file'
 							id='file'
@@ -455,14 +464,20 @@ const ProfilePage = ({ location, history }) => {
 						{errorOrdersList}
 					</Message>
 				) : (
-					<Table striped bordered responsive className='table-sm'>
-						<thead className='text-center'>
-							<th>ID</th>
-							<th>DATE</th>
-							<th>TOTAL</th>
-							<th>PAID</th>
-							<th>DELIVERED</th>
-							<th>ACTION</th>
+					<Table
+						striped
+						bordered
+						responsive
+						className='table-sm text-center'>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>DATE</th>
+								<th>TOTAL</th>
+								<th>PAID</th>
+								<th>DELIVERED</th>
+								<th>ACTION</th>
+							</tr>
 						</thead>
 						<tbody>
 							{orders.map((order, idx) => (
