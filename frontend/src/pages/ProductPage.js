@@ -133,7 +133,7 @@ const ProductPage = ({ history, match }) => {
 
 	return (
 		<>
-			<Link className='btn btn-outline btn-outline-dark my-2' to='/'>
+			<Link className='btn btn-outline-primary my-2' to='/'>
 				Go Back
 			</Link>
 			{loading ? (
@@ -173,7 +173,8 @@ const ProductPage = ({ history, match }) => {
 									)}
 								</ListGroup.Item>
 								<ListGroup.Item>
-									<strong>Price: </strong>$ {product.price}
+									<strong>Price: </strong>${' '}
+									{product.price && product.price.toFixed(2)}
 								</ListGroup.Item>
 								<ListGroup.Item>
 									<strong>Description:</strong>{' '}
@@ -190,7 +191,9 @@ const ProductPage = ({ history, match }) => {
 												<strong>Price: </strong>
 											</Col>
 											<Col>
-												$ {product.price.toFixed(2)}
+												${' '}
+												{product.price &&
+													product.price.toFixed(2)}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -202,7 +205,7 @@ const ProductPage = ({ history, match }) => {
 												<strong>Status: </strong>
 											</Col>
 											<Col>
-												{product.countInStock >= 0
+												{product.countInStock > 0
 													? 'In Stock'
 													: 'Out of Stock'}
 											</Col>
