@@ -189,7 +189,9 @@ const ProductPage = ({ history, match }) => {
 											<Col>
 												<strong>Price: </strong>
 											</Col>
-											<Col>$ {product.price}</Col>
+											<Col>
+												$ {product.price.toFixed(2)}
+											</Col>
 										</Row>
 									</ListGroup.Item>
 								</ListGroup>
