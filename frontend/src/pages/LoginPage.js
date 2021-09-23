@@ -58,13 +58,21 @@ const LoginPage = ({ location, history }) => {
 						id,
 					})
 					.then(({ data }) => {
-						const { id, email, name, isAdmin, isConfirmed } = data;
+						const {
+							id,
+							email,
+							name,
+							isAdmin,
+							isConfirmed,
+							avatar,
+						} = data;
 						const userData = {
 							id,
 							email,
 							name,
 							isAdmin,
 							isConfirmed,
+							avatar,
 							isSocialLogin: true,
 						};
 						dispatch({
