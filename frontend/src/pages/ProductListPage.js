@@ -11,6 +11,7 @@ import {
 } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import Paginate from '../components/Paginate';
+import { refreshLogin } from '../actions/userActions';
 
 const ProductListPage = ({ history, match }) => {
 	const pageNumber = match.params.pageNumber || 1;
@@ -33,7 +34,14 @@ const ProductListPage = ({ history, match }) => {
 		product: createdProduct,
 	} = productCreate;
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo } = userLogin;
+	const { userInfo, error: userLoginError } = userLogin;
+
+	useEffect(() => {
+		if (userLoginError && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (!userInfo.isAdmin) history.push('/login');

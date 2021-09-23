@@ -5,6 +5,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
+import { refreshLogin } from '../actions/userActions';
 import { listAllOrders } from '../actions/orderActions';
 
 const ProductListPage = ({ history, match }) => {
@@ -15,6 +16,13 @@ const ProductListPage = ({ history, match }) => {
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders(pageNumber));

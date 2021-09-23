@@ -7,6 +7,8 @@ import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { refreshLogin } from '../actions/userActions';
+
 import FormContainer from '../components/FormContainer';
 
 const ProductEditPage = ({ match, history }) => {
@@ -31,6 +33,16 @@ const ProductEditPage = ({ match, history }) => {
 		success: successUpdate,
 		error: errorUpdate,
 	} = productUpdate;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo, error: userLoginError } = userLogin;
+
+	useEffect(() => {
+		if (userLoginError && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
 		dispatch(listProductDetails(productId));

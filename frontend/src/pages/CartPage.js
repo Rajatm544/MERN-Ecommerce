@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Meta from '../components/Meta';
 import Message from '../components/Message';
+import { refreshLogin } from '../actions/userActions';
 import { addItem, removeItem } from '../actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
@@ -21,6 +22,15 @@ const CartPage = ({ match, location, history }) => {
 
 	const cart = useSelector((state) => state.cart);
 	const { cartItems } = cart;
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo, error } = userLogin;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (productID) {

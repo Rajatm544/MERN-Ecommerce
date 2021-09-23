@@ -15,6 +15,7 @@ import {
 	ORDER_PAY_RESET,
 	ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
+import { refreshLogin } from '../actions/userActions';
 
 const OrderPage = ({ match, history }) => {
 	const [SDKReady, setSDKReady] = useState(false);
@@ -31,6 +32,13 @@ const OrderPage = ({ match, history }) => {
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (!order || order._id !== orderID || successPay || successDeliver) {
@@ -65,7 +73,7 @@ const OrderPage = ({ match, history }) => {
 			script.onload = () => setSDKReady(true);
 			document.body.appendChild(script);
 		};
-		if(!userInfo) history.push('/login')
+		if (!userInfo) history.push('/login');
 		if (!SDKReady) addScript();
 	}, [userInfo, SDKReady, history]);
 
@@ -131,7 +139,9 @@ const OrderPage = ({ match, history }) => {
 										{order.isDelivered ? (
 											<Message variant='success'>
 												Delivered at:{' '}
-												{getDateString(order.deliveredAt)}
+												{getDateString(
+													order.deliveredAt
+												)}
 											</Message>
 										) : (
 											<Message variant='danger'>
@@ -282,8 +292,7 @@ const OrderPage = ({ match, history }) => {
 														size='lg'
 														onClick={
 															successDeliveryHandler
-														}
-													>
+														}>
 														Mark as Delivered
 													</Button>
 												</div>

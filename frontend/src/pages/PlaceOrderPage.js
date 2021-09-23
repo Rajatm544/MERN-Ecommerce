@@ -7,6 +7,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { createOrder } from '../actions/orderActions';
 import { CART_RESET } from '../constants/cartConstants';
+import { refreshLogin } from '../actions/userActions';
 
 const PlaceOrderPage = ({ history }) => {
 	const dispatch = useDispatch();
@@ -14,6 +15,16 @@ const PlaceOrderPage = ({ history }) => {
 	const { cartItems, shippingAddress, paymentMethod } = cart;
 	const orderCreate = useSelector((state) => state.orderCreate);
 	const { order, loading, success, error } = orderCreate;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo, error: userLoginError } = userLogin;
+
+	useEffect(() => {
+		if (userLoginError && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (success) {

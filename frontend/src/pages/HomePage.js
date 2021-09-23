@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
-
+import { refreshLogin } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -18,6 +18,16 @@ const HomePage = ({ match }) => {
 	const productList = useSelector((state) => state.productList);
 	const { products, loading, error, pages } = productList;
 	const [promptVerfication, setPromptVerification] = useState(false);
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo, error: userInfoError } = userLogin;
+
+	useEffect(() => {
+		if (userInfoError && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [userInfoError, dispatch, userInfo]);
 
 	useEffect(() => {
 		dispatch(listProducts(keyword, pageNumber));

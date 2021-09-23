@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { getUserDetails, updateUser } from '../actions/userActions';
+import {
+	getUserDetails,
+	updateUser,
+	refreshLogin,
+} from '../actions/userActions';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
 import Meta from '../components/Meta';
 
@@ -25,6 +29,16 @@ const UserEditPage = ({ match, history }) => {
 		error: errorUpdate,
 		success: successUpdate,
 	} = userUpdate;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (successUpdate) {

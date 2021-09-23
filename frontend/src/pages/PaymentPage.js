@@ -4,6 +4,7 @@ import { Form, Button, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import CheckoutStatus from '../components/CheckoutStatus';
 import { savePaymentMethod } from '../actions/cartActions';
+import { refreshLogin } from '../actions/userActions';
 
 const PaymentPage = ({ history }) => {
 	const dispatch = useDispatch();
@@ -11,6 +12,15 @@ const PaymentPage = ({ history }) => {
 	const { shippingAddress } = cart;
 
 	const [paymentMethod, setPaymentMethod] = useState('PayPal');
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo, error } = userLogin;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (!shippingAddress) {

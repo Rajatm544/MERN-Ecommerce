@@ -22,6 +22,7 @@ import { listMyOrders } from '../actions/orderActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { refreshLogin } from '../actions/userActions';
 
 const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
@@ -32,7 +33,7 @@ const ProductPage = ({ history, match }) => {
 	const dispatch = useDispatch();
 
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo } = userLogin;
+	const { userInfo, error: userLoginError } = userLogin;
 
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, product, error } = productDetails;
@@ -48,6 +49,13 @@ const ProductPage = ({ history, match }) => {
 
 	const orderListUser = useSelector((state) => state.orderListUser);
 	const { orders } = orderListUser;
+
+	useEffect(() => {
+		if (userLoginError && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
 		dispatch(listMyOrders());

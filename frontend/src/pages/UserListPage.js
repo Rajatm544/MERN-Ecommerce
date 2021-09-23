@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Table, Button } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listAllUsers, deleteUser } from '../actions/userActions';
+import { listAllUsers, deleteUser, refreshLogin } from '../actions/userActions';
 
 const UserListPage = ({ history }) => {
 	const dispatch = useDispatch();
@@ -16,6 +16,13 @@ const UserListPage = ({ history }) => {
 
 	const userDelete = useSelector((state) => state.userDelete);
 	const { success: successDelete } = userDelete;
+
+	useEffect(() => {
+		if (error && !userInfo.isSocialLogin) {
+			const user = JSON.parse(localStorage.getItem('userInfo'));
+			user && dispatch(refreshLogin(user.email));
+		}
+	}, [error, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) dispatch(listAllUsers());
