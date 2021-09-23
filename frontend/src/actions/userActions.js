@@ -66,7 +66,10 @@ export const loginUser = (email, password) => async (dispatch) => {
 			payload: data.refreshToken,
 		});
 		localStorage.setItem('refreshToken', data.refreshToken);
-		localStorage.setItem('userInfo', JSON.stringify(data));
+		localStorage.setItem(
+			'userInfo',
+			JSON.stringify({ ...data, isSocialLogin: false })
+		);
 		localStorage.removeItem('promptEmailVerfication');
 	} catch (error) {
 		dispatch({
@@ -84,7 +87,6 @@ export const refreshLogin = (email) => async (dispatch, getState) => {
 		dispatch({ type: USER_LOGIN_REFRESH_REQUEST });
 		const {
 			userLogin: { userInfo },
-			// refreshToken: { token },
 		} = getState();
 
 		if (userInfo.isSocialLogin) {
@@ -157,11 +159,6 @@ export const registerUser = (name, email, password) => async (dispatch) => {
 		);
 
 		dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-
-		// login the user after registering
-		// dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-
-		// localStorage.setItem('userInfo', JSON.stringify(data));
 	} catch (error) {
 		dispatch({
 			type: USER_REGISTER_FAILURE,
@@ -283,7 +280,10 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 				{ id },
 				config
 			);
-			dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+			dispatch({
+				type: USER_DETAILS_SUCCESS,
+				payload: { ...data, isSocialLogin: true },
+			});
 		} else {
 			const config = {
 				headers: {
@@ -294,7 +294,10 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 			const { data } = await axios.get(`/api/users/${id}`, config);
 
-			dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+			dispatch({
+				type: USER_DETAILS_SUCCESS,
+				payload: { ...data, isSocialLogin: false },
+			});
 		}
 	} catch (error) {
 		dispatch({
@@ -315,21 +318,36 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${userInfo.accessToken}`,
-			},
-		};
+		const config = userInfo.isSocialLogin
+			? {
+					headers: {
+						Authorization: `SocialLogin ${userInfo.id}`,
+					},
+			  }
+			: {
+					headers: {
+						Authorization: `Bearer ${userInfo.accessToken}`,
+					},
+			  };
 
+		const isSocial = userInfo.isSocialLogin;
 		const { data } = await axios.put('/api/users/profile', user, config);
 
-		dispatch({ type: USER_PROFILE_UPDATE_SUCCESS, payload: data });
+		dispatch({
+			type: USER_PROFILE_UPDATE_SUCCESS,
+			payload: { ...data, isSocialLogin: isSocial },
+		});
 
 		// login the user after updating the information
-		dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: { ...data, isSocialLogin: isSocial },
+		});
 
-		localStorage.setItem('userInfo', JSON.stringify(data));
+		localStorage.setItem(
+			'userInfo',
+			JSON.stringify({ ...data, isSocialLogin: isSocial })
+		);
 	} catch (error) {
 		dispatch({
 			type: USER_PROFILE_UPDATE_FAILURE,
@@ -431,6 +449,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 					},
 			  };
 
+		const isSocial = userInfo.isSocialLogin;
 		const { data } = await axios.put(
 			`/api/users/${user._id}`,
 			user,
@@ -438,7 +457,10 @@ export const updateUser = (user) => async (dispatch, getState) => {
 		);
 
 		dispatch({ type: USER_UPDATE_SUCCESS });
-		dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+		dispatch({
+			type: USER_DETAILS_SUCCESS,
+			payload: { ...data, isSocialLogin: isSocial },
+		});
 
 		if (data.id === userInfo.id) {
 			// // login the user after updating the information
