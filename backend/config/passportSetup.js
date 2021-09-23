@@ -5,6 +5,7 @@ import GithubStrategy from 'passport-github2';
 import TwitterStrategy from 'passport-twitter';
 import LinkedInStrategy from 'passport-linkedin-oauth2';
 import User from '../models/userModel.js';
+import generateGravatar from '../utils/generateGravatar.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ const setupPassport = () => {
 							isConfirmed: profile._json.email_verified,
 							googleID: profile.id,
 							email: profile._json.email,
+							avatar: generateGravatar(profile._json.email),
 						}).then((user) => {
 							done(null, user);
 						});
@@ -62,6 +64,7 @@ const setupPassport = () => {
 							isAdmin: false,
 							isConfirmed: !!profile._json.email,
 							githubID: profile.id,
+							avatar: generateGravatar(profile._json.email),
 							email: profile._json.email,
 						}).then((user) => {
 							done(null, user);
@@ -91,6 +94,7 @@ passport.use(
 						isAdmin: false,
 						isConfirmed: true,
 						twitterID: profile.id,
+						avatar: generateGravatar(profile._json.email),
 						email: profile._json.email,
 					}).then((user) => {
 						done(null, user);
@@ -121,6 +125,7 @@ passport.use(
 						isConfirmed: true,
 						linkedinID: profile.id,
 						email: profile.emails[0].value,
+						avatar: generateGravatar(profile.emails[0].value),
 					}).then((user) => {
 						done(null, user);
 					});
