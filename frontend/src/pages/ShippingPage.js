@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import CheckoutStatus from '../components/CheckoutStatus';
 import { saveShippingAddress } from '../actions/cartActions';
@@ -49,53 +49,77 @@ const ShippingPage = ({ history }) => {
 			<CheckoutStatus step1 step2 />
 			<h1>Shipping Address</h1>
 			<Form onSubmit={handleSubmit}>
-				<Form.Group controlId='address' className='mb-2'>
-					<Form.Label>Address</Form.Label>
-					<Form.Control
-						size='lg'
-						placeholder='Enter address'
-						type='text'
-						value={address}
-						required
-						onChange={(e) => setAddress(e.target.value)}
-					/>
+				<Form.Group controlId='address'>
+					<FloatingLabel
+						controlId='addressinput'
+						label='Address'
+						className='mb-3'>
+						<Form.Control
+							size='lg'
+							placeholder='Enter address'
+							type='text'
+							value={address}
+							required
+							onChange={(e) => setAddress(e.target.value)}
+						/>
+					</FloatingLabel>
 				</Form.Group>
-				<Form.Group controlId='city' className='mb-2'>
-					<Form.Label>City</Form.Label>
-					<Form.Control
-						size='lg'
-						placeholder='Enter City'
-						type='text'
-						value={city}
-						required
-						onChange={(e) => setCity(e.target.value)}
-					/>
+				<Form.Group controlId='city'>
+					<FloatingLabel
+						controlId='cityinput'
+						label='City'
+						className='mb-3'>
+						<Form.Control
+							size='lg'
+							placeholder='Enter City'
+							type='text'
+							value={city}
+							required
+							onChange={(e) => setCity(e.target.value)}
+						/>
+					</FloatingLabel>
 				</Form.Group>
-				<Form.Group controlId='postalCode' className='mb-2'>
-					<Form.Label>Postal Code</Form.Label>
-					<Form.Control
-						size='lg'
-						placeholder='Enter Postal Code'
-						type='text'
-						value={postalCode}
-						required
-						onChange={(e) => setPostalCode(e.target.value)}
-					/>
+				<Form.Group controlId='postalCode'>
+					<FloatingLabel
+						controlId='postalcodeinput'
+						label='Postal Code'
+						className='mb-3'>
+						<Form.Control
+							size='lg'
+							placeholder='Enter Postal Code'
+							type='text'
+							value={postalCode}
+							required
+							onChange={(e) => setPostalCode(e.target.value)}
+						/>
+					</FloatingLabel>
 				</Form.Group>
-				<Form.Group controlId='country' className='mb-2'>
-					<Form.Label>Country</Form.Label>
-					<Form.Control
-						size='lg'
-						placeholder='Enter Country'
-						type='text'
-						value={country}
-						required
-						onChange={(e) => setCountry(e.target.value)}
-					/>
+				<Form.Group controlId='country'>
+					<FloatingLabel
+						controlId='countryinput'
+						label='Country'
+						className='mb-3'>
+						<Form.Control
+							size='lg'
+							placeholder='Enter Country'
+							type='text'
+							value={country}
+							required
+							onChange={(e) => setCountry(e.target.value)}
+						/>
+					</FloatingLabel>
 				</Form.Group>
-				<Button type='submit' className='my-1'>
-					Continue
-				</Button>
+				<div className='d-flex'>
+					<Button
+						type='submit'
+						className='ms-auto'
+						style={{
+							padding: '0.5em 1em',
+							width: '8rem',
+						}}>
+						Continue
+					</Button>
+				</div>
 			</Form>
 		</FormContainer>
 	);
