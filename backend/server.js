@@ -7,6 +7,7 @@ import cors from 'cors';
 import passport from 'passport';
 import passportSetup from './config/passportSetup.js';
 import cookieSession from 'cookie-session';
+import path from 'path';
 
 // middleware
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -54,6 +55,16 @@ app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/upload', uploadRoutes);
+
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+	app.use('*', (req, res) =>
+		res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+	);
+}
 
 // middleware to act as fallback for all 404 errors
 app.use(notFound);
