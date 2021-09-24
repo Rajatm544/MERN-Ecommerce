@@ -34,7 +34,7 @@ const HomePage = ({ match }) => {
 	}, [userInfo, dispatch]);
 
 	useEffect(() => {
-		if (userInfoError && !userInfo.isSocialLogin) {
+		if (userInfoError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}

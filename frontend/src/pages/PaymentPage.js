@@ -27,7 +27,7 @@ const PaymentPage = ({ history }) => {
 	}, [userInfo, dispatch]);
 
 	useEffect(() => {
-		if (error && !userInfo.isSocialLogin) {
+		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}

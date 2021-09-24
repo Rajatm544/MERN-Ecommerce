@@ -18,7 +18,7 @@ const UserListPage = ({ history }) => {
 	const { success: successDelete } = userDelete;
 
 	useEffect(() => {
-		if (error && !userInfo.isSocialLogin) {
+		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}

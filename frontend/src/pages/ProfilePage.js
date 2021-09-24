@@ -64,7 +64,7 @@ const ProfilePage = ({ location, history }) => {
 	const { emailSent, hasError } = userSendEmailVerfication;
 
 	useEffect(() => {
-		if (error && !userInfo.isSocialLogin) {
+		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}

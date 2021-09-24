@@ -31,7 +31,7 @@ const PlaceOrderPage = ({ history }) => {
 	}, [userInfo, dispatch]);
 
 	useEffect(() => {
-		if (userLoginError && !userInfo.isSocialLogin) {
+		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}
