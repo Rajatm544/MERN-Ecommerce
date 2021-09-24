@@ -22,7 +22,7 @@ import { listMyOrders } from '../actions/orderActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 
 const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
@@ -33,10 +33,13 @@ const ProductPage = ({ history, match }) => {
 	const dispatch = useDispatch();
 
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error: userLoginError } = userLogin;
+	const { userInfo } = userLogin;
 
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, product, error } = productDetails;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error: userLoginError } = userDetails;
 
 	const productCreateReview = useSelector(
 		(state) => state.productCreateReview
@@ -49,6 +52,14 @@ const ProductPage = ({ history, match }) => {
 
 	const orderListUser = useSelector((state) => state.orderListUser);
 	const { orders } = orderListUser;
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (userLoginError && !userInfo.isSocialLogin) {

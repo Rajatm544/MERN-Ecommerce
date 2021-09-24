@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Meta from '../components/Meta';
 import Message from '../components/Message';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 import { addItem, removeItem } from '../actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
@@ -22,8 +22,20 @@ const CartPage = ({ match, location, history }) => {
 
 	const cart = useSelector((state) => state.cart);
 	const { cartItems } = cart;
+
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error } = userLogin;
+	const { userInfo } = userLogin;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error } = userDetails;
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (error && !userInfo.isSocialLogin) {

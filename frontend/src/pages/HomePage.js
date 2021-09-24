@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap';
 import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -20,7 +20,18 @@ const HomePage = ({ match }) => {
 	const [promptVerfication, setPromptVerification] = useState(false);
 
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error: userInfoError } = userLogin;
+	const { userInfo } = userLogin;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error: userInfoError } = userDetails;
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (userInfoError && !userInfo.isSocialLogin) {

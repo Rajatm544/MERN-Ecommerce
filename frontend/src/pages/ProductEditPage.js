@@ -7,7 +7,7 @@ import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 import axios from 'axios';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 
 import FormContainer from '../components/FormContainer';
 
@@ -35,7 +35,18 @@ const ProductEditPage = ({ match, history }) => {
 	} = productUpdate;
 
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error: userLoginError } = userLogin;
+	const { userInfo } = userLogin;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error: userLoginError } = userDetails;
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (userLoginError && !userInfo.isSocialLogin) {

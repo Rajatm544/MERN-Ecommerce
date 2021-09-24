@@ -11,7 +11,7 @@ import {
 } from '../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import Paginate from '../components/Paginate';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 
 const ProductListPage = ({ history, match }) => {
 	const pageNumber = match.params.pageNumber || 1;
@@ -33,8 +33,20 @@ const ProductListPage = ({ history, match }) => {
 		error: errorCreate,
 		product: createdProduct,
 	} = productCreate;
+
 	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error: userLoginError } = userLogin;
+	const { userInfo } = userLogin;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error: userLoginError } = userDetails;
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (userLoginError && !userInfo.isSocialLogin) {

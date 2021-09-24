@@ -30,7 +30,7 @@ const UserListPage = ({ history }) => {
 	}, [dispatch, history, userInfo, successDelete]);
 
 	const handleDelete = (id) => {
-		if (window.confirm('Aare you sure you wanna delete user?'))
+		if (window.confirm('Are you sure you wanna delete user?'))
 			dispatch(deleteUser(id));
 	};
 	return (

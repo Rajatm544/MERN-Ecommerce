@@ -4,19 +4,32 @@ import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import CheckoutStatus from '../components/CheckoutStatus';
 import { saveShippingAddress } from '../actions/cartActions';
-import { refreshLogin } from '../actions/userActions';
+import { refreshLogin, getUserDetails } from '../actions/userActions';
 
 const ShippingPage = ({ history }) => {
 	const dispatch = useDispatch();
+
 	const cart = useSelector((state) => state.cart);
-	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo, error } = userLogin;
 	const { cartItems, shippingAddress } = cart;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error } = userDetails;
 
 	const [address, setAddress] = useState(shippingAddress.address);
 	const [city, setCity] = useState(shippingAddress.city);
 	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
 	const [country, setCountry] = useState(shippingAddress.country);
+
+	useEffect(() => {
+		userInfo
+			? userInfo.isSocialLogin
+				? dispatch(getUserDetails(userInfo.id))
+				: dispatch(getUserDetails('profile'))
+			: dispatch(getUserDetails('profile'));
+	}, [userInfo, dispatch]);
 
 	useEffect(() => {
 		if (error && !userInfo.isSocialLogin) {
