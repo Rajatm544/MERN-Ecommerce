@@ -146,6 +146,34 @@ h2 {
     box-sizing: border-box; */
 }
 
+.footer-icons {
+    width: 12%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.footer-icons a {
+    color: #212529;
+}
+.footer-icon {
+    font-size: 1.5em;
+    line-height: 1em;
+    object-fit: cover;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.footer-icon:hover {
+    transform: translateY(-20%);
+}
+
+.footer-copyright {
+    font-weight: bold;
+    font-size: 1em;
+    line-height: 1em;
+}
+
 .carousel img {
     height: 30vh;
     border-radius: 50%;
