@@ -20,6 +20,7 @@ const ProductCarousel = () => {
 			{loading && <Loader />}
 			{error && <Message variant='danger'>{error}</Message>}
 			<Carousel
+				style={{ marginTop: '0.5em' }}
 				pause='hover'
 				className='bg-primary'
 				indicators={false}
@@ -34,7 +35,7 @@ const ProductCarousel = () => {
 									fluid
 								/>
 								<Carousel.Caption className='carousel-caption'>
-									{product.name} (${product.price})
+									{product.name} (${product.price.toFixed(2)})
 								</Carousel.Caption>
 							</Link>
 						</CarouselItem>
