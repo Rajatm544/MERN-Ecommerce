@@ -62,7 +62,7 @@ const Header = () => {
 			<Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
 				<Container style={{ maxWidth: '85%' }}>
 					<LinkContainer to='/'>
-						<Navbar.Brand>BRAND</Navbar.Brand>
+						<Navbar.Brand>KOSELLS</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
@@ -78,24 +78,29 @@ const Header = () => {
 										<div
 											style={{
 												position: 'absolute',
-												height: '1.2em',
-												width: '1.2em',
+												height: '1em',
+												width: '1em',
 												border: 'none',
 												margin: '0',
 												padding: '0',
-												background: 'red',
+												background: '#FF0800',
 												borderRadius: '50%',
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
 												color: 'white',
 												marginTop: '-0.5em',
-												marginLeft: '1.2em',
-												fontSize: '0.7em',
+												marginLeft: '0.7em',
 												fontWeight: 'bold',
-												outline: 'none',
 											}}>
-											{count}
+											<span
+												style={
+													count > 10
+														? { fontSize: '0.6em' }
+														: { fontSize: '0.7em' }
+												}>
+												{count}
+											</span>
 										</div>
 									) : (
 										''
