@@ -179,7 +179,7 @@ const ProfilePage = ({ location, history }) => {
 	};
 	return (
 		<Row className={userInfo && userInfo.isConfirmed ? 'mt-4' : 'mt-2'}>
-			<Meta title='My Profile' />
+			<Meta title='My Profile | Kosells' />
 			{userInfo && !userInfo.isConfirmed ? (
 				<>
 					{emailSent && (

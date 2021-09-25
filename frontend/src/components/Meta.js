@@ -14,7 +14,7 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-	title: 'Welcome to Brand',
+	title: 'Welcome to Kosells',
 	keywords: 'Electronics, Kosells, Ecommerce, Rajat',
 	description: 'Buy the best products at the lowest prices',
 };

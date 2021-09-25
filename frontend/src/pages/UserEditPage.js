@@ -68,7 +68,7 @@ const UserEditPage = ({ match, history }) => {
 				</Button>
 			</Link>
 			<FormContainer>
-				{user && <Meta title={`Edit ${user.name}`} />}
+				{user && <Meta title={`Edit ${user.name} | Kosells`} />}
 				<h1>Edit User</h1>
 				{loadingUpdate ? (
 					<Loader />

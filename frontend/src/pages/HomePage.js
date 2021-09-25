@@ -64,7 +64,7 @@ const HomePage = ({ match }) => {
 					Go Back
 				</Link>
 			)}
-			<h1>Latest Products.</h1>
+			{/* <h1>Latest Products.</h1> */}
 			{promptVerfication ? (
 				<Message variant='info' duration={10}>
 					Account Created! Please check your email to verify your
