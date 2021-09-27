@@ -83,7 +83,7 @@ const ProductListPage = ({ history, match }) => {
 									<tr key={order._id}>
 										<td>{order._id}</td>
 										<td>{order.user && order.user.name}</td>
-										<td>${order.totalPrice}</td>
+										<td>&#8377; {order.totalPrice}</td>
 										<td>
 											{getDateString(order.createdAt)}
 										</td>

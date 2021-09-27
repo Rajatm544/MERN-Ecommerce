@@ -89,7 +89,7 @@ const CartPage = ({ match, location, history }) => {
 											{item.name}
 										</Link>
 									</Col>
-									<Col md={2}>$ {item.price}</Col>
+									<Col md={2}>&#8377; {item.price}</Col>
 									<Col md={1}>
 										<div>
 											<i
@@ -193,7 +193,7 @@ const CartPage = ({ match, location, history }) => {
 								)}
 								) Items
 							</h2>
-							${' '}
+							&#8377;{' '}
 							{cartItems
 								.reduce(
 									(acc, item) => acc + item.qty * item.price,

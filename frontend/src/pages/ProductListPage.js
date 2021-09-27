@@ -136,7 +136,7 @@ const ProductListPage = ({ history, match }) => {
 											<td>{product._id}</td>
 											<td>{product.name}</td>
 											<td>
-												$
+												&#8377;
 												{product.price &&
 													product.price.toFixed(2)}
 											</td>

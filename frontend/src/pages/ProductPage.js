@@ -184,7 +184,7 @@ const ProductPage = ({ history, match }) => {
 									)}
 								</ListGroup.Item>
 								<ListGroup.Item>
-									<strong>Price: </strong>${' '}
+									<strong>Price: </strong>&#8377;{' '}
 									{product.price && product.price.toFixed(2)}
 								</ListGroup.Item>
 								<ListGroup.Item>
@@ -202,7 +202,7 @@ const ProductPage = ({ history, match }) => {
 												<strong>Price: </strong>
 											</Col>
 											<Col>
-												${' '}
+												&#8377;{' '}
 												{product.price &&
 													product.price.toFixed(2)}
 											</Col>

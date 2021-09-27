@@ -35,7 +35,8 @@ const ProductCarousel = () => {
 									fluid
 								/>
 								<Carousel.Caption className='carousel-caption'>
-									{product.name} (${product.price.toFixed(2)})
+									{product.name} (&#8377;{' '}
+									{product.price.toFixed(2)})
 								</Carousel.Caption>
 							</Link>
 						</CarouselItem>
