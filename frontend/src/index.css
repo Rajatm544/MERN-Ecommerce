@@ -156,8 +156,8 @@ h2 {
     color: #212529;
 }
 .footer-icon {
-    font-size: 1.5em;
-    line-height: 1em;
+    font-size: 1.2em;
+    line-height: 1.2em;
     object-fit: cover;
     transform: translateY(0);
     transition: transform 0.3s ease-in-out;
@@ -167,6 +167,7 @@ h2 {
 .footer-icon:hover {
     transform: translateY(-20%);
 }
+
 
 .footer-copyright {
     font-weight: bold;
