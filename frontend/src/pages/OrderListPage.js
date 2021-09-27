@@ -17,12 +17,15 @@ const ProductListPage = ({ history, match }) => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
+	const userDetails = useSelector((state) => state.userDetails);
+	const { error: userLoginError } = userDetails;
+
 	useEffect(() => {
-		if (error && userInfo && !userInfo.isSocialLogin) {
+		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
 			user && dispatch(refreshLogin(user.email));
 		}
-	}, [error, dispatch, userInfo]);
+	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders(pageNumber));
