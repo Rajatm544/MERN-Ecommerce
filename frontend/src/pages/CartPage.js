@@ -126,6 +126,8 @@ const CartPage = ({ match, location, history }) => {
 											<Button
 												style={{
 													outline: 'none',
+													borderRight:
+														'1px solid white',
 												}}
 												disabled={
 													item.qty >=
@@ -143,6 +145,11 @@ const CartPage = ({ match, location, history }) => {
 												<i className='fas fa-plus'></i>
 											</Button>
 											<Button
+												style={{
+													outline: 'none',
+													borderLeft:
+														'1px solid white',
+												}}
 												variant='primary'
 												disabled={item.qty === 1}
 												onClick={() => {
@@ -174,7 +181,7 @@ const CartPage = ({ match, location, history }) => {
 					</ListGroup>
 				)}
 			</Col>
-			<Col md={4}>
+			<Col md={4} className='mt-3'>
 				<ListGroup>
 					<Card variant='flush'>
 						<ListGroup.Item>
