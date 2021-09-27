@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Row,
 	Col,
 	Image,
 	Form,
+	ButtonGroup,
 	ListGroup,
 	Button,
 	Card,
@@ -70,7 +71,11 @@ const CartPage = ({ match, location, history }) => {
 					<ListGroup variant='flush'>
 						{cartItems.map((item) => (
 							<ListGroup.Item key={item.product}>
-								<Row>
+								<Row
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+									}}>
 									<Col md={2}>
 										<Image
 											src={item.image}
@@ -79,14 +84,22 @@ const CartPage = ({ match, location, history }) => {
 											rounded
 										/>
 									</Col>
-									<Col md={3}>
+									<Col md={4}>
 										<Link to={`/product/${item.product}`}>
 											{item.name}
 										</Link>
 									</Col>
 									<Col md={2}>$ {item.price}</Col>
-									<Col md={3}>
-										<Form.Control
+									<Col md={1}>
+										<div>
+											<i
+												style={{ fontSize: '0.7em' }}
+												className='fas fa-times'></i>{' '}
+											{item.qty}
+										</div>
+									</Col>
+									<Col md={2}>
+										{/* <Form.Control
 											as='select'
 											value={item.qty}
 											onChange={(e) =>
@@ -97,7 +110,6 @@ const CartPage = ({ match, location, history }) => {
 													)
 												)
 											}>
-											{/* create as many options as the countInStock */}
 											{[
 												...Array(
 													item.countInStock
@@ -109,12 +121,45 @@ const CartPage = ({ match, location, history }) => {
 													{ele + 1}
 												</option>
 											))}
-										</Form.Control>
+										</Form.Control> */}
+										<ButtonGroup aria-label='Addtocart'>
+											<Button
+												style={{
+													outline: 'none',
+												}}
+												disabled={
+													item.qty >=
+													item.countInStock
+												}
+												onClick={() => {
+													dispatch(
+														addItem(
+															item.product,
+															Number(item.qty + 1)
+														)
+													);
+												}}
+												variant='primary'>
+												<i className='fas fa-plus'></i>
+											</Button>
+											<Button
+												variant='primary'
+												disabled={item.qty === 1}
+												onClick={() => {
+													dispatch(
+														addItem(
+															item.product,
+															Number(item.qty - 1)
+														)
+													);
+												}}>
+												<i className='fas fa-minus'></i>
+											</Button>
+										</ButtonGroup>
 									</Col>
-									<Col md={2}>
+									<Col md={1}>
 										<Button
 											type='button'
-											// variant='dark'
 											onClick={() =>
 												handleRemoveFromCart(
 													item.product
