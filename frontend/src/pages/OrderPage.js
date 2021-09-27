@@ -16,7 +16,6 @@ import {
 	ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
 import { refreshLogin } from '../actions/userActions';
-import CurrencyConverter from 'react-currency-conv';
 
 const OrderPage = ({ match, history }) => {
 	const [SDKReady, setSDKReady] = useState(false);
@@ -73,7 +72,7 @@ const OrderPage = ({ match, history }) => {
 			const script = document.createElement('script');
 			script.async = true;
 			script.type = 'text/javascript';
-			script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&currency=USD`;
+			script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&currency=USD&disable-funding=credit,card`;
 			script.onload = () => setSDKReady(true);
 			document.body.appendChild(script);
 		};
@@ -112,15 +111,7 @@ const OrderPage = ({ match, history }) => {
 		</Message>
 	) : (
 		<>
-			<h1>
-				Order {orderID}{' '}
-				<CurrencyConverter
-					from={'USD'}
-					to={'INR'}
-					value={2}
-					date={'2020-12-22'}
-				/>
-			</h1>
+			<h1>Order {orderID} </h1>
 			<Row>
 				{loading ? (
 					<Loader />
@@ -278,12 +269,14 @@ const OrderPage = ({ match, history }) => {
 												<PayPalButton
 													style={{
 														shape: 'rect',
-														color: 'blue',
+														color: 'gold',
 														layout: 'vertical',
-														label: 'paypal',
+														label: 'pay',
 													}}
 													currency='USD'
-													amount={order.totalPrice}
+													amount={Number(
+														order.totalPrice / 72
+													).toFixed(2)}
 													onSuccess={
 														successPaymentHandler
 													}
