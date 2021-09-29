@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.5.0",
+    "@stripe/stripe-js": "^1.18.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -19,6 +21,7 @@
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-stripe-checkout": "^2.6.3",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
