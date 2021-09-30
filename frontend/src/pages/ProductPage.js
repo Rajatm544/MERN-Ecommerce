@@ -366,13 +366,11 @@ const ProductPage = ({ history, match }) => {
 														review
 													}></Form.Control> */}
 											</Form.Group>
-											<Button
-												className='mt-3'
-												size='sm'
-												type='submit'
-												variant='dark'>
-												Submit
-											</Button>
+											<div className='d-grid'>
+												<Button type='submit'>
+													Submit Review
+												</Button>
+											</div>
 										</Form>
 									</>
 								)}
