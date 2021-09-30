@@ -11,7 +11,7 @@ const PaymentPage = ({ history }) => {
 	const cart = useSelector((state) => state.cart);
 	const { shippingAddress } = cart;
 
-	const [paymentMethod, setPaymentMethod] = useState('PayPal');
+	const [paymentMethod, setPaymentMethod] = useState('Credit/Debit Card');
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
@@ -40,6 +40,10 @@ const PaymentPage = ({ history }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const handleChange = (e) => {
+		setPaymentMethod(e.target.value);
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(savePaymentMethod(paymentMethod));
@@ -49,37 +53,56 @@ const PaymentPage = ({ history }) => {
 	return (
 		<FormContainer>
 			<CheckoutStatus step1 step2 step3 />
-			<h1>Payment Method</h1>
-			<Form onSubmit={handleSubmit}>
-				<Form.Group>
-					<Form.Label as='legend'>Select Method</Form.Label>
-					<Col>
-						<Form.Check
-							type='radio'
-							label='PayPal or Credit Card'
-							id='PayPal'
-							name='paymentMethod'
-							value='PayPal'
-							checked
-							onChange={(e) =>
-								setPaymentMethod(e.target.value)
-							}></Form.Check>
-						<Form.Check
-							type='radio'
-							label='Stripe'
-							id='Stripe'
-							name='paymentMethod'
-							value='Stripe'
-							onChange={(e) =>
-								setPaymentMethod(e.target.value)
-							}></Form.Check>
-					</Col>
-				</Form.Group>
-
-				<Button type='submit' variant='dark' className='my-1'>
-					Continue
-				</Button>
-			</Form>
+			<div
+				style={{
+					display: 'flex',
+					flexFlow: 'column nowrap',
+					alignItems: 'center',
+				}}>
+				<h1>Payment Method</h1>
+				<Form onSubmit={handleSubmit}>
+					<Form.Group>
+						{/* <Form.Label as='legend'>Select Method</Form.Label> */}
+						<Col>
+							<Form.Check
+								inline
+								type='radio'
+								label='Credit/Debit Card'
+								id='Credit/Debit Card'
+								name='paymentMethod'
+								value='Credit/Debit Card'
+								checked={paymentMethod === 'Credit/Debit Card'}
+								onChange={handleChange}
+							/>
+							<Form.Check
+								inline
+								type='radio'
+								label='PayPal Account'
+								id='PayPal'
+								name='paymentMethod'
+								value='PayPal'
+								checked={paymentMethod === 'PayPal'}
+								onChange={handleChange}
+							/>
+						</Col>
+					</Form.Group>
+					<div className='d-grid'>
+						<Button
+							type='submit'
+							className='my-3'
+							size='lg'
+							// variant='info'
+							// onClick={
+							// 	successDeliveryHandler
+						>
+							Continue
+						</Button>
+					</div>
+					{/* <Button type='submit' variant='dark' className='my-1'>
+						Continue
+					</Button> */}
+				</Form>
+			</div>
 		</FormContainer>
 	);
 };
