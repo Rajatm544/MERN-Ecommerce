@@ -6,6 +6,7 @@ import {
 	updateOrderToDeliver,
 	getMyOrders,
 	getAllOrders,
+	stripePayment,
 } from '../controllers/orderControllers.js';
 import { protectRoute, isAdmin } from '../middleware/authMiddleware.js';
 
@@ -23,6 +24,11 @@ router
 // @route GET /api/orders/myorders
 // @access PRIVATE
 router.route('/myorders').get(protectRoute, getMyOrders);
+
+// @desc  create payment intent for stripe payment
+// @route POST /api/orders/stripe-payment
+// @access PUBLIC
+router.route('/stripe-payment').post(stripePayment);
 
 // @desc  get an order by id
 // @route GET /api/orders/:id
