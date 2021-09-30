@@ -75,24 +75,7 @@ const Header = () => {
 							<LinkContainer to='/cart'>
 								<Nav.Link>
 									{count ? (
-										<div
-											style={{
-												position: 'absolute',
-												height: '1em',
-												width: '1em',
-												border: 'none',
-												margin: '0',
-												padding: '0',
-												background: '#FF0800',
-												borderRadius: '50%',
-												display: 'flex',
-												alignItems: 'center',
-												justifyContent: 'center',
-												color: 'white',
-												marginTop: '-0.5em',
-												marginLeft: '0.7em',
-												fontWeight: 'bold',
-											}}>
+										<div className='nav-cart-size'>
 											<span
 												style={
 													count > 10

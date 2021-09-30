@@ -16,6 +16,24 @@ h2 {
     font-size: 1.4rem;
 }
 
+.nav-cart-size {            
+    position: absolute;
+    height: 1em;
+    width: 1em;
+    top:25%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0.1em;
+    border-radius: 50%;
+    background: #FF0800;
+    margin: 0;
+    margin-left: 0.8em;
+    font-weight: bold;
+}
+
 .nav-avatar {
     height: 35px;
     width: 35px;
