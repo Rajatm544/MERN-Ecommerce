@@ -15,12 +15,21 @@ import {
 	ORDER_PAY_RESET,
 	ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
+import { savePaymentMethod } from '../actions/cartActions';
+// import StripeCheckout from 'react-stripe-checkout';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { refreshLogin } from '../actions/userActions';
+import CheckoutForm from '../components/CheckoutForm';
 
 const OrderPage = ({ match, history }) => {
+	const stripePromise = loadStripe(
+		process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
+	);
 	const [SDKReady, setSDKReady] = useState(false);
 	const dispatch = useDispatch();
 	const orderID = match.params.id;
+
 	const orderDetails = useSelector((state) => state.orderDetails);
 	const { loading, order, error } = orderDetails;
 
@@ -81,9 +90,33 @@ const OrderPage = ({ match, history }) => {
 	}, [userInfo, SDKReady, history]);
 
 	const successPaymentHandler = (paymentResult) => {
-		// console.log(paymentResult);
-		dispatch(payOrder(orderID, paymentResult));
+		dispatch(savePaymentMethod('PayPal'));
+		dispatch(
+			payOrder(orderID, { ...paymentResult, paymentMode: 'paypal' })
+		);
 	};
+
+	// const handleStripePayment = (token) => {
+	// 	// const body = { token, order };
+	// 	const config = userInfo.isSocialLogin
+	// 		? {
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					Authorization: `SocialLogin ${userInfo.id}`,
+	// 				},
+	// 		  }
+	// 		: {
+	// 				headers: {
+	// 					'Content-Type': 'application/json',
+	// 					Authorization: `Bearer ${userInfo.accessToken}`,
+	// 				},
+	// 		  };
+
+	// 	axios
+	// 		.post('/api/orders/stripe-payment', { token, order }, config)
+	// 		.then((res) => console.log(res))
+	// 		.catch((err) => console.error(err));
+	// };
 
 	const successDeliveryHandler = () => {
 		dispatch(deliverOrder(orderID));
@@ -238,7 +271,9 @@ const OrderPage = ({ match, history }) => {
 									)}
 									<ListGroup.Item>
 										<Row>
-											<Col>Items</Col>
+											<Col>
+												<strong>Subtotal</strong>
+											</Col>
 											<Col>
 												&#8377; {order.itemsPrice}
 											</Col>
@@ -246,7 +281,9 @@ const OrderPage = ({ match, history }) => {
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Shipping</Col>
+											<Col>
+												<strong>Shipping</strong>
+											</Col>
 											<Col>
 												&#8377; {order.shippingPrice}
 											</Col>
@@ -254,41 +291,98 @@ const OrderPage = ({ match, history }) => {
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Tax</Col>
+											<Col>
+												<strong>Tax</strong>
+											</Col>
 											<Col>&#8377; {order.taxPrice}</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Total</Col>
+											<Col>
+												<strong>Total</strong>
+											</Col>
 											<Col>
 												&#8377; {order.totalPrice}
 											</Col>
 										</Row>
 									</ListGroup.Item>
 									{!order.isPaid && (
-										<ListGroup.Item>
-											{loadingPay && <Loader />}
-											{!SDKReady ? (
-												<Loader />
+										<>
+											{order.paymentMethod ===
+											'PayPal' ? (
+												<ListGroup.Item>
+													{loadingPay && <Loader />}
+													{!SDKReady ? (
+														<Loader />
+													) : (
+														<PayPalButton
+															style={{
+																shape: 'rect',
+																color: 'gold',
+																layout: 'vertical',
+																label: 'pay',
+															}}
+															currency='USD'
+															amount={Number(
+																order.totalPrice /
+																	72
+															).toFixed(2)}
+															onSuccess={
+																successPaymentHandler
+															}
+														/>
+													)}
+												</ListGroup.Item>
 											) : (
-												<PayPalButton
-													style={{
-														shape: 'rect',
-														color: 'gold',
-														layout: 'vertical',
-														label: 'pay',
-													}}
-													currency='USD'
-													amount={Number(
-														order.totalPrice / 72
-													).toFixed(2)}
-													onSuccess={
-														successPaymentHandler
-													}
-												/>
+												<ListGroup.Item>
+													{loadingPay && <Loader />}
+													<Elements
+														stripe={stripePromise}>
+														<CheckoutForm
+															price={
+																order.totalPrice *
+																100
+															}
+															orderID={orderID}
+														/>
+													</Elements>
+												</ListGroup.Item>
 											)}
-										</ListGroup.Item>
+											{/* <ListGroup.Item> */}
+											{/* <StripeCheckout
+													stripeKey={
+														process.env
+															.REACT_APP_STRIPE_PUBLISHABLE_KEY
+													}
+													currency='INR'
+													token={handleStripePayment}
+													amount={
+														order.totalPrice * 100
+													}>
+													<div className='d-grid'>
+														<Button
+															type='button'
+															variant='info'
+															// onClick={
+															// 	successDeliveryHandler
+														>
+															Pay With Card
+														</Button>
+													</div>
+												</StripeCheckout> */}
+											{/* <Elements
+													stripe={stripePromise}>
+													<CheckoutForm
+														price={
+															order.totalPrice *
+															100
+														}
+														orderID={orderID}
+													/>
+												</Elements> */}
+											{/* </ListGroup.Item> */}
+										</>
 									)}
 									{userInfo &&
 										userInfo.isAdmin &&
