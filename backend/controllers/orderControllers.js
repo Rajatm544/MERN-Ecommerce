@@ -1,5 +1,11 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Stripe from 'stripe';
+import dotenv from 'dotenv';
+dotenv.config();
+// import { nanoid } from 'nanoid';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // @desc  create a new order
 // @route GET /api/orders
@@ -56,14 +62,26 @@ const getOrderById = asyncHandler(async (req, res) => {
 const updateOrderToPay = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.id);
 	if (order) {
+		const { paymentMode } = req.body;
 		order.isPaid = true;
 		order.paidAt = Date.now();
-		order.paymentResult = {
-			id: req.body.id,
-			status: req.body.status,
-			update_time: req.body.update_time,
-			email_address: req.body.payer.email_address,
-		};
+		if (paymentMode === 'paypal') {
+			order.paymentResult = {
+				type: 'paypal',
+				id: req.body.id,
+				status: req.body.status,
+				update_time: req.body.update_time,
+				email_address: req.body.payer.email_address,
+			};
+		} else if (paymentMode === 'stripe') {
+			order.paymentResult = {
+				type: 'stripe',
+				id: req.body.id,
+				status: req.body.status,
+				email_address: req.body.receipt_email,
+			};
+		}
+
 		const updatedOrder = await order.save();
 		res.status(201).json(updatedOrder);
 	} else {
@@ -114,6 +132,46 @@ const getAllOrders = asyncHandler(async (req, res) => {
 	res.json({ orders, page, pages: Math.ceil(count / pageSize) });
 });
 
+// @desc  create payment intent for stripe payment
+// @route POST /api/orders/stripe-payment
+// @access PUBLIC
+const stripePayment = asyncHandler(async (req, res) => {
+	const { price, email } = req.body;
+
+	const paymentIntent = await stripe.paymentIntents.create({
+		amount: price,
+		currency: 'inr',
+		receipt_email: email,
+		// customer: id,
+		payment_method_types: ['card'],
+	});
+
+	res.send({
+		clientSecret: paymentIntent.client_secret,
+	});
+	// const { order, token } = req.body;
+	// const idempotencyKey = nanoid();
+	// return stripe.customers
+	// 	.create({
+	// 		email: token.email,
+	// 		source: token.id,
+	// 	})
+	// 	.then((customer) => {
+	// 		stripe.charges.create(
+	// 			{
+	// 				amount: order.totalPrice * 100,
+	// 				currency: 'inr',
+	// 				customer: customer.id,
+	// 				receipt_email: token.email,
+	// 				// description: product.name,
+	// 			},
+	// 			{ idempotencyKey }
+	// 		);
+	// 	})
+	// 	.then((result) => res.status(200).json(result))
+	// 	.catch((err) => console.log(err));
+});
+
 export {
 	addOrderItems,
 	getOrderById,
@@ -121,4 +179,5 @@ export {
 	updateOrderToDeliver,
 	getMyOrders,
 	getAllOrders,
+	stripePayment,
 };
