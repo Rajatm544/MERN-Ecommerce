@@ -4,7 +4,6 @@ import {
 	Row,
 	Col,
 	Image,
-	Form,
 	ButtonGroup,
 	ListGroup,
 	Button,
@@ -17,6 +16,7 @@ import { refreshLogin, getUserDetails } from '../actions/userActions';
 import { addItem, removeItem } from '../actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
+	const [totalItems, setTotalItems] = useState(0);
 	const productID = match.params.id;
 	const qty = location.search ? Number(location.search.split('=')[1]) : 1;
 	const dispatch = useDispatch();
@@ -37,6 +37,12 @@ const CartPage = ({ match, location, history }) => {
 				: dispatch(getUserDetails('profile'))
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
+
+	useEffect(() => {
+		if (cartItems) {
+			setTotalItems(cartItems.reduce((acc, item) => acc + item.qty, 0));
+		}
+	}, [cartItems]);
 
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
@@ -186,30 +192,31 @@ const CartPage = ({ match, location, history }) => {
 					<Card variant='flush'>
 						<ListGroup.Item>
 							<h2>
-								Subtotal (
-								{cartItems.reduce(
-									(acc, item) => acc + item.qty,
-									0
-								)}
-								) Items
+								Subtotal ({totalItems}) Item
+								{totalItems > 1 && 's'}
 							</h2>
-							&#8377;{' '}
-							{cartItems
-								.reduce(
-									(acc, item) => acc + item.qty * item.price,
-									0
-								)
-								.toFixed(2)}
+							<strong>
+								&#8377;{' '}
+								{cartItems
+									.reduce(
+										(acc, item) =>
+											acc + item.qty * item.price,
+										0
+									)
+									.toFixed(2)}
+							</strong>
 						</ListGroup.Item>
 						<ListGroup.Item>
-							<Button
-								type='button'
-								// variant='dark'
-								className='btn-block'
-								disabled={!cartItems.length}
-								onClick={handleCheckout}>
-								Proceed to checkout
-							</Button>
+							<div className='d-grid'>
+								<Button
+									type='button'
+									size='lg'
+									// variant='dark'
+									disabled={!cartItems.length}
+									onClick={handleCheckout}>
+									Proceed to checkout
+								</Button>
+							</div>
 						</ListGroup.Item>
 					</Card>
 				</ListGroup>
