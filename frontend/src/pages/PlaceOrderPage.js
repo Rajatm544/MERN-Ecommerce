@@ -50,8 +50,8 @@ const PlaceOrderPage = ({ history }) => {
 	cart.itemsPrice = cartItems
 		.reduce((acc, item) => acc + item.price * item.qty, 0)
 		.toFixed(2);
-	cart.shippingPrice = (cart.itemsPrice > 100 ? 10 : 25).toFixed(2);
-	cart.taxPrice = (0.15 * cart.itemsPrice).toFixed(2);
+	cart.shippingPrice = (cart.itemsPrice > 100 ? 100 : 250).toFixed(2);
+	cart.taxPrice = (0.18 * cart.itemsPrice).toFixed(2);
 	cart.totalPrice = (
 		Number(cart.itemsPrice) +
 		Number(cart.taxPrice) +
@@ -151,13 +151,17 @@ const PlaceOrderPage = ({ history }) => {
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Items</Col>
+											<Col>
+												<strong>Subtotal</strong>
+											</Col>
 											<Col>&#8377; {cart.itemsPrice}</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Shipping</Col>
+											<Col>
+												<strong>Shipping</strong>
+											</Col>
 											<Col>
 												&#8377; {cart.shippingPrice}
 											</Col>
@@ -165,13 +169,17 @@ const PlaceOrderPage = ({ history }) => {
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Tax</Col>
+											<Col>
+												<strong>Tax</strong>
+											</Col>
 											<Col>&#8377; {cart.taxPrice}</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>
-											<Col>Total</Col>
+											<Col>
+												<strong>Total</strong>
+											</Col>
 											<Col>&#8377; {cart.totalPrice}</Col>
 										</Row>
 									</ListGroup.Item>
@@ -188,7 +196,7 @@ const PlaceOrderPage = ({ history }) => {
 										<Button
 											// variant='dark'
 											type='button'
-											className='btn-block'
+											size='lg'
 											disabled={!cartItems.length}
 											onClick={handleOrder}>
 											Place Order
