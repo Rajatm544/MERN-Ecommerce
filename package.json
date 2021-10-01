@@ -15,7 +15,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
-    "heroku-postbuild": "cd frontend && NPM_CONFIG_PRODUCTION=false npm install && npm run build"  
+    "build": "cd frontend && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-build && npm run build"  
   },
   "repository": {
     "type": "git",
