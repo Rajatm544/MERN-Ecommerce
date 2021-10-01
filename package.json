@@ -16,8 +16,8 @@
     "data:import": "node backend/seeder.js",
     "data:destroy": "node backend/seeder.js -d",
     "build": "cd frontend && npm run build",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-build && npm run build"  
+    "install-client": "cd frontend && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"  
   },
   "repository": {
     "type": "git",
