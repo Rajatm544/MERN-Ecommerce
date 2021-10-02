@@ -45,7 +45,7 @@ const SocialLoginOptions = () => {
 					alignItems: 'center',
 					justifyContent: 'space-around',
 				}}>
-				<a href={`${baseURL}/api/auth/google`}>
+				<a href={`${baseURL}api/auth/google`}>
 					<Image
 						rounded
 						style={{
@@ -55,7 +55,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={googleLogo}></Image>
 				</a>
-				<a href={`${baseURL}/api/auth/github`}>
+				<a href={`${baseURL}api/auth/github`}>
 					<Image
 						rounded
 						style={{
@@ -65,7 +65,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={githubLogo}></Image>
 				</a>
-				<a href={`${baseURL}/api/auth/twitter`}>
+				<a href={`${baseURL}api/auth/twitter`}>
 					<Image
 						rounded
 						style={{
@@ -75,7 +75,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={twitterLogo}></Image>
 				</a>
-				<a href={`${baseURL}/api/auth/linkedin`}>
+				<a href={`${baseURL}api/auth/linkedin`}>
 					<Image
 						rounded
 						style={{
