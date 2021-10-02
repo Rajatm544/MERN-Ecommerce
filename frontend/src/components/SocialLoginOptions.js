@@ -6,6 +6,7 @@ import twitterLogo from '../assets/twitterLogo.png';
 import linkedinLogo from '../assets/linkedinLogo.png';
 
 const SocialLoginOptions = () => {
+	const baseURL = process.env.REACT_APP_BASE_URL;
 	return (
 		// <Card>
 		<div
@@ -44,7 +45,7 @@ const SocialLoginOptions = () => {
 					alignItems: 'center',
 					justifyContent: 'space-around',
 				}}>
-				<a href='http://localhost:5000/api/auth/google'>
+				<a href={`${baseURL}/api/auth/google`}>
 					<Image
 						rounded
 						style={{
@@ -54,7 +55,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={googleLogo}></Image>
 				</a>
-				<a href='http://localhost:5000/api/auth/github'>
+				<a href={`${baseURL}/api/auth/github`}>
 					<Image
 						rounded
 						style={{
@@ -64,7 +65,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={githubLogo}></Image>
 				</a>
-				<a href='http://localhost:5000/api/auth/twitter'>
+				<a href={`${baseURL}/api/auth/twitter`}>
 					<Image
 						rounded
 						style={{
@@ -74,7 +75,7 @@ const SocialLoginOptions = () => {
 						}}
 						src={twitterLogo}></Image>
 				</a>
-				<a href='http://localhost:5000/api/auth/linkedin'>
+				<a href={`${baseURL}/api/auth/linkedin`}>
 					<Image
 						rounded
 						style={{
