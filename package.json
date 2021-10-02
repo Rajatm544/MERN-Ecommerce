@@ -37,6 +37,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-session": "^1.17.2",
+    "gravatar": "^1.8.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.0",
     "morgan": "^1.10.0",
