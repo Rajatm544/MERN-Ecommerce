@@ -8,7 +8,7 @@ import User from '../models/userModel.js';
 import generateGravatar from '../utils/generateGravatar.js';
 
 dotenv.config();
-
+const backendURL = process.env.BACKEND_BASE_URL;
 const setupPassport = () => {
 	passport.serializeUser((user, done) => {
 		done(null, user.id);
@@ -26,7 +26,7 @@ const setupPassport = () => {
 				// options for the google strategy
 				clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
 				clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-				callbackURL: 'http://localhost:5000/api/auth/google/redirect',
+				callbackURL: `${backendURL}/api/auth/google/redirect`,
 			},
 			(accessToken, refreshToken, profile, done) => {
 				User.findOne({ googleID: profile.id }).then((foundUser) => {
@@ -54,7 +54,7 @@ const setupPassport = () => {
 			{
 				clientID: process.env.GITHUB_CLIENT_ID,
 				clientSecret: process.env.GITHUB_CLIENT_SECRET,
-				callbackURL: 'http://localhost:5000/api/auth/github/redirect',
+				callbackURL: `${backendURL}/api/auth/github/redirect`,
 			},
 			(accessToken, refreshToken, profile, done) => {
 				User.findOne({ githubID: profile.id }).then((foundUser) => {
@@ -83,7 +83,7 @@ passport.use(
 		{
 			consumerKey: process.env.TWITTER_CONSUMER_KEY,
 			consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-			callbackURL: 'http://localhost:5000/api/auth/twitter/redirect',
+			callbackURL: `${backendURL}/api/auth/twitter/redirect`,
 			includeEmail: true,
 		},
 		(accessToken, refreshToken, profile, done) => {
@@ -112,7 +112,7 @@ passport.use(
 		{
 			clientID: process.env.LINKEDIN_CLIENT_ID,
 			clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-			callbackURL: 'http://localhost:5000/api/auth/linkedin/redirect',
+			callbackURL: `${backendURL}/api/auth/linkedin/redirect`,
 			scope: ['r_emailaddress', 'r_liteprofile'],
 			state: true,
 		},

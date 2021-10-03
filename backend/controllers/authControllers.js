@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 
-const frontendURL = process.env.BASE_URL;
+const frontendURL = process.env.FRONTEND_BASE_URL;
 
 // @desc login user using the google strategy
 // @route GET /api/auth/google/redirect/success
