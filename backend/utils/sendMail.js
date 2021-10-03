@@ -5,10 +5,11 @@ import generateToken from '../utils/generateToken.js';
 dotenv.config();
 
 const sendMail = async (id, email, option) => {
+	const frontendURL = process.env.FRONTEND_BASE_URL;
 	if (option === 'email verification') {
 		// create a new JWT to verify user via email
 		const emailToken = generateToken(id, 'email');
-		const url = `http://localhost:3000/user/confirm/${emailToken}`;
+		const url = `${frontendURL}/user/confirm/${emailToken}`;
 		const mailOptions = {
 			from: process.env.EMAIL, // sender address
 			to: email,
@@ -38,7 +39,7 @@ const sendMail = async (id, email, option) => {
 	} else if (option === 'forgot password') {
 		// create a new JWT to verify user via email
 		const forgetPasswordToken = generateToken(id, 'forgot password');
-		const url = `http://localhost:3000/user/password/reset/${forgetPasswordToken}`;
+		const url = `${frontendURL}/user/password/reset/${forgetPasswordToken}`;
 		const mailOptions = {
 			from: process.env.EMAIL, // sender address
 			to: email,
