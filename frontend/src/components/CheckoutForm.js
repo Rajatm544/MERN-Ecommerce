@@ -5,8 +5,10 @@ import { Form, Button } from 'react-bootstrap';
 import { payOrder } from '../actions/orderActions';
 import { savePaymentMethod } from '../actions/cartActions';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import Message from '../components/Message';
 
 const CheckoutForm = ({ price, orderID }) => {
+	const [error, setError] = useState('');
 	const dispatch = useDispatch();
 	const [clientSecret, setClientSecret] = useState('');
 	const stripe = useStripe();
@@ -36,19 +38,29 @@ const CheckoutForm = ({ price, orderID }) => {
 	// STEP 2: make the payment after filling the form properly
 	const makePayment = async (e) => {
 		e.preventDefault();
+		if (!stripe || !elements) {
+			// Stripe.js has not yet loaded.
+			// Make  sure to disable form submission until Stripe.js has loaded.
+			return;
+		}
 		if (clientSecret) {
 			const payload = await stripe.confirmCardPayment(clientSecret, {
 				payment_method: {
 					card: elements.getElement(CardElement),
 				},
 			});
-			dispatch(savePaymentMethod('Stripe'));
-			dispatch(
-				payOrder(orderID, {
-					...payload.paymentIntent,
-					paymentMode: 'stripe',
-				})
-			);
+			console.log(payload.error);
+			if (!payload.error) {
+				dispatch(savePaymentMethod('Stripe'));
+				dispatch(
+					payOrder(orderID, {
+						...payload.paymentIntent,
+						paymentMode: 'stripe',
+					})
+				);
+			} else {
+				setError(payload.error.message);
+			}
 		} else {
 			window.location.reload();
 		}
@@ -56,6 +68,7 @@ const CheckoutForm = ({ price, orderID }) => {
 
 	return (
 		<Form id='payment-form' onSubmit={makePayment}>
+			{error && <Message variant='danger'>{error}</Message>}
 			<Form.Group
 				style={{
 					margin: '1em 0',
@@ -80,7 +93,7 @@ const CheckoutForm = ({ price, orderID }) => {
 				/>
 			</Form.Group>
 			<div className='d-grid'>
-				<Button size='lg' type='submit'>
+				<Button disabled={!stripe} size='lg' type='submit'>
 					Pay Now
 				</Button>
 			</div>
