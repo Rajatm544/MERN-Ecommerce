@@ -47,6 +47,10 @@ const CheckoutForm = ({ price, orderID }) => {
 			const payload = await stripe.confirmCardPayment(clientSecret, {
 				payment_method: {
 					card: elements.getElement(CardElement),
+					billing_details: {
+						name: userInfo.name,
+						email: userInfo.email,
+					},
 				},
 			});
 			console.log(payload.error);
