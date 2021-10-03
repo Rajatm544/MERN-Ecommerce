@@ -95,7 +95,13 @@ const CartPage = ({ match, location, history }) => {
 											{item.name}
 										</Link>
 									</Col>
-									<Col md={2}>&#8377; {item.price}</Col>
+									<Col md={2}>
+										{item.price.toLocaleString('en-IN', {
+											maximumFractionDigits: 2,
+											style: 'currency',
+											currency: 'INR',
+										})}
+									</Col>
 									<Col md={1}>
 										<div>
 											<i
@@ -196,14 +202,17 @@ const CartPage = ({ match, location, history }) => {
 								{totalItems > 1 && 's'}
 							</h2>
 							<strong>
-								&#8377;{' '}
 								{cartItems
 									.reduce(
 										(acc, item) =>
 											acc + item.qty * item.price,
 										0
 									)
-									.toFixed(2)}
+									.toLocaleString('en-IN', {
+										maximumFractionDigits: 2,
+										style: 'currency',
+										currency: 'INR',
+									})}
 							</strong>
 						</ListGroup.Item>
 						<ListGroup.Item>

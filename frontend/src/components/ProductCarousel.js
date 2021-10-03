@@ -35,8 +35,13 @@ const ProductCarousel = () => {
 									fluid
 								/>
 								<Carousel.Caption className='carousel-caption'>
-									{product.name} (&#8377;{' '}
-									{product.price.toFixed(2)})
+									{product.name} (
+									{product.price.toLocaleString('en-IN', {
+										maximumFractionDigits: 2,
+										style: 'currency',
+										currency: 'INR',
+									})}
+									)
 								</Carousel.Caption>
 							</Link>
 						</CarouselItem>

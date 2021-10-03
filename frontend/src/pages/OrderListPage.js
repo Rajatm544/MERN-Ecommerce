@@ -83,7 +83,16 @@ const ProductListPage = ({ history, match }) => {
 									<tr key={order._id}>
 										<td>{order._id}</td>
 										<td>{order.user && order.user.name}</td>
-										<td>&#8377; {order.totalPrice}</td>
+										<td>
+											{order.totalPrice.toLocaleString(
+												'en-IN',
+												{
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												}
+											)}
+										</td>
 										<td>
 											{getDateString(order.createdAt)}
 										</td>

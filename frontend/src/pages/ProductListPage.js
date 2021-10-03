@@ -136,9 +136,15 @@ const ProductListPage = ({ history, match }) => {
 											<td>{product._id}</td>
 											<td>{product.name}</td>
 											<td>
-												&#8377;
 												{product.price &&
-													product.price.toFixed(2)}
+													product.price.toLocaleString(
+														'en-IN',
+														{
+															maximumFractionDigits: 2,
+															style: 'currency',
+															currency: 'INR',
+														}
+													)}
 											</td>
 											<td>{product.category}</td>
 											<td>{product.brand}</td>

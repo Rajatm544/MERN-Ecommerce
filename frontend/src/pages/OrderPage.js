@@ -275,7 +275,14 @@ const OrderPage = ({ match, history }) => {
 												<strong>Subtotal</strong>
 											</Col>
 											<Col>
-												&#8377; {order.itemsPrice}
+												{order.itemsPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -285,7 +292,14 @@ const OrderPage = ({ match, history }) => {
 												<strong>Shipping</strong>
 											</Col>
 											<Col>
-												&#8377; {order.shippingPrice}
+												{order.shippingPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -294,7 +308,16 @@ const OrderPage = ({ match, history }) => {
 											<Col>
 												<strong>Tax</strong>
 											</Col>
-											<Col>&#8377; {order.taxPrice}</Col>
+											<Col>
+												{order.taxPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
+											</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
@@ -303,7 +326,14 @@ const OrderPage = ({ match, history }) => {
 												<strong>Total</strong>
 											</Col>
 											<Col>
-												&#8377; {order.totalPrice}
+												{order.totalPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
 											</Col>
 										</Row>
 									</ListGroup.Item>

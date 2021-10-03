@@ -154,7 +154,16 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												<strong>Subtotal</strong>
 											</Col>
-											<Col>&#8377; {cart.itemsPrice}</Col>
+											<Col>
+												{cart.itemsPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
+											</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
@@ -163,7 +172,14 @@ const PlaceOrderPage = ({ history }) => {
 												<strong>Shipping</strong>
 											</Col>
 											<Col>
-												&#8377; {cart.shippingPrice}
+												{cart.shippingPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -172,7 +188,16 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												<strong>Tax</strong>
 											</Col>
-											<Col>&#8377; {cart.taxPrice}</Col>
+											<Col>
+												{cart.taxPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
+											</Col>
 										</Row>
 									</ListGroup.Item>
 									<ListGroup.Item>
@@ -180,7 +205,16 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												<strong>Total</strong>
 											</Col>
-											<Col>&#8377; {cart.totalPrice}</Col>
+											<Col>
+												{cart.totalPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 2,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
+											</Col>
 										</Row>
 									</ListGroup.Item>
 									{error && (

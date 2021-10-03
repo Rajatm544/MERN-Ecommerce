@@ -31,7 +31,12 @@ const Product = ({ product }) => {
 				</Card.Text>
 
 				<Card.Text as='h4'>
-					&#x20B9; {product.price && product.price.toFixed(2)}
+					{product.price &&
+						product.price.toLocaleString('en-IN', {
+							maximumFractionDigits: 2,
+							style: 'currency',
+							currency: 'INR',
+						})}
 				</Card.Text>
 			</Card.Body>
 		</Card>
