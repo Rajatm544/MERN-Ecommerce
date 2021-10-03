@@ -241,7 +241,15 @@ const OrderPage = ({ match, history }) => {
 																{(
 																	item.qty *
 																	item.price
-																).toFixed(2)}
+																).toLocaleString(
+																	'en-IN',
+																	{
+																		maximumFractionDigits: 2,
+																		style: 'currency',
+																		currency:
+																			'INR',
+																	}
+																)}
 															</Col>
 														</Row>
 													</ListGroup.Item>
