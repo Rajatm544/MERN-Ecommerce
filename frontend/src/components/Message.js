@@ -16,6 +16,9 @@ const Message = ({ variant, duration, children }) => {
 
 	return (
 		<Alert
+			onClose={() => setVisible(false)}
+			dismissible
+			className='alert-custom'
 			style={visible ? { display: 'block' } : { display: 'none' }}
 			variant={variant}>
 			{children}
