@@ -70,17 +70,20 @@ const ProfilePage = ({ location, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	// useEffect(() => {
+	// 	if (avatar && avatar !== user.avatar)
+
+	// }, [avatar, user, dispatch]);
+
 	useEffect(() => {
 		if (userInfo) {
 			if (name && userInfo.name !== name) setShowSubmitButton(true);
 			else if (email && userInfo.email !== email)
 				setShowSubmitButton(true);
-			else if (avatar && userInfo.avatar !== avatar)
-				setShowSubmitButton(true);
 			else if (password || confirmPassword) setShowSubmitButton(true);
 			else setShowSubmitButton(false);
 		}
-	}, [name, email, avatar, password, confirmPassword, userInfo]);
+	}, [name, email, password, confirmPassword, userInfo]);
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -149,6 +152,12 @@ const ProfilePage = ({ location, history }) => {
 
 			const { data } = await axios.post('/api/upload', formData, config);
 			setAvatar(data);
+			dispatch(
+				updateUserProfile({
+					id: user.id,
+					avatar: data,
+				})
+			);
 			setUploading(false);
 		} catch (error) {
 			setErrorImageUpload('Please choose a valid image');
@@ -261,27 +270,32 @@ const ProfilePage = ({ location, history }) => {
 								{errorImageUpload}
 							</Message>
 						)}
-						<div
-							className='profile-page-image'
-							style={{ alignSelf: 'center' }}>
-							<Image
-								src={avatar}
-								alt={name}
-								style={{
-									height: '5em',
-									width: '5em',
-									marginBottom: '1em',
-									border: '1px solid #ced4da',
-									borderRadius: '50%',
-									cursor: 'pointer',
-								}}
-							/>
+						{uploading ? (
+							<Loader />
+						) : (
 							<div
-								className='image-overlay'
-								onClick={handleImageClick}>
-								Click to upload image
+								className='profile-page-image'
+								style={{ alignSelf: 'center' }}>
+								<Image
+									src={avatar}
+									alt={name}
+									style={{
+										height: '5em',
+										width: '5em',
+										marginBottom: '1em',
+										border: '1px solid #ced4da',
+										borderRadius: '50%',
+										cursor: 'pointer',
+									}}
+								/>
+								<div
+									className='image-overlay'
+									onClick={handleImageClick}>
+									Click to upload image
+								</div>
 							</div>
-						</div>
+						)}
+
 						<input
 							type='file'
 							id='file'
