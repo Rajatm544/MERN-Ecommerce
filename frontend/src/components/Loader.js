@@ -8,9 +8,9 @@ const Loader = () => {
 			role='status'
 			variant='primary'
 			style={{
-				width: '100px',
-				height: '100px',
-				margin: '25vh auto',
+				width: '5rem',
+				height: '5rem',
+				margin: '5em auto',
 				display: 'block',
 			}}>
 			<span className='sr-only'>Loading...</span>
