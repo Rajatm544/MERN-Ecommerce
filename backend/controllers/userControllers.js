@@ -373,31 +373,43 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		}
 
 		const updatedUser = await user.save();
+		const isSocialLogin =
+			updatedUser.googleID ||
+			updatedUser.linkedinID ||
+			updateUser.githubID ||
+			updatedUser.twitterID;
+
+		let updatedUserObj = {
+			id: updatedUser._id,
+			email: updatedUser.email,
+			name: updatedUser.name,
+			avatar: updatedUser.avatar,
+			isAdmin: updatedUser.isAdmin,
+			isConfirmed: updatedUser.isConfirmed,
+		};
 
 		if (updatedUser) {
-			const refreshToken = generateToken(updatedUser._id, 'refresh');
-			const existingToken = await Token.findOne({
-				email: updatedUser.email,
-			});
-			if (existingToken) {
-				existingToken.token = refreshToken;
-				existingToken.save();
-			} else {
-				Token.create({
-					user: updatedUser._id,
-					token: refreshToken,
+			if (!isSocialLogin) {
+				const refreshToken = generateToken(updatedUser._id, 'refresh');
+				const existingToken = await Token.findOne({
+					email: updatedUser.email,
 				});
+				if (existingToken) {
+					existingToken.token = refreshToken;
+					existingToken.save();
+				} else {
+					Token.create({
+						user: updatedUser._id,
+						token: refreshToken,
+					});
+				}
+				updatedUserObj = {
+					...updatedUserObj,
+					accessToken: generateToken(updatedUser._id, 'access'),
+					refreshToken,
+				};
 			}
-			res.json({
-				id: updatedUser._id,
-				email: updatedUser.email,
-				name: updatedUser.name,
-				avatar: updatedUser.avatar,
-				isAdmin: updatedUser.isAdmin,
-				isConfirmed: updatedUser.isConfirmed,
-				accessToken: generateToken(updatedUser._id, 'access'),
-				refreshToken,
-			});
+			res.json(updatedUserObj);
 		}
 	} else {
 		res.status(400);
