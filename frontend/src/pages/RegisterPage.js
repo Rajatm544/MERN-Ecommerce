@@ -149,9 +149,9 @@ const RegisterPage = ({ location, history }) => {
 												borderLeft: 'none',
 											}}>
 											{typePassword === 'text' ? (
-												<i className='far fa-eye-slash'></i>
+												<i className='far fa-eye-slash' />
 											) : (
-												<i className='far fa-eye'></i>
+												<i className='far fa-eye' />
 											)}
 										</InputGroup.Text>
 									</div>
@@ -188,9 +188,9 @@ const RegisterPage = ({ location, history }) => {
 												borderLeft: 'none',
 											}}>
 											{typeConfirmPassword === 'text' ? (
-												<i className='far fa-eye-slash'></i>
+												<i className='far fa-eye-slash' />
 											) : (
-												<i className='far fa-eye'></i>
+												<i className='far fa-eye' />
 											)}
 										</InputGroup.Text>
 									</div>

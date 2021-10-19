@@ -387,9 +387,9 @@ const ProfilePage = ({ location, history }) => {
 														}}>
 														{typePassword ===
 														'text' ? (
-															<i className='far fa-eye-slash'></i>
+															<i className='far fa-eye-slash' />
 														) : (
-															<i className='far fa-eye'></i>
+															<i className='far fa-eye' />
 														)}
 													</InputGroup.Text>
 												</div>
@@ -433,9 +433,9 @@ const ProfilePage = ({ location, history }) => {
 														}}>
 														{typeConfirmPassword ===
 														'text' ? (
-															<i className='far fa-eye-slash'></i>
+															<i className='far fa-eye-slash' />
 														) : (
-															<i className='far fa-eye'></i>
+															<i className='far fa-eye' />
 														)}
 													</InputGroup.Text>
 												</div>
@@ -512,7 +512,8 @@ const ProfilePage = ({ location, history }) => {
 												className='fas fa-times'
 												style={{
 													color: 'red',
-												}}></i>
+												}}
+											/>
 										)}
 									</td>
 									<td>
@@ -523,7 +524,8 @@ const ProfilePage = ({ location, history }) => {
 												className='fas fa-times'
 												style={{
 													color: 'red',
-												}}></i>
+												}}
+											/>
 										)}
 									</td>
 									<td>

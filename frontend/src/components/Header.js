@@ -100,7 +100,8 @@ const Header = () => {
 									)}
 									<i
 										style={{ fontSize: '1.2em' }}
-										className='fas fa-shopping-cart'></i>{' '}
+										className='fas fa-shopping-cart'
+									/>{' '}
 									Cart
 								</Nav.Link>
 							</LinkContainer>
@@ -160,7 +161,8 @@ const Header = () => {
 									<Nav.Link>
 										<i
 											style={{ fontSize: '1.2em' }}
-											className='fas fa-user'></i>{' '}
+											className='fas fa-user'
+										/>{' '}
 										Sign In
 									</Nav.Link>
 								</LinkContainer>

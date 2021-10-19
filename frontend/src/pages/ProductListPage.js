@@ -91,7 +91,7 @@ const ProductListPage = ({ history, match }) => {
 							padding: '0.5em 1em',
 						}}
 						onClick={handleCreateProduct}>
-						<i className='fas fa-plus'> </i> Create Product
+						<i className='fas fa-plus' /> Create Product
 					</Button>
 				</Col>
 			</Row>
@@ -161,7 +161,7 @@ const ProductListPage = ({ history, match }) => {
 													<Button
 														variant='link'
 														className='btn-sm'>
-														<i className='fas fa-edit'></i>
+														<i className='fas fa-edit' />
 													</Button>
 												</LinkContainer>
 												<Button
@@ -177,7 +177,8 @@ const ProductListPage = ({ history, match }) => {
 															fontSize: '0.9em',
 															padding: '0',
 														}}
-														className='fas fa-trash'></i>
+														className='fas fa-trash'
+													/>
 												</Button>
 											</td>
 										</tr>

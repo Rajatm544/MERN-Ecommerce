@@ -81,7 +81,8 @@ const ImageMagnifier = ({
 					backgroundPositionY: `${
 						-y * zoomLevel + magnifierHeight / 2
 					}px`,
-				}}></div>
+				}}
+			/>
 		</div>
 	);
 };

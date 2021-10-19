@@ -104,10 +104,6 @@ const PlaceOrderPage = ({ history }) => {
 									<h2>Cart Items</h2>
 									{cartItems.length !== 0 ? (
 										<ListGroup variant='flush'>
-											<div
-												style={{
-													background: 'red',
-												}}></div>
 											{cartItems.map((item, idx) => (
 												<ListGroup.Item key={idx}>
 													<Row>

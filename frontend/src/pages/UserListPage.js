@@ -76,22 +76,26 @@ const UserListPage = ({ history }) => {
 										{user.isConfirmed ? (
 											<i
 												className='fas fa-check'
-												style={{ color: 'green' }}></i>
+												style={{ color: 'green' }}
+											/>
 										) : (
 											<i
 												className='fas fa-times'
-												style={{ color: 'red' }}></i>
+												style={{ color: 'red' }}
+											/>
 										)}
 									</td>
 									<td>
 										{user.isAdmin ? (
 											<i
 												className='fas fa-check'
-												style={{ color: 'green' }}></i>
+												style={{ color: 'green' }}
+											/>
 										) : (
 											<i
 												className='fas fa-times'
-												style={{ color: 'red' }}></i>
+												style={{ color: 'red' }}
+											/>
 										)}
 									</td>
 
@@ -106,7 +110,7 @@ const UserListPage = ({ history }) => {
 											<Button
 												variant='link'
 												className='btn-sm'>
-												<i className='fas fa-edit'></i>
+												<i className='fas fa-edit' />
 											</Button>
 										</LinkContainer>
 										<Button
@@ -115,7 +119,7 @@ const UserListPage = ({ history }) => {
 											onClick={() =>
 												handleDelete(user._id)
 											}>
-											<i className='fas fa-trash'></i>
+											<i className='fas fa-trash' />
 										</Button>
 									</td>
 								</tr>

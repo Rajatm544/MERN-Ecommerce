@@ -93,7 +93,8 @@ const PasswordResetPage = ({ match, history }) => {
 									}}
 									onChange={(e) =>
 										setPassword(e.target.value)
-									}></Form.Control>
+									}
+								/>
 							</FloatingLabel>
 							<div className='input-group-append'>
 								<InputGroup.Text
@@ -107,9 +108,9 @@ const PasswordResetPage = ({ match, history }) => {
 										background: 'transparent',
 									}}>
 									{typePassword === 'text' ? (
-										<i className='far fa-eye-slash'></i>
+										<i className='far fa-eye-slash' />
 									) : (
-										<i className='far fa-eye'></i>
+										<i className='far fa-eye' />
 									)}
 								</InputGroup.Text>
 							</div>
@@ -132,7 +133,8 @@ const PasswordResetPage = ({ match, history }) => {
 									}}
 									onChange={(e) =>
 										setConfirmPassword(e.target.value)
-									}></Form.Control>
+									}
+								/>
 							</FloatingLabel>
 							<div className='input-group-append'>
 								<InputGroup.Text
@@ -146,9 +148,9 @@ const PasswordResetPage = ({ match, history }) => {
 										background: 'transparent',
 									}}>
 									{typeConfirmPassword === 'text' ? (
-										<i className='far fa-eye-slash'></i>
+										<i className='far fa-eye-slash' />
 									) : (
-										<i className='far fa-eye'></i>
+										<i className='far fa-eye' />
 									)}
 								</InputGroup.Text>
 							</div>

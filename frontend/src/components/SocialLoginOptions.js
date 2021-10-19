@@ -15,9 +15,9 @@ const SocialLoginOptions = () => {
 				padding: '0',
 			}}>
 			<div className='social-login-container'>
-				<div className='social-login-line'></div>
+				<div className='social-login-line' />
 				<p className='social-login-content'>Or Connect With</p>
-				<div className='social-login-line'></div>
+				<div className='social-login-line' />
 			</div>
 			<Card.Body
 				style={{
@@ -36,7 +36,8 @@ const SocialLoginOptions = () => {
 							height: '2.5em',
 							objectFit: 'cover',
 						}}
-						src={googleLogo}></Image>
+						src={googleLogo}
+					/>
 				</a>
 				<a href={`${baseURL}api/auth/github`}>
 					<Image
@@ -46,7 +47,8 @@ const SocialLoginOptions = () => {
 							height: '2.5em',
 							objectFit: 'cover',
 						}}
-						src={githubLogo}></Image>
+						src={githubLogo}
+					/>
 				</a>
 				<a href={`${baseURL}api/auth/twitter`}>
 					<Image
@@ -56,7 +58,8 @@ const SocialLoginOptions = () => {
 							height: '2.5em',
 							objectFit: 'contain',
 						}}
-						src={twitterLogo}></Image>
+						src={twitterLogo}
+					/>
 				</a>
 				<a href={`${baseURL}api/auth/linkedin`}>
 					<Image
@@ -66,7 +69,8 @@ const SocialLoginOptions = () => {
 							height: '2.5em',
 							objectFit: 'contain',
 						}}
-						src={linkedinLogo}></Image>
+						src={linkedinLogo}
+					/>
 				</a>
 			</Card.Body>
 		</div>

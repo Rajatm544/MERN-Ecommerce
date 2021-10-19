@@ -104,7 +104,8 @@ const ProductListPage = ({ history, match }) => {
 													className='fas fa-times'
 													style={{
 														color: 'red',
-													}}></i>
+													}}
+												/>
 											)}
 										</td>
 										<td>
@@ -115,7 +116,8 @@ const ProductListPage = ({ history, match }) => {
 													className='fas fa-times'
 													style={{
 														color: 'red',
-													}}></i>
+													}}
+												/>
 											)}
 										</td>
 										<td

@@ -56,7 +56,6 @@ const HomePage = ({ match, history }) => {
 	return (
 		<>
 			<Meta />
-
 			{!keyword ? (
 				<ProductCarousel />
 			) : (

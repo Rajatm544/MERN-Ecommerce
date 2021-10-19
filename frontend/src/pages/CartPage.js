@@ -106,7 +106,8 @@ const CartPage = ({ match, location, history }) => {
 										<div>
 											<i
 												style={{ fontSize: '0.7em' }}
-												className='fas fa-times'></i>{' '}
+												className='fas fa-times'
+											/>{' '}
 											{item.qty}
 										</div>
 									</Col>
@@ -154,7 +155,7 @@ const CartPage = ({ match, location, history }) => {
 													);
 												}}
 												variant='primary'>
-												<i className='fas fa-plus'></i>
+												<i className='fas fa-plus' />
 											</Button>
 											<Button
 												style={{
@@ -172,7 +173,7 @@ const CartPage = ({ match, location, history }) => {
 														)
 													);
 												}}>
-												<i className='fas fa-minus'></i>
+												<i className='fas fa-minus' />
 											</Button>
 										</ButtonGroup>
 									</Col>
@@ -184,7 +185,7 @@ const CartPage = ({ match, location, history }) => {
 													item.product
 												)
 											}>
-											<i className='fas fa-trash'></i>
+											<i className='fas fa-trash' />
 										</Button>
 									</Col>
 								</Row>
