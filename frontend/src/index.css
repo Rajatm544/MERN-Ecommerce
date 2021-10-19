@@ -20,6 +20,8 @@ h2 {
     transition: all 0.4s ease-in-out;
 }
 
+
+
 button.navbar-toggle-btn:focus {
     box-shadow: none;
 }
@@ -50,12 +52,27 @@ button.navbar-toggle-btn:focus {
     filter: brightness(1.1);
 }
 
+.social-login-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+    padding: 0;
+}
 
-#social-login .social-login-line {
+.social-login-line {
     border: 0;
     width: 33%;
     height: 0;
     border-top: 1px solid #cdcdcd;
+}
+
+.social-login-content {
+    padding: 0;
+    margin: 0 1%;
+    font-weight: 400;
+    font-size: 0.9rem;
 }
 
 .profile-page-image {
@@ -231,6 +248,19 @@ footer.footer-container {
 @media (max-width: 430px) {
     .carousel {
         display: none;
+    }
+
+
+    .social-login-line {
+        width: 30%;
+    }
+
+    button.remember-password {
+        font-size: 0.8rem;
+    }
+
+    .social-login-content {
+        font-size: 0.8rem;
     }
 
     .footer-icons {

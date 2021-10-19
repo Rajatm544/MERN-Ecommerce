@@ -331,6 +331,7 @@ const LoginPage = ({ location, history }) => {
 									<Button
 										type='button'
 										variant='link'
+										className='remember-password'
 										style={{
 											marginTop: '-1em',
 											padding: '0',

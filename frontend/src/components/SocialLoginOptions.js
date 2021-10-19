@@ -8,32 +8,15 @@ import linkedinLogo from '../assets/linkedinLogo.png';
 const SocialLoginOptions = () => {
 	const baseURL = process.env.REACT_APP_BASE_URL;
 	return (
-		// <Card>
 		<div
 			id='social-login'
 			style={{
 				margin: '1em 0',
 				padding: '0',
 			}}>
-			<div
-				style={{
-					display: 'flex',
-					flexFlow: 'row nowrap',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					marginBottom: '1em',
-					padding: '0',
-				}}>
+			<div className='social-login-container'>
 				<div className='social-login-line'></div>
-				<p
-					style={{
-						padding: '0',
-						margin: '0 1%',
-						fontWeight: '400',
-						fontSize: '0.9rem',
-					}}>
-					Or Connect With
-				</p>
+				<p className='social-login-content'>Or Connect With</p>
 				<div className='social-login-line'></div>
 			</div>
 			<Card.Body
@@ -87,8 +70,6 @@ const SocialLoginOptions = () => {
 				</a>
 			</Card.Body>
 		</div>
-
-		// </Card>
 	);
 };
 
