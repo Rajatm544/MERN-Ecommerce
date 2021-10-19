@@ -241,6 +241,10 @@ footer.footer-container {
     margin: 0 auto;
 }
 
+.form-control:focus {
+    box-shadow: none;
+}
+
 @media (max-width: 900px) {
     .carousel-caption h2 {
         font-size: 2.5vw;
