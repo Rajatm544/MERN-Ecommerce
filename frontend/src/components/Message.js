@@ -12,7 +12,7 @@ const Message = ({ variant, duration, children, dismissible }) => {
 		if (duration) {
 			setTimeout(() => setVisible(false), duration * 1000);
 		}
-	});
+	}, [duration]);
 
 	return (
 		<Alert
