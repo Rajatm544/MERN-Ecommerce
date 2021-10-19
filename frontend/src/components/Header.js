@@ -58,9 +58,11 @@ const Header = () => {
 				onClick={() => {
 					setShow1(false);
 					setShow2(false);
-				}}></section>
+				}}
+			/>
+
 			<Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
-				<Container style={{ maxWidth: '85%' }}>
+				<Container>
 					<LinkContainer to='/'>
 						<Navbar.Brand>KOSELLS</Navbar.Brand>
 					</LinkContainer>
@@ -73,9 +75,12 @@ const Header = () => {
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Route
 							render={({ history }) => (
-								<SearchBox history={history} />
+								<div className='d-none d-md-block'>
+									<SearchBox history={history} />
+								</div>
 							)}
 						/>
+
 						<Nav className='ms-auto'>
 							<LinkContainer to='/cart'>
 								<Nav.Link>

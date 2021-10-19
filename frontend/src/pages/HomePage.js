@@ -10,8 +10,9 @@ import { listProducts } from '../actions/productActions';
 import { refreshLogin, getUserDetails } from '../actions/userActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import SearchBox from '../components/SearchBox';
 
-const HomePage = ({ match }) => {
+const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword;
 	const pageNumber = Number(match.params.pageNumber) || 1;
 	const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const HomePage = ({ match }) => {
 	return (
 		<>
 			<Meta />
+
 			{!keyword ? (
 				<ProductCarousel />
 			) : (
@@ -65,6 +67,9 @@ const HomePage = ({ match }) => {
 				</Link>
 			)}
 			{/* <h1>Latest Products.</h1> */}
+			<div className='d-block d-md-none'>
+				<SearchBox history={history} />
+			</div>
 			{promptVerfication ? (
 				<Message dismissible variant='info' duration={10}>
 					Account Created! Please check your email to verify your
