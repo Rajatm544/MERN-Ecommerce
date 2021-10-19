@@ -20,7 +20,9 @@ h2 {
     transition: all 0.4s ease-in-out;
 }
 
-
+p.product-title {
+    min-height: 7ch;
+}
 
 button.navbar-toggle-btn:focus {
     box-shadow: none;
@@ -254,6 +256,16 @@ footer.footer-container {
     .social-login-line {
         width: 30%;
     }
+
+    p.product-title {
+        min-height: auto;
+    }
+
+    img.product-image {
+        aspect-ratio: 1.5;
+        object-fit: cover;
+    }
+
 
     button.remember-password {
         font-size: 0.8rem;
