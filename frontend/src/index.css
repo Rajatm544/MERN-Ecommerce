@@ -20,11 +20,11 @@ h2 {
     transition: all 0.4s ease-in-out;
 }
 
-.nav-cart-size {            
+.nav-cart-size {
     position: absolute;
     height: 1em;
     width: 1em;
-    top:25%;
+    top: 25%;
     color: white;
     display: flex;
     align-items: center;
@@ -82,30 +82,30 @@ h2 {
     display: inline-block;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;   
+    box-sizing: border-box;
     cursor: pointer;
 }
 
-.profile-page-image:hover .image-overlay-product{
-        height: 85%;
-        width: 100%;
-        border: 1px solid #ced4da;
-        background: rgba(0, 0, 0, .5);
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 0.8em;
-        font-weight: lighter;
-        padding: 1.5em;
-        margin: 0;
-        border-radius: 0.25rem;
-        color: ghostwhite;
-        text-align: center;
-        display: inline-block;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        cursor: pointer;
+.profile-page-image:hover .image-overlay-product {
+    height: 85%;
+    width: 100%;
+    border: 1px solid #ced4da;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.8em;
+    font-weight: lighter;
+    padding: 1.5em;
+    margin: 0;
+    border-radius: 0.25rem;
+    color: ghostwhite;
+    text-align: center;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .form-heading {
@@ -136,7 +136,7 @@ h2 {
     border: 2px solid ghostwhite;
     border-top: 0;
     transition: all 0.2s ease-in-out;
-    
+
 }
 
 .rating span {
@@ -168,15 +168,24 @@ h2 {
     box-sizing: border-box; */
 }
 
+footer.footer-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
 .footer-icons {
     width: 12%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
+
 .footer-icons a {
     color: #212529;
 }
+
 .footer-icon {
     font-size: 1.2em;
     line-height: 1.2em;
@@ -218,5 +227,14 @@ h2 {
 @media (max-width: 430px) {
     .carousel {
         display: none;
+    }
+
+    .footer-icons {
+        width: 30%;
+    }
+
+    .footer-container {
+        margin-right: 0;
+        margin-bottom: 0;
     }
 }
