@@ -64,7 +64,12 @@ const Header = () => {
 					<LinkContainer to='/'>
 						<Navbar.Brand>KOSELLS</Navbar.Brand>
 					</LinkContainer>
-					<Navbar.Toggle aria-controls='basic-navbar-nav' />
+
+					<Navbar.Toggle
+						className='navbar-toggle-btn'
+						aria-controls='basic-navbar-nav'
+					/>
+
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Route
 							render={({ history }) => (

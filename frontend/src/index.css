@@ -20,6 +20,10 @@ h2 {
     transition: all 0.4s ease-in-out;
 }
 
+button.navbar-toggle-btn:focus {
+    box-shadow: none;
+}
+
 .nav-cart-size {
     position: absolute;
     height: 1em;
