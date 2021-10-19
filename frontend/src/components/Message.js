@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-bootstrap';
 
-const Message = ({ variant, duration, children }) => {
+const Message = ({ variant, duration, children, dismissible }) => {
 	const [visible, setVisible] = useState(true);
 
 	useEffect(() => {
@@ -17,7 +17,7 @@ const Message = ({ variant, duration, children }) => {
 	return (
 		<Alert
 			onClose={() => setVisible(false)}
-			dismissible
+			dismissible={dismissible}
 			className='alert-custom'
 			style={visible ? { display: 'block' } : { display: 'none' }}
 			variant={variant}>
@@ -28,6 +28,7 @@ const Message = ({ variant, duration, children }) => {
 
 Message.defaultProps = {
 	variant: 'info',
+	dismissible: false,
 };
 
 export default Message;

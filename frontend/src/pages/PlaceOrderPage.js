@@ -228,6 +228,7 @@ const PlaceOrderPage = ({ history }) => {
 									{error && (
 										<ListGroup.Item>
 											<Message
+												dismissible
 												variant='danger'
 												duration={10}>
 												{error}

@@ -66,7 +66,7 @@ const HomePage = ({ match }) => {
 			)}
 			{/* <h1>Latest Products.</h1> */}
 			{promptVerfication ? (
-				<Message variant='info' duration={10}>
+				<Message dismissible variant='info' duration={10}>
 					Account Created! Please check your email to verify your
 					account and start shopping.
 				</Message>
@@ -74,7 +74,7 @@ const HomePage = ({ match }) => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{error}
 				</Message>
 			) : (

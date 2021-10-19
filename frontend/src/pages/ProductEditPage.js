@@ -138,7 +138,7 @@ const ProductEditPage = ({ match, history }) => {
 				{loadingUpdate ? (
 					<Loader />
 				) : errorUpdate ? (
-					<Message variant='danger' duration={10}>
+					<Message dismissible variant='danger' duration={10}>
 						{errorUpdate}
 					</Message>
 				) : (
@@ -148,7 +148,10 @@ const ProductEditPage = ({ match, history }) => {
 						) : (
 							<Form onSubmit={handleSubmit}>
 								{error && (
-									<Message variant='danger' duration={10}>
+									<Message
+										dismissible
+										variant='danger'
+										duration={10}>
 										{error}
 									</Message>
 								)}
@@ -190,7 +193,10 @@ const ProductEditPage = ({ match, history }) => {
 									</FloatingLabel>
 								</Form.Group>
 								{errorImageUpload && (
-									<Message variant='danger' duration={10}>
+									<Message
+										dismissible
+										variant='danger'
+										duration={10}>
 										{errorImageUpload}
 									</Message>
 								)}

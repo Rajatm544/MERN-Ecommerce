@@ -75,12 +75,12 @@ const RegisterPage = ({ location, history }) => {
 					</h1>
 				</div>
 				{message && (
-					<Message variant='warning' duration={10}>
+					<Message dismissible variant='warning' duration={10}>
 						{message}
 					</Message>
 				)}
 				{error && (
-					<Message variant='danger' duration={10}>
+					<Message dismissible variant='danger' duration={10}>
 						{error}
 					</Message>
 				)}

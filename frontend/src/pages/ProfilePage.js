@@ -197,7 +197,7 @@ const ProfilePage = ({ location, history }) => {
 						</Message>
 					)}
 					{hasError && (
-						<Message variant='danger' duration={10}>
+						<Message dismissible variant='danger' duration={10}>
 							{hasError}
 						</Message>
 					)}
@@ -247,17 +247,17 @@ const ProfilePage = ({ location, history }) => {
 				}>
 				<h2 className='text-center'>My Profile</h2>
 				{message && (
-					<Message variant='warning' duration={8}>
+					<Message dismissible variant='warning' duration={8}>
 						{message}
 					</Message>
 				)}
 				{error && error !== 'Not authorised. Token failed' && (
-					<Message variant='danger' duration={10}>
+					<Message dismissible variant='danger' duration={10}>
 						{error}
 					</Message>
 				)}
 				{success && (
-					<Message variant='success' duration={8}>
+					<Message dismissible variant='success' duration={8}>
 						Profile Updated!
 					</Message>
 				)}
@@ -266,7 +266,7 @@ const ProfilePage = ({ location, history }) => {
 				) : (
 					<div style={{ display: 'flex', flexFlow: 'column nowrap' }}>
 						{errorImageUpload && (
-							<Message variant='danger' duration={10}>
+							<Message dismissible variant='danger' duration={10}>
 								{errorImageUpload}
 							</Message>
 						)}
@@ -474,7 +474,7 @@ const ProfilePage = ({ location, history }) => {
 				{loadingOrdersList ? (
 					<Loader />
 				) : errorOrdersList ? (
-					<Message variant='danger' duration={10}>
+					<Message dismissible variant='danger' duration={10}>
 						{errorOrdersList}
 					</Message>
 				) : (

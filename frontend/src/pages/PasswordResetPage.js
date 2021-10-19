@@ -58,16 +58,20 @@ const PasswordResetPage = ({ match, history }) => {
 		<FormContainer>
 			<h1>{name ? `${name}, reset password` : 'Reset Password'}</h1>
 			{message && (
-				<Message duration={8} variant='warning'>
+				<Message dismissible duration={8} variant='warning'>
 					{message}
 				</Message>
 			)}
 			{resetPassword && (
-				<Message variant='success' duration={8}>
+				<Message dismissible variant='success' duration={8}>
 					Password Changed Successfully.
 				</Message>
 			)}
-			{error && <Message variant='danger'>{error}</Message>}
+			{error && (
+				<Message dismissible variant='danger'>
+					{error}
+				</Message>
+			)}
 			{loading ? (
 				<Loader />
 			) : (

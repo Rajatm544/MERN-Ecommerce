@@ -139,7 +139,7 @@ const OrderPage = ({ match, history }) => {
 	return loading ? (
 		<Loader />
 	) : error ? (
-		<Message variant='danger' duration={10}>
+		<Message dismissible variant='danger' duration={10}>
 			{error}
 		</Message>
 	) : (
@@ -271,6 +271,7 @@ const OrderPage = ({ match, history }) => {
 									{error && (
 										<ListGroup.Item>
 											<Message
+												dismissible
 												variant='danger'
 												duration={10}>
 												{error}

@@ -18,7 +18,11 @@ const ProductCarousel = () => {
 	return (
 		<>
 			{loading && <Loader />}
-			{error && <Message variant='danger'>{error}</Message>}
+			{error && (
+				<Message dismissible variant='danger'>
+					{error}
+				</Message>
+			)}
 			<Carousel
 				style={{ marginTop: '0.5em' }}
 				pause='hover'

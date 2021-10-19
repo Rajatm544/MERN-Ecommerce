@@ -96,19 +96,19 @@ const ProductListPage = ({ history, match }) => {
 				</Col>
 			</Row>
 			{errorDelete && (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{errorDelete}
 				</Message>
 			)}
 			{errorCreate && (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{errorCreate}
 				</Message>
 			)}
 			{loading || loadingCreate || loadingDelete ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{error}
 				</Message>
 			) : (

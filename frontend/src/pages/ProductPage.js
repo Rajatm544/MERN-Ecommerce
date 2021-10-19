@@ -150,7 +150,7 @@ const ProductPage = ({ history, match }) => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{error}
 				</Message>
 			) : product ? (
@@ -286,7 +286,7 @@ const ProductPage = ({ history, match }) => {
 						<Col md={6}>
 							<h2>Reviews</h2>
 							{!product.reviews.length && (
-								<Message>No Reviews yet</Message>
+								<Message dismissible>No Reviews yet</Message>
 							)}
 							<ListGroup variant='flush'>
 								{product.reviews.map((item) => {
@@ -302,7 +302,7 @@ const ProductPage = ({ history, match }) => {
 									);
 								})}
 								{hasOrderedItem && !showReviewForm && (
-									<Message>
+									<Message dismissible>
 										You have already reviewed this product
 									</Message>
 								)}
@@ -311,6 +311,7 @@ const ProductPage = ({ history, match }) => {
 										<h2>Write a Customer Review</h2>
 										{errorCreateReview && (
 											<Message
+												dismissible
 												variant='info'
 												duration={10}>
 												{errorCreateReview}

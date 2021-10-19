@@ -72,7 +72,11 @@ const CheckoutForm = ({ price, orderID }) => {
 
 	return (
 		<Form id='payment-form' onSubmit={makePayment}>
-			{error && <Message variant='danger'>{error}</Message>}
+			{error && (
+				<Message dismissible variant='danger'>
+					{error}
+				</Message>
+			)}
 			<Form.Group
 				style={{
 					margin: '1em 0',

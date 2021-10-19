@@ -56,7 +56,7 @@ const ProductListPage = ({ history, match }) => {
 			{loading ? (
 				<Loader />
 			) : error ? (
-				<Message variant='danger' duration={10}>
+				<Message dismissible variant='danger' duration={10}>
 					{error}
 				</Message>
 			) : (
