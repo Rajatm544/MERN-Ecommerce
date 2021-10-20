@@ -17,6 +17,7 @@ import FormContainer from '../components/FormContainer';
 import SocialLoginOptions from '../components/SocialLoginOptions';
 
 const LoginPage = ({ location, history }) => {
+	const [authFailedMsg, setAuthFailedMsg] = useState('');
 	const [showRedirectMsg, setShowRedirectMsg] = useState(false);
 	const [forgotPassword, setForgotPassword] = useState(false);
 	const [showLoading, setShowLoading] = useState(false); // to display loader after user submits the email to reset password
@@ -35,6 +36,37 @@ const LoginPage = ({ location, history }) => {
 		if (!location.search.includes('success') && userInfo)
 			history.push(redirect);
 	}, [history, redirect, location, userInfo]);
+	console.log(authFailedMsg);
+	useEffect(() => {
+		if (location.search.includes('login=failed')) {
+			const errorCodeQuery = location.search.split('&')[1];
+			const errorCode = errorCodeQuery.split('=')[1];
+			switch (errorCode) {
+				case '0':
+					setAuthFailedMsg(
+						'It looks like you had registered using a Google Account'
+					);
+					break;
+				case '1':
+					setAuthFailedMsg(
+						'It looks like you had registered using a Github Account'
+					);
+					break;
+				case '2':
+					setAuthFailedMsg(
+						'It looks like you had registered using a Twitter Account'
+					);
+					break;
+				case '3':
+					setAuthFailedMsg(
+						'It looks like you had registered using a LinkedIn Account'
+					);
+					break;
+				default:
+					return;
+			}
+		}
+	}, [location.search]);
 
 	useEffect(() => {
 		const flag = localStorage.getItem('redirectLogin');
@@ -141,6 +173,11 @@ const LoginPage = ({ location, history }) => {
 		return (
 			<>
 				<FormContainer>
+					{authFailedMsg && (
+						<Message variant='danger' dismissible>
+							{authFailedMsg}
+						</Message>
+					)}
 					<div className='form-inner-container'>
 						<div className='form-heading'>
 							<h1
