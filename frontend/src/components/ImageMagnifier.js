@@ -22,6 +22,7 @@ const ImageMagnifier = ({
 				width: width,
 			}}>
 			<Image
+				className='product-image'
 				src={src}
 				style={{ height: height, width: width }}
 				fluid
