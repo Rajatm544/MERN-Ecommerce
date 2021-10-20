@@ -19,6 +19,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import configRoutes from './routes/configRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import setupPassport from './config/passportSetup.js';
+import flash from 'connect-flash';
 
 dotenv.config();
 const app = express();
@@ -44,6 +45,7 @@ app.use(
 // initialise passport middleware to use sessions
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // setup passport
 setupPassport();
