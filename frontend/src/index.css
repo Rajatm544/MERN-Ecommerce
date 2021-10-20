@@ -256,7 +256,6 @@ footer.footer-container {
         display: none;
     }
 
-
     .social-login-line {
         width: 30%;
     }
@@ -269,7 +268,6 @@ footer.footer-container {
         aspect-ratio: 1.5;
         object-fit: cover;
     }
-
 
     button.remember-password {
         font-size: 0.8rem;
@@ -286,5 +284,6 @@ footer.footer-container {
     .footer-container {
         margin-right: 0;
         margin-bottom: 0;
+        font-size: 0.9em;
     }
 }
