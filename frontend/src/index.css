@@ -264,6 +264,11 @@ footer.footer-container {
 }
 
 @media (max-width: 430px) {
+    .navbar-dropdown-cover {
+        display: none;
+        visibility: hidden;
+    }
+
     .carousel {
         display: none;
     }

@@ -47,8 +47,12 @@ const Header = () => {
 	return (
 		<header>
 			<section
+				className='navbar-dropdown-cover'
 				style={{
-					display: show1 || show2 ? 'block' : 'none',
+					display:
+						window.innerHeight > 430 && (show1 || show2)
+							? 'block'
+							: 'none',
 					minWidth: '100%',
 					height: '100%',
 					// background: 'red',
