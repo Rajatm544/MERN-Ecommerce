@@ -36,7 +36,7 @@ const LoginPage = ({ location, history }) => {
 		if (!location.search.includes('success') && userInfo)
 			history.push(redirect);
 	}, [history, redirect, location, userInfo]);
-	console.log(authFailedMsg);
+
 	useEffect(() => {
 		if (location.search.includes('login=failed')) {
 			const errorCodeQuery = location.search.split('&')[1];
