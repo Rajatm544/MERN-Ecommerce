@@ -57,7 +57,7 @@ const HomePage = ({ match, history }) => {
 		<>
 			<Meta />
 			{!keyword ? (
-				<ProductCarousel />
+				window.innerWidth > 430 && <ProductCarousel />
 			) : (
 				<Link
 					className='btn btn-outline btn-outline-primary my-2'
