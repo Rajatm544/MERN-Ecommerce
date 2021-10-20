@@ -64,7 +64,14 @@ const Header = () => {
 			<Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
 				<Container>
 					<LinkContainer to='/'>
-						<Navbar.Brand>KOSELLS</Navbar.Brand>
+						<Navbar.Brand>
+							<img
+								src='/images/kosells.png'
+								className='nav-logo'
+								alt='logo'
+							/>
+							KOSELLS
+						</Navbar.Brand>
 					</LinkContainer>
 
 					<Navbar.Toggle

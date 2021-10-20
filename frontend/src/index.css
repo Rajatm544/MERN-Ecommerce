@@ -28,6 +28,18 @@ button.navbar-toggle-btn:focus {
     box-shadow: none;
 }
 
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 12%;
+}
+
+.nav-logo {
+    width: 1.8em;
+    height: 1.8em;
+}
+
 .nav-cart-size {
     position: absolute;
     height: 1em;
@@ -254,6 +266,14 @@ footer.footer-container {
 @media (max-width: 430px) {
     .carousel {
         display: none;
+    }
+
+    .nav-logo {
+        margin-right: 0.25em;
+    }
+
+    .navbar-brand {
+        width: auto;
     }
 
     .social-login-line {
