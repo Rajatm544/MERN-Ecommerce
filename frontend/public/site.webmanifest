@@ -1,0 +1,23 @@
+{
+	"name": "Kosells Ecommerce",
+	"short_name": "Kosells",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "maskable any"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable any"
+		}
+	],
+	"theme_color": "#2c3e50",
+	"background_color": "#dee2e6",
+	"display": "standalone",
+	"description": "An E-commerce app to buy the best products at the lowest prices! Built by Rajat",
+	"start_url": "/"
+}
