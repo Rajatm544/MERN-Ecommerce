@@ -187,7 +187,7 @@ const ProfilePage = ({ location, history }) => {
 		}
 	};
 	return (
-		<Row className={userInfo && userInfo.isConfirmed ? 'mt-4' : 'mt-2'}>
+		<Row className='mt-2'>
 			<Meta title='My Profile | Kosells' />
 			{userInfo && !userInfo.isConfirmed ? (
 				<>
@@ -237,12 +237,10 @@ const ProfilePage = ({ location, history }) => {
 						? {
 								opacity: '0.5',
 								pointerEvents: 'none',
-								marginLeft: '-1em',
 						  }
 						: {
 								opacity: '1',
 								pointerEvents: '',
-								marginLeft: '-1em',
 						  }
 				}>
 				<h2 className='text-center'>My Profile</h2>
