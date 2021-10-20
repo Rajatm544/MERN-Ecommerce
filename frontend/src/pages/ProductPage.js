@@ -282,90 +282,93 @@ const ProductPage = ({ history, match }) => {
 							</Card>
 						</Col>
 					</Row>
-					<Row>
-						<Col md={6}>
-							<h2>Reviews</h2>
-							{!product.reviews.length && (
-								<Message dismissible>No Reviews yet</Message>
-							)}
-							<ListGroup variant='flush'>
-								{product.reviews.map((item) => {
-									return (
-										<ListGroup.Item key={item._id}>
-											<strong>{item.name}</strong>
-											<Rating value={item.rating} />
-											<p>{item.review}</p>
-											<time>
-												{getDateString(item.createdAt)}
-											</time>
-										</ListGroup.Item>
-									);
-								})}
-								{hasOrderedItem && !showReviewForm && (
-									<Message dismissible>
-										You have already reviewed this product
-									</Message>
-								)}
-								{hasOrderedItem && showReviewForm && (
-									<>
-										<h2>Write a Customer Review</h2>
-										{errorCreateReview && (
-											<Message
-												dismissible
-												variant='info'
-												duration={10}>
-												{errorCreateReview}
-											</Message>
-										)}
-										{loadingCreateReview && <Loader />}
-										<Form onSubmit={handleReviewSubmit}>
-											<Form.Group controlId='rating'>
-												<Form.Control
-													as='select'
-													value={rating}
-													onChange={(e) =>
-														setRating(
-															e.target.value
-														)
-													}>
-													<option default>
-														Choose Rating
-													</option>
-													<option value='1'>
-														1 - Bad
-													</option>
-													<option value='2'>
-														2 - Poor
-													</option>
-													<option value='3'>
-														3 - Fair
-													</option>
-													<option value='4'>
-														4 - Good
-													</option>
-													<option value='5'>
-														5 - Excellent
-													</option>
-												</Form.Control>
-											</Form.Group>
-											<Form.Group controlId='comment'>
-												<FloatingLabel
-													controlId='commenttext'
-													label='Comment'
-													className='my-3'>
+					{product.reviews.length ? (
+						<Row>
+							<Col md={6}>
+								<h2>Reviews</h2>
+
+								<ListGroup variant='flush'>
+									{product.reviews.map((item) => {
+										return (
+											<ListGroup.Item key={item._id}>
+												<strong>{item.name}</strong>
+												<Rating value={item.rating} />
+												<p>{item.review}</p>
+												<time>
+													{getDateString(
+														item.createdAt
+													)}
+												</time>
+											</ListGroup.Item>
+										);
+									})}
+									{hasOrderedItem && !showReviewForm && (
+										<Message dismissible>
+											You have already reviewed this
+											product
+										</Message>
+									)}
+									{hasOrderedItem && showReviewForm && (
+										<>
+											<h2>Write a Customer Review</h2>
+											{errorCreateReview && (
+												<Message
+													dismissible
+													variant='info'
+													duration={10}>
+													{errorCreateReview}
+												</Message>
+											)}
+											{loadingCreateReview && <Loader />}
+											<Form onSubmit={handleReviewSubmit}>
+												<Form.Group controlId='rating'>
 													<Form.Control
-														as='textarea'
-														placeholder='Leave a comment here'
-														row='3'
+														as='select'
+														value={rating}
 														onChange={(e) =>
-															setReview(
+															setRating(
 																e.target.value
 															)
-														}
-														value={review}
-													/>
-												</FloatingLabel>
-												{/* <Form.Label>Comment</Form.Label>
+														}>
+														<option default>
+															Choose Rating
+														</option>
+														<option value='1'>
+															1 - Bad
+														</option>
+														<option value='2'>
+															2 - Poor
+														</option>
+														<option value='3'>
+															3 - Fair
+														</option>
+														<option value='4'>
+															4 - Good
+														</option>
+														<option value='5'>
+															5 - Excellent
+														</option>
+													</Form.Control>
+												</Form.Group>
+												<Form.Group controlId='comment'>
+													<FloatingLabel
+														controlId='commenttext'
+														label='Comment'
+														className='my-3'>
+														<Form.Control
+															as='textarea'
+															placeholder='Leave a comment here'
+															row='3'
+															onChange={(e) =>
+																setReview(
+																	e.target
+																		.value
+																)
+															}
+															value={review}
+														/>
+													</FloatingLabel>
+													{/* <Form.Label>Comment</Form.Label>
 												<Form.Control
 													as='textarea'
 													row='3'
@@ -377,18 +380,21 @@ const ProductPage = ({ history, match }) => {
 													value={
 														review
 													}></Form.Control> */}
-											</Form.Group>
-											<div className='d-grid'>
-												<Button type='submit'>
-													Submit Review
-												</Button>
-											</div>
-										</Form>
-									</>
-								)}
-							</ListGroup>
-						</Col>
-					</Row>
+												</Form.Group>
+												<div className='d-grid'>
+													<Button type='submit'>
+														Submit Review
+													</Button>
+												</div>
+											</Form>
+										</>
+									)}
+								</ListGroup>
+							</Col>
+						</Row>
+					) : (
+						''
+					)}
 				</>
 			) : (
 				''
