@@ -9,6 +9,30 @@ import generateGravatar from '../utils/generateGravatar.js';
 
 dotenv.config();
 const backendURL = process.env.BACKEND_BASE_URL;
+
+const handleAuthError = (err, done) => {
+	User.findOne({
+		email: err.keyValue.email,
+	}).then((user) => {
+		if (user.googleID)
+			return done(null, false, {
+				message: 'Registered using google account',
+			});
+		if (user.githubID)
+			return done(null, false, {
+				message: 'Registered using github account',
+			});
+		if (user.twitterID)
+			return done(null, false, {
+				message: 'Registered using twitter account',
+			});
+		if (user.linkedinID)
+			return done(null, false, {
+				message: 'Registered using linkedin account',
+			});
+	});
+};
+
 const setupPassport = () => {
 	passport.serializeUser((user, done) => {
 		done(null, user.id);
@@ -38,9 +62,13 @@ const setupPassport = () => {
 							googleID: profile.id,
 							email: profile._json.email,
 							avatar: generateGravatar(profile._json.email),
-						}).then((user) => {
-							done(null, user);
-						});
+						})
+							.then((user) => {
+								done(null, user);
+							})
+							.catch((err) => {
+								handleAuthError(err, done);
+							});
 					} else {
 						done(null, foundUser);
 					}
@@ -66,9 +94,13 @@ const setupPassport = () => {
 							githubID: profile.id,
 							avatar: generateGravatar(profile._json.email),
 							email: profile._json.email,
-						}).then((user) => {
-							done(null, user);
-						});
+						})
+							.then((user) => {
+								done(null, user);
+							})
+							.catch((err) => {
+								handleAuthError(err, done);
+							});
 					} else {
 						done(null, foundUser);
 					}
@@ -96,9 +128,13 @@ passport.use(
 						twitterID: profile.id,
 						avatar: generateGravatar(profile._json.email),
 						email: profile._json.email,
-					}).then((user) => {
-						done(null, user);
-					});
+					})
+						.then((user) => {
+							done(null, user);
+						})
+						.catch((err) => {
+							handleAuthError(err, done);
+						});
 				} else {
 					done(null, foundUser);
 				}
@@ -126,9 +162,13 @@ passport.use(
 						linkedinID: profile.id,
 						email: profile.emails[0].value,
 						avatar: generateGravatar(profile.emails[0].value),
-					}).then((user) => {
-						done(null, user);
-					});
+					})
+						.then((user) => {
+							done(null, user);
+						})
+						.catch((err) => {
+							handleAuthError(err, done);
+						});
 				} else {
 					done(null, foundUser);
 				}
