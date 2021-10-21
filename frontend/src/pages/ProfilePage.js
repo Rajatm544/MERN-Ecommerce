@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
 	Form,
 	Button,
@@ -468,79 +469,98 @@ const ProfilePage = ({ location, history }) => {
 								pointerEvents: '',
 						  }
 				}>
-				<h2 className='text-center'>My Orders</h2>
-				{loadingOrdersList ? (
-					<Loader />
-				) : errorOrdersList ? (
-					<Message dismissible variant='danger' duration={10}>
-						{errorOrdersList}
-					</Message>
+				{orders && orders.length ? (
+					<>
+						<h2 className='text-center'>My Orders</h2>
+						{loadingOrdersList ? (
+							<Loader />
+						) : errorOrdersList ? (
+							<Message dismissible variant='danger' duration={10}>
+								{errorOrdersList}
+							</Message>
+						) : (
+							<Table
+								striped
+								bordered
+								responsive
+								className='table-sm text-center'>
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>DATE</th>
+										<th>TOTAL</th>
+										<th>PAID</th>
+										<th>DELIVERED</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+								<tbody>
+									{orders.map((order, idx) => (
+										<tr
+											key={idx}
+											style={{
+												textAlign: 'center',
+												padding: '0',
+											}}>
+											<td>{order._id}</td>
+											<td>
+												{getDateString(order.createdAt)}
+											</td>
+											<td>{order.totalPrice}</td>
+											<td>
+												{order.isPaid ? (
+													getDateString(order.paidAt)
+												) : (
+													<i
+														className='fas fa-times'
+														style={{
+															color: 'red',
+														}}
+													/>
+												)}
+											</td>
+											<td>
+												{order.isDelivered ? (
+													getDateString(
+														order.deliveredAt
+													)
+												) : (
+													<i
+														className='fas fa-times'
+														style={{
+															color: 'red',
+														}}
+													/>
+												)}
+											</td>
+											<td>
+												<LinkContainer
+													to={`/order/${order._id}`}>
+													<Button
+														variant='link'
+														className='btn-sm'
+														style={{ margin: '0' }}>
+														Details
+													</Button>
+												</LinkContainer>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</Table>
+						)}
+					</>
 				) : (
-					<Table
-						striped
-						bordered
-						responsive
-						className='table-sm text-center'>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>DATE</th>
-								<th>TOTAL</th>
-								<th>PAID</th>
-								<th>DELIVERED</th>
-								<th>ACTION</th>
-							</tr>
-						</thead>
-						<tbody>
-							{orders.map((order, idx) => (
-								<tr
-									key={idx}
-									style={{
-										textAlign: 'center',
-										padding: '0',
-									}}>
-									<td>{order._id}</td>
-									<td>{getDateString(order.createdAt)}</td>
-									<td>{order.totalPrice}</td>
-									<td>
-										{order.isPaid ? (
-											getDateString(order.paidAt)
-										) : (
-											<i
-												className='fas fa-times'
-												style={{
-													color: 'red',
-												}}
-											/>
-										)}
-									</td>
-									<td>
-										{order.isDelivered ? (
-											getDateString(order.deliveredAt)
-										) : (
-											<i
-												className='fas fa-times'
-												style={{
-													color: 'red',
-												}}
-											/>
-										)}
-									</td>
-									<td>
-										<LinkContainer
-											to={`/order/${order._id}`}>
-											<Button
-												variant='link'
-												className='btn-sm'
-												style={{ margin: '0' }}>
-												Details
-											</Button>
-										</LinkContainer>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</Table>
+					<Card style={{ border: 'none', margin: '0 auto' }}>
+						<Meta title='Confirm Password | Kosells' />
+						<Card.Body>
+							<Card.Title>No Orders Yet!</Card.Title>
+							<Card.Text>
+								Details about all your orders will show up here.{' '}
+								<Link to='/'>Continue Shopping</Link>
+							</Card.Text>
+						</Card.Body>
+					</Card>
 				)}
 			</Col>
 		</Row>
