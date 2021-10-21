@@ -15,6 +15,7 @@ import SearchBox from '../components/SearchBox';
 const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword;
 	const pageNumber = Number(match.params.pageNumber) || 1;
+	const [allProducts, setAllProducts] = useState([]);
 	const dispatch = useDispatch();
 	const productList = useSelector((state) => state.productList);
 	const { products, loading, error, pages } = productList;
@@ -37,9 +38,15 @@ const HomePage = ({ match, history }) => {
 	useEffect(() => {
 		if (userInfoError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
-			user && dispatch(refreshLogin(user.email));
+			dispatch(refreshLogin(user?.email));
 		}
 	}, [userInfoError, dispatch, userInfo]);
+
+	useEffect(() => {
+		if (products && products.length) {
+			setAllProducts([...products]);
+		}
+	}, [products]);
 
 	useEffect(() => {
 		dispatch(listProducts(keyword, pageNumber));
@@ -85,8 +92,8 @@ const HomePage = ({ match, history }) => {
 				products && (
 					<>
 						<Row>
-							{products.length ? (
-								products.map((product) => {
+							{allProducts.length ? (
+								allProducts.map((product) => {
 									return (
 										<Col
 											sm={12}
