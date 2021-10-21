@@ -140,12 +140,7 @@ const Header = () => {
 								</NavDropdown>
 							)}
 							{userInfo ? (
-								<div
-									style={{
-										display: 'flex',
-										alignItems: 'center',
-										marginLeft: '0.8em',
-									}}>
+								<div className='nav-avatar-container'>
 									<img
 										src={userInfo.avatar}
 										className='nav-avatar'

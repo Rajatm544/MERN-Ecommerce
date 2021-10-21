@@ -58,6 +58,12 @@ button.navbar-toggle-btn:focus {
     font-weight: bold;
 }
 
+.nav-avatar-container {
+    display: flex;
+    align-items: center;
+    margin-left: 0.8em;
+}
+
 .nav-avatar {
     height: 35px;
     width: 35px;
@@ -279,6 +285,10 @@ footer.footer-container {
 
     .navbar-brand {
         width: auto;
+    }
+
+    .nav-avatar-container {
+        margin-left: 0;
     }
 
     .social-login-line {
