@@ -8,9 +8,11 @@ const Product = ({ product }) => {
 		<Card className='mt-3 p-0'>
 			<Link to={`/product/${product._id}`}>
 				<Card.Img
+					loading='lazy'
 					className='product-image'
 					src={product.image}
 					variant='top'
+					alt={product.name}
 				/>
 			</Link>
 
