@@ -552,7 +552,6 @@ const ProfilePage = ({ location, history }) => {
 					</>
 				) : (
 					<Card style={{ border: 'none', margin: '0 auto' }}>
-						<Meta title='Confirm Password | Kosells' />
 						<Card.Body>
 							<Card.Title>No Orders Yet!</Card.Title>
 							<Card.Text>
