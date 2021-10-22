@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import colors from 'colors';
 import morgan from 'morgan';
+import compression from 'compression';
 import cors from 'cors';
 import passport from 'passport';
 import passportSetup from './config/passportSetup.js';
@@ -33,6 +34,7 @@ connectDB();
 // middleware to use req.body
 app.use(express.json());
 app.use(cors());
+app.use(compression());
 
 // use cookie sessions
 app.use(
