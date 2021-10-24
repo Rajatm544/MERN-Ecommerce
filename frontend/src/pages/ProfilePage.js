@@ -38,6 +38,7 @@ const ProfilePage = ({ location, history }) => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState(null);
+	const [allOrders, setAllOrders] = useState([]);
 
 	const [uploading, setUploading] = useState(false);
 	const [errorImageUpload, setErrorImageUpload] = useState('');
@@ -71,6 +72,12 @@ const ProfilePage = ({ location, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	useEffect(() => {
+		if (orders && orders.length) {
+			setAllOrders([...orders]);
+		}
+	}, [orders]);
+
 	// useEffect(() => {
 	// 	if (avatar && avatar !== user.avatar)
 
@@ -92,8 +99,8 @@ const ProfilePage = ({ location, history }) => {
 		} else {
 			// if user is null, first fetch it and then set its details to the local state
 			if (!user || !user.name || success) {
-				dispatch({ type: USER_PROFILE_UPDATE_RESET });
 				dispatch(listMyOrders());
+				dispatch({ type: USER_PROFILE_UPDATE_RESET });
 				userInfo
 					? userInfo.isSocialLogin
 						? dispatch(getUserDetails(userInfo.id))
@@ -110,13 +117,14 @@ const ProfilePage = ({ location, history }) => {
 				setAvatar(user.avatar);
 			}
 		}
-	}, [history, userInfo, user, dispatch, success]);
+	}, [history, userInfo, user, dispatch, success, loadingOrdersList]);
 
 	const showHidePassword = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 		setTypePassword(typePassword === 'password' ? 'text' : 'password');
 	};
+
 	const showHideConfirmPassword = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -469,7 +477,7 @@ const ProfilePage = ({ location, history }) => {
 								pointerEvents: '',
 						  }
 				}>
-				{orders && orders.length ? (
+				{allOrders.length ? (
 					<>
 						<h2 className='text-center'>My Orders</h2>
 						{loadingOrdersList ? (
@@ -506,7 +514,16 @@ const ProfilePage = ({ location, history }) => {
 											<td>
 												{getDateString(order.createdAt)}
 											</td>
-											<td>{order.totalPrice}</td>
+											<td>
+												{order.totalPrice.toLocaleString(
+													'en-IN',
+													{
+														maximumFractionDigits: 0,
+														style: 'currency',
+														currency: 'INR',
+													}
+												)}
+											</td>
 											<td>
 												{order.isPaid ? (
 													getDateString(order.paidAt)
