@@ -132,7 +132,6 @@ const Header = () => {
 							<Nav.Link>
 								{count ? (
 									<div className='nav-cart-size'>
-										Cart
 										<span
 											style={
 												count > 10
