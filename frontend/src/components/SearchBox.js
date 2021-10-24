@@ -32,7 +32,20 @@ const SearchBox = ({ history }) => {
 						border: '1px solid #2c3e50',
 						borderLeft: 'none',
 					}}>
-					<i style={{ color: '#95a5a6' }} className='fas fa-search' />
+					<button
+						style={{
+							margin: '0',
+							border: '0',
+							outline: '0',
+							background: 'transparent',
+							padding: '0',
+						}}
+						type='submit'>
+						<i
+							style={{ color: '#95a5a6' }}
+							className='fas fa-search'
+						/>
+					</button>
 				</InputGroup.Text>
 			</InputGroup>
 
