@@ -33,6 +33,7 @@ const SearchBox = ({ history }) => {
 						borderLeft: 'none',
 					}}>
 					<button
+						aria-label='search'
 						style={{
 							margin: '0',
 							border: '0',
