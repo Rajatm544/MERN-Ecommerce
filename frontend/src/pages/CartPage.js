@@ -311,7 +311,7 @@ const CartPage = ({ match, location, history }) => {
 				<ListGroup>
 					<Card variant='flush'>
 						<ListGroup.Item>
-							<h2>
+							<h2 className='text-center'>
 								Subtotal ({totalItems}) Item
 								{totalItems > 1 && 's'}
 							</h2>

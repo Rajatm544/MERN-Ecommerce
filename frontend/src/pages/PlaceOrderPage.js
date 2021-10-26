@@ -152,7 +152,9 @@ const PlaceOrderPage = ({ history }) => {
 							<Card>
 								<ListGroup variant='flush'>
 									<ListGroup.Item className='text-center'>
-										<h2>Order Summary</h2>
+										<h2 className='text-center'>
+											Order Summary
+										</h2>
 									</ListGroup.Item>
 									<ListGroup.Item>
 										<Row>

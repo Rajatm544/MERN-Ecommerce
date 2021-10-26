@@ -267,7 +267,9 @@ const OrderPage = ({ match, history }) => {
 							<Card>
 								<ListGroup variant='flush'>
 									<ListGroup.Item>
-										<h2>Order Summary</h2>
+										<h2 className='text-center'>
+											Order Summary
+										</h2>
 									</ListGroup.Item>
 									{error && (
 										<ListGroup.Item>
