@@ -144,7 +144,7 @@ const OrderPage = ({ match, history }) => {
 		</Message>
 	) : (
 		<>
-			<h1>Order {orderID} </h1>
+			<h2>Order ID {orderID} </h2>
 			<Row>
 				{loading ? (
 					<Loader />
@@ -219,6 +219,7 @@ const OrderPage = ({ match, history }) => {
 														<Row>
 															<Col md={2}>
 																<Image
+																	className='product-image'
 																	src={
 																		item.image
 																	}
