@@ -150,6 +150,17 @@ button.navbar-toggle-btn:focus {
     cursor: pointer;
 }
 
+.status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.status-bar a.nav-link {
+    padding: 0;
+}
+
 .form-heading {
     display: flex;
     flex-flow: row wrap;
