@@ -109,6 +109,7 @@ const PlaceOrderPage = ({ history }) => {
 													<Row>
 														<Col md={2}>
 															<Image
+																className='product-image'
 																src={item.image}
 																alt={item.name}
 																fluid
@@ -150,7 +151,7 @@ const PlaceOrderPage = ({ history }) => {
 						<Col md={4}>
 							<Card>
 								<ListGroup variant='flush'>
-									<ListGroup.Item>
+									<ListGroup.Item className='text-center'>
 										<h2>Order Summary</h2>
 									</ListGroup.Item>
 									<ListGroup.Item>
@@ -159,14 +160,13 @@ const PlaceOrderPage = ({ history }) => {
 												<strong>Subtotal</strong>
 											</Col>
 											<Col>
-												{cart.itemsPrice.toLocaleString(
-													'en-IN',
-													{
-														maximumFractionDigits: 2,
-														style: 'currency',
-														currency: 'INR',
-													}
-												)}
+												{Number(
+													cart.itemsPrice
+												).toLocaleString('en-IN', {
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												})}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -176,14 +176,13 @@ const PlaceOrderPage = ({ history }) => {
 												<strong>Shipping</strong>
 											</Col>
 											<Col>
-												{cart.shippingPrice.toLocaleString(
-													'en-IN',
-													{
-														maximumFractionDigits: 2,
-														style: 'currency',
-														currency: 'INR',
-													}
-												)}
+												{Number(
+													cart.shippingPrice
+												).toLocaleString('en-IN', {
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												})}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -193,14 +192,13 @@ const PlaceOrderPage = ({ history }) => {
 												<strong>Tax</strong>
 											</Col>
 											<Col>
-												{cart.taxPrice.toLocaleString(
-													'en-IN',
-													{
-														maximumFractionDigits: 2,
-														style: 'currency',
-														currency: 'INR',
-													}
-												)}
+												{Number(
+													cart.taxPrice
+												).toLocaleString('en-IN', {
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												})}
 											</Col>
 										</Row>
 									</ListGroup.Item>
@@ -210,14 +208,13 @@ const PlaceOrderPage = ({ history }) => {
 												<strong>Total</strong>
 											</Col>
 											<Col>
-												{cart.totalPrice.toLocaleString(
-													'en-IN',
-													{
-														maximumFractionDigits: 2,
-														style: 'currency',
-														currency: 'INR',
-													}
-												)}
+												{Number(
+													cart.totalPrice
+												).toLocaleString('en-IN', {
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												})}
 											</Col>
 										</Row>
 									</ListGroup.Item>
