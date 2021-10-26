@@ -185,6 +185,10 @@ button.navbar-toggle-btn:focus {
     margin: 0.1rem;
 }
 
+button.cart-delete-btn {
+    margin-left: 1em;
+}
+
 /* Carousel */
 /* Carousel */
 .carousel-item-next,
@@ -369,9 +373,9 @@ footer.footer-container {
         width: 30%;
     }
 
-    .footer-container {
+    footer.footer-container {
         margin-right: 0;
-        margin-bottom: 0;
+        margin-bottom: 0.2em;
         font-size: 0.9em;
     }
 }

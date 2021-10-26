@@ -84,6 +84,7 @@ const CartPage = ({ match, location, history }) => {
 									}}>
 									<Col md={2}>
 										<Image
+											className='product-image'
 											src={item.image}
 											alt={item.name}
 											fluid
@@ -95,14 +96,19 @@ const CartPage = ({ match, location, history }) => {
 											{item.name}
 										</Link>
 									</Col>
-									<Col md={2}>
+									<Col
+										md={3}
+										className='d-none d-md-flex'
+										style={{
+											alignItems: 'center',
+											justifyContent: 'space-evenly',
+										}}>
 										{item.price.toLocaleString('en-IN', {
 											maximumFractionDigits: 2,
 											style: 'currency',
 											currency: 'INR',
 										})}
-									</Col>
-									<Col md={1}>
+
 										<div>
 											<i
 												style={{ fontSize: '0.7em' }}
@@ -111,7 +117,13 @@ const CartPage = ({ match, location, history }) => {
 											{item.qty}
 										</div>
 									</Col>
-									<Col md={2}>
+									<Col
+										md={3}
+										className='d-none d-md-flex'
+										style={{
+											alignItems: 'center',
+											justifyContent: 'space-between',
+										}}>
 										{/* <Form.Control
 											as='select'
 											value={item.qty}
@@ -176,8 +188,6 @@ const CartPage = ({ match, location, history }) => {
 												<i className='fas fa-minus' />
 											</Button>
 										</ButtonGroup>
-									</Col>
-									<Col md={1}>
 										<Button
 											type='button'
 											onClick={() =>
@@ -187,6 +197,109 @@ const CartPage = ({ match, location, history }) => {
 											}>
 											<i className='fas fa-trash' />
 										</Button>
+									</Col>
+									<Col
+										className='d-flex d-md-none mt-2'
+										style={{
+											alignItems: 'center',
+											justifyContent: 'space-between',
+										}}>
+										<div
+											className='d-flex'
+											style={{
+												fontSize: '1.2em',
+												width: '50%',
+											}}>
+											{item.price.toLocaleString(
+												'en-IN',
+												{
+													maximumFractionDigits: 2,
+													style: 'currency',
+													currency: 'INR',
+												}
+											)}
+
+											<div className='ms-1'>
+												<i
+													style={{
+														fontSize: '0.7em',
+													}}
+													className='fas fa-times'
+												/>{' '}
+												{item.qty}
+											</div>
+										</div>
+
+										<div
+											className='d-flex'
+											style={{
+												alignItems: 'center',
+												justifyContent: 'space-between',
+												width: '50%',
+											}}>
+											{/* <div>
+												<Button
+													type='button'
+													onClick={() =>
+														handleRemoveFromCart(
+															item.product
+														)
+													}>
+													<i className='fas fa-trash' />
+												</Button>
+											</div> */}
+											{/* <ButtonGroup aria-label='Addtocart'> */}
+											<Button
+												type='button'
+												onClick={() =>
+													handleRemoveFromCart(
+														item.product
+													)
+												}>
+												<i className='fas fa-trash' />
+											</Button>
+											<Button
+												style={{
+													outline: 'none',
+													borderRight:
+														'1px solid white',
+												}}
+												disabled={
+													item.qty >=
+													item.countInStock
+												}
+												onClick={() => {
+													dispatch(
+														addItem(
+															item.product,
+															Number(item.qty + 1)
+														)
+													);
+												}}
+												variant='primary'>
+												<i className='fas fa-plus' />
+											</Button>
+											<Button
+												style={{
+													outline: 'none',
+													borderLeft:
+														'1px solid white',
+												}}
+												variant='primary'
+												disabled={item.qty === 1}
+												onClick={() => {
+													dispatch(
+														addItem(
+															item.product,
+															Number(item.qty - 1)
+														)
+													);
+												}}>
+												<i className='fas fa-minus' />
+											</Button>
+
+											{/* </ButtonGroup> */}
+										</div>
 									</Col>
 								</Row>
 							</ListGroup.Item>
