@@ -8,6 +8,7 @@ const reviewsSchema = mongoose.Schema(
 			ref: 'User',
 		},
 		name: { type: String, required: true },
+		avatar: { type: String, required: true },
 		rating: { type: Number, required: true, default: 0 },
 		review: { type: String, required: true },
 	},
