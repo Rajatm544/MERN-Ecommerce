@@ -120,6 +120,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 		const newReview = {
 			name: req.user.name,
 			user: req.user._id,
+			avatar: req.user.avatar,
 			rating: Number(rating),
 			review,
 		};
