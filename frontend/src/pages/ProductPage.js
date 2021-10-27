@@ -121,12 +121,7 @@ const ProductPage = ({ history, match }) => {
 			month: 'short',
 			day: 'numeric',
 		};
-		const timeStr = new Date(date).toLocaleTimeString('en', {
-			timeStyle: 'short',
-			hour12: true,
-			timeZone: 'IST',
-		});
-		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
+		return new Date(date).toLocaleDateString('en', options);
 	};
 
 	const handleAddToCart = (e) => {
@@ -282,93 +277,104 @@ const ProductPage = ({ history, match }) => {
 							</Card>
 						</Col>
 					</Row>
-					{product.reviews.length ? (
-						<Row>
-							<Col md={6}>
-								<h2>Reviews</h2>
+					<Row>
+						<Col md={6}>
+							<h2 className='mt-3'>Reviews</h2>
 
-								<ListGroup variant='flush'>
-									{product.reviews.map((item) => {
-										return (
-											<ListGroup.Item key={item._id}>
+							<ListGroup variant='flush'>
+								{product.reviews.map((item) => {
+									return (
+										<ListGroup.Item key={item._id}>
+											<div>
+												<img
+													src={item.avatar}
+													alt={item.name}
+													className='review-avatar'
+												/>
 												<strong>{item.name}</strong>
-												<Rating value={item.rating} />
-												<p>{item.review}</p>
-												<time>
-													{getDateString(
-														item.createdAt
-													)}
-												</time>
-											</ListGroup.Item>
-										);
-									})}
-									{hasOrderedItem && !showReviewForm && (
-										<Message dismissible>
-											You have already reviewed this
-											product
-										</Message>
-									)}
-									{hasOrderedItem && showReviewForm && (
-										<>
-											<h2>Write a Customer Review</h2>
-											{errorCreateReview && (
-												<Message
-													dismissible
-													variant='info'
-													duration={10}>
-													{errorCreateReview}
-												</Message>
-											)}
-											{loadingCreateReview && <Loader />}
-											<Form onSubmit={handleReviewSubmit}>
-												<Form.Group controlId='rating'>
+											</div>
+											<Rating value={item.rating} />
+											<p
+												style={{
+													margin: '0',
+													fontSize: '1.1em',
+												}}>
+												{item.review}
+											</p>
+											<small
+												style={{
+													fontSize: '0.9em',
+												}}>
+												{getDateString(item.createdAt)}
+											</small>
+										</ListGroup.Item>
+									);
+								})}
+								{hasOrderedItem && !showReviewForm && (
+									<Message dismissible>
+										You have already reviewed this product
+									</Message>
+								)}
+								{hasOrderedItem && showReviewForm && (
+									<>
+										<h2>Write a Customer Review</h2>
+										{errorCreateReview && (
+											<Message
+												dismissible
+												variant='info'
+												duration={10}>
+												{errorCreateReview}
+											</Message>
+										)}
+										{loadingCreateReview && <Loader />}
+										<Form onSubmit={handleReviewSubmit}>
+											<Form.Group controlId='rating'>
+												<Form.Control
+													as='select'
+													value={rating}
+													onChange={(e) =>
+														setRating(
+															e.target.value
+														)
+													}>
+													<option default>
+														Choose Rating
+													</option>
+													<option value='1'>
+														1 - Bad
+													</option>
+													<option value='2'>
+														2 - Poor
+													</option>
+													<option value='3'>
+														3 - Fair
+													</option>
+													<option value='4'>
+														4 - Good
+													</option>
+													<option value='5'>
+														5 - Excellent
+													</option>
+												</Form.Control>
+											</Form.Group>
+											<Form.Group controlId='comment'>
+												<FloatingLabel
+													controlId='commenttext'
+													label='Comment'
+													className='my-3'>
 													<Form.Control
-														as='select'
-														value={rating}
+														as='textarea'
+														placeholder='Leave a comment here'
+														row='3'
 														onChange={(e) =>
-															setRating(
+															setReview(
 																e.target.value
 															)
-														}>
-														<option default>
-															Choose Rating
-														</option>
-														<option value='1'>
-															1 - Bad
-														</option>
-														<option value='2'>
-															2 - Poor
-														</option>
-														<option value='3'>
-															3 - Fair
-														</option>
-														<option value='4'>
-															4 - Good
-														</option>
-														<option value='5'>
-															5 - Excellent
-														</option>
-													</Form.Control>
-												</Form.Group>
-												<Form.Group controlId='comment'>
-													<FloatingLabel
-														controlId='commenttext'
-														label='Comment'
-														className='my-3'>
-														<Form.Control
-															as='textarea'
-															placeholder='Leave a comment here'
-															row='3'
-															onChange={(e) =>
-																setReview(
-																	e.target
-																		.value
-																)
-															}
-															value={review}
-														/>
-													</FloatingLabel>
-													{/* <Form.Label>Comment</Form.Label>
+														}
+														value={review}
+													/>
+												</FloatingLabel>
+												{/* <Form.Label>Comment</Form.Label>
 												<Form.Control
 													as='textarea'
 													row='3'
@@ -380,21 +386,18 @@ const ProductPage = ({ history, match }) => {
 													value={
 														review
 													}></Form.Control> */}
-												</Form.Group>
-												<div className='d-grid'>
-													<Button type='submit'>
-														Submit Review
-													</Button>
-												</div>
-											</Form>
-										</>
-									)}
-								</ListGroup>
-							</Col>
-						</Row>
-					) : (
-						''
-					)}
+											</Form.Group>
+											<div className='d-grid'>
+												<Button type='submit'>
+													Submit Review
+												</Button>
+											</div>
+										</Form>
+									</>
+								)}
+							</ListGroup>
+						</Col>
+					</Row>
 				</>
 			) : (
 				''
