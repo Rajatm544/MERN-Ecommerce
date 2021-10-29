@@ -106,8 +106,15 @@ const HomePage = ({ match, history }) => {
 									);
 								})
 							) : (
-								<Col>
-									No items found for this search query...
+								<Col className='text-center'>
+									<div
+										style={{
+											fontSize: '1.5em',
+										}}>
+										<i className='far fa-frown' /> No items
+										found for this search query
+									</div>
+									Go Back to the <Link to='/'>Home Page</Link>
 								</Col>
 							)}
 						</Row>
