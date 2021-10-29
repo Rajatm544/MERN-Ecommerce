@@ -6,7 +6,7 @@ const getDateString = (date, showTime = true) => {
 	};
 	const timeStr = new Date(date).toLocaleTimeString('en', {
 		timeStyle: 'short',
-		hour12: false,
+		hour12: true,
 		timeZone: 'IST',
 	});
 
