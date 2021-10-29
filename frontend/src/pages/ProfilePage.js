@@ -79,11 +79,6 @@ const ProfilePage = ({ location, history }) => {
 		}
 	}, [orders]);
 
-	// useEffect(() => {
-	// 	if (avatar && avatar !== user.avatar)
-
-	// }, [avatar, user, dispatch]);
-
 	useEffect(() => {
 		if (userInfo) {
 			if (name && userInfo.name !== name) setShowSubmitButton(true);
@@ -481,7 +476,7 @@ const ProfilePage = ({ location, history }) => {
 								className='table-sm text-center'>
 								<thead>
 									<tr>
-										<th>ID</th>
+										{/* <th>ID</th> */}
 										<th>DATE</th>
 										<th>TOTAL</th>
 										<th>PAID</th>
@@ -497,7 +492,7 @@ const ProfilePage = ({ location, history }) => {
 												textAlign: 'center',
 												padding: '0',
 											}}>
-											<td>{order._id}</td>
+											{/* <td>{order._id}</td> */}
 											<td>
 												{getDateString(order.createdAt)}
 											</td>
