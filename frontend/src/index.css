@@ -297,6 +297,10 @@ footer.footer-container {
 }
 
 @media (max-width: 430px) {
+    nav.navbar {
+        padding: 0.5rem 0;
+    }
+
     .nav-cart-size {
         /* position: absolute; */
         /* height: 1em; */
