@@ -7,6 +7,7 @@ import Message from '../components/Message';
 import Paginate from '../components/Paginate';
 import { refreshLogin } from '../actions/userActions';
 import { listAllOrders } from '../actions/orderActions';
+import getDateString from '../utils/getDateString';
 
 const ProductListPage = ({ history, match }) => {
 	const pageNumber = match.params.pageNumber || 1;
@@ -31,20 +32,6 @@ const ProductListPage = ({ history, match }) => {
 		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders(pageNumber));
 		else history.push('/login');
 	}, [dispatch, history, userInfo, pageNumber]);
-
-	const getDateString = (date) => {
-		const options = {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		};
-		const timeStr = new Date(date).toLocaleTimeString('en', {
-			timeStyle: 'short',
-			hour12: false,
-			timeZone: 'IST',
-		});
-		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
-	};
 
 	return (
 		<>

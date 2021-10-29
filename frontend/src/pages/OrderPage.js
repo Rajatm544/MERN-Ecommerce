@@ -21,6 +21,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { refreshLogin } from '../actions/userActions';
 import CheckoutForm from '../components/CheckoutForm';
+import getDateString from '../utils/getDateString';
 
 const OrderPage = ({ match, history }) => {
 	const stripePromise = loadStripe(
@@ -120,20 +121,6 @@ const OrderPage = ({ match, history }) => {
 
 	const successDeliveryHandler = () => {
 		dispatch(deliverOrder(orderID));
-	};
-
-	const getDateString = (date) => {
-		const options = {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		};
-		const timeStr = new Date(date).toLocaleTimeString('en', {
-			timeStyle: 'short',
-			hour12: true,
-			timeZone: 'IST',
-		});
-		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
 	};
 
 	return loading ? (

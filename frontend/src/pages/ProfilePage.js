@@ -25,6 +25,7 @@ import { listMyOrders } from '../actions/orderActions';
 import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 import Meta from '../components/Meta';
 import axios from 'axios';
+import getDateString from '../utils/getDateString';
 
 const ProfilePage = ({ location, history }) => {
 	const inputFile = useRef(null);
@@ -131,20 +132,6 @@ const ProfilePage = ({ location, history }) => {
 		setTypeConfirmPassword(
 			typeConfirmPassword === 'password' ? 'text' : 'password'
 		);
-	};
-
-	const getDateString = (date) => {
-		const options = {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		};
-		const timeStr = new Date(date).toLocaleTimeString('en', {
-			timeStyle: 'short',
-			hour12: false,
-			timeZone: 'IST',
-		});
-		return timeStr + ' ' + new Date(date).toLocaleDateString('en', options);
 	};
 
 	const handleImageUpload = async (e) => {

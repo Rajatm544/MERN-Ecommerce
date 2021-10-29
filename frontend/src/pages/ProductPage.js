@@ -23,6 +23,7 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { refreshLogin, getUserDetails } from '../actions/userActions';
+import getDateString from '../utils/getDateString';
 
 const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
@@ -114,15 +115,6 @@ const ProductPage = ({ history, match }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [orders]);
-
-	const getDateString = (date) => {
-		const options = {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		};
-		return new Date(date).toLocaleDateString('en', options);
-	};
 
 	const handleAddToCart = (e) => {
 		history.push(`/cart/${match.params.id}?qty=${quantity}`);
@@ -305,7 +297,10 @@ const ProductPage = ({ history, match }) => {
 												style={{
 													fontSize: '0.9em',
 												}}>
-												{getDateString(item.createdAt)}
+												{getDateString(
+													item.createdAt,
+													false
+												)}
 											</small>
 										</ListGroup.Item>
 									);
