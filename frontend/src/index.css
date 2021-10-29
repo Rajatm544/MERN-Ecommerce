@@ -16,6 +16,16 @@ h2 {
     font-size: 1.4rem;
 }
 
+img.error-img {
+    width: 15rem;
+    object-fit: cover;
+
+}
+
+p.text-error {
+    font-size: 1.2em;
+}
+
 .alert-custom {
     transition: all 0.4s ease-in-out;
 }
@@ -296,7 +306,21 @@ footer.footer-container {
     font-size: 1.2em;
 }
 
+table td {
+    vertical-align: middle;
+}
+
 @media (max-width: 430px) {
+
+    img.error-img {
+        width: 10rem;
+        margin-top: 5em;
+    }
+
+    p.text-error {
+        font-size: 1em;
+    }
+
     nav.navbar {
         padding: 0.5rem 0;
     }
