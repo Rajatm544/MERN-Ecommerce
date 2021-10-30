@@ -272,7 +272,11 @@ const ProductPage = ({ history, match }) => {
 					<Row>
 						<Col md={6}>
 							<h2 className='mt-3'>Reviews</h2>
-
+							{(!product.reviews || !product.reviews.length) && (
+								<Message variant='secondary'>
+									No Reviews Yet
+								</Message>
+							)}
 							<ListGroup variant='flush'>
 								{product.reviews.map((item) => {
 									return (
