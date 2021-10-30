@@ -6,11 +6,14 @@ import './index.css';
 import App from './App';
 import store from './store';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.render(
 	<Provider store={store}>
 		<React.StrictMode>
-			<App />
+			<HelmetProvider>
+				<App />
+			</HelmetProvider>
 		</React.StrictMode>
 	</Provider>,
 	document.getElementById('root')

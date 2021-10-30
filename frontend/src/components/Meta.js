@@ -1,15 +1,13 @@
 import React from 'react';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 
 const Meta = ({ title, description, keywords }) => {
 	return (
-		<HelmetProvider>
-			<Helmet>
-				<title>{title}</title>
-				<meta name='description' content={description} />
-				<meta name='keywords' content={keywords} />
-			</Helmet>
-		</HelmetProvider>
+		<Helmet>
+			<title>{title}</title>
+			<meta name='description' content={description} />
+			<meta name='keywords' content={keywords} />
+		</Helmet>
 	);
 };
 
