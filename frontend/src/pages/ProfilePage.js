@@ -73,6 +73,12 @@ const ProfilePage = ({ location, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	// useEffect(() => {
+	// 	if (userInfo && !orders) {
+	// 		dispatch(listMyOrders());
+	// 	}
+	// }, [userInfo, loadingOrdersList, orders, dispatch]);
+
 	useEffect(() => {
 		if (orders && orders.length) {
 			setAllOrders([...orders]);
@@ -88,6 +94,10 @@ const ProfilePage = ({ location, history }) => {
 			else setShowSubmitButton(false);
 		}
 	}, [name, email, password, confirmPassword, userInfo]);
+
+	useEffect(() => {
+		dispatch(listMyOrders());
+	}, []);
 
 	useEffect(() => {
 		if (!userInfo) {
