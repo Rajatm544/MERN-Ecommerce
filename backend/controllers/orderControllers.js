@@ -111,7 +111,9 @@ const updateOrderToDeliver = asyncHandler(async (req, res) => {
 // @route GET /api/orders/myorders
 // @access PRIVATE
 const getMyOrders = asyncHandler(async (req, res) => {
-	const allOrders = await Order.find({ user: req.user._id });
+	const allOrders = await Order.find({ user: req.user._id }).sort(
+		'-createdAt'
+	);
 	res.json(allOrders);
 });
 
