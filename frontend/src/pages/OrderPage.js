@@ -131,7 +131,7 @@ const OrderPage = ({ match, history }) => {
 		</Message>
 	) : (
 		<>
-			<h2>Order ID {orderID} </h2>
+			<h2>Order {orderID}</h2>
 			<Row>
 				{loading ? (
 					<Loader />
