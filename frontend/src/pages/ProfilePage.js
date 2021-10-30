@@ -97,7 +97,7 @@ const ProfilePage = ({ location, history }) => {
 
 	useEffect(() => {
 		dispatch(listMyOrders());
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -349,7 +349,7 @@ const ProfilePage = ({ location, history }) => {
 							{userInfo && !userInfo.isSocialLogin && (
 								<>
 									<Form.Group>
-										<InputGroup>
+										<InputGroup className='d-block'>
 											<FloatingLabel
 												controlId='passwordinput'
 												label='Password'
@@ -396,7 +396,7 @@ const ProfilePage = ({ location, history }) => {
 										</InputGroup>
 									</Form.Group>
 									<Form.Group>
-										<InputGroup>
+										<InputGroup className='d-block'>
 											<FloatingLabel
 												controlId='confirmpasswordinput'
 												label='Confirm Password'
@@ -443,15 +443,16 @@ const ProfilePage = ({ location, history }) => {
 									</Form.Group>
 								</>
 							)}
-
-							<Button
-								type='submit'
-								disabled={!showSubmitButton}
-								style={{
-									padding: '0.5em 1em',
-								}}>
-								Update Profile
-							</Button>
+							<div className='d-grid mb-3'>
+								<Button
+									type='submit'
+									disabled={!showSubmitButton}
+									style={{
+										padding: '0.5em 1em',
+									}}>
+									Update Profile
+								</Button>
+							</div>
 						</Form>
 					</div>
 				)}
