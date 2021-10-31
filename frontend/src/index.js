@@ -5,7 +5,6 @@ import './bootstrap.min.css';
 import './index.css';
 import App from './App';
 import store from './store';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.render(
@@ -18,5 +17,3 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 );
-
-serviceWorkerRegistration.register();
