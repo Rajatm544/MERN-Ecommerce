@@ -22,6 +22,7 @@ import ProductListPage from './pages/ProductListPage';
 import ProductEditPage from './pages/ProductEditPage';
 import OrderListPage from './pages/OrderListPage';
 import ErrorPage from './pages/ErrorPage';
+import LoginOptions from './components/LoginOptions';
 
 const App = () => {
 	return (
@@ -95,6 +96,11 @@ const App = () => {
 							path='/admin/orderlist/:pageNumber'
 							component={OrderListPage}
 							exact
+						/>
+						<Route
+							path='/api/auth/:option'
+							exact
+							component={LoginOptions}
 						/>
 						<Route component={ErrorPage} />
 					</Switch>
