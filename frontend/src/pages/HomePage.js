@@ -92,31 +92,33 @@ const HomePage = ({ match, history }) => {
 				products && (
 					<>
 						<Row>
-							{allProducts.length ? (
-								allProducts.map((product) => {
-									return (
-										<Col
-											sm={12}
-											md={6}
-											lg={4}
-											xl={3}
-											key={product._id}>
-											<Product product={product} />
+							{allProducts.length
+								? allProducts.map((product) => {
+										return (
+											<Col
+												sm={12}
+												md={6}
+												lg={4}
+												xl={3}
+												key={product._id}>
+												<Product product={product} />
+											</Col>
+										);
+								  })
+								: !products && (
+										<Col className='text-center'>
+											<div
+												style={{
+													fontSize: '1.5em',
+												}}>
+												<i className='far fa-frown' />{' '}
+												No items found for this search
+												query
+											</div>
+											Go Back to the{' '}
+											<Link to='/'>Home Page</Link>
 										</Col>
-									);
-								})
-							) : (
-								<Col className='text-center'>
-									<div
-										style={{
-											fontSize: '1.5em',
-										}}>
-										<i className='far fa-frown' /> No items
-										found for this search query
-									</div>
-									Go Back to the <Link to='/'>Home Page</Link>
-								</Col>
-							)}
+								  )}
 						</Row>
 						<Paginate
 							className='mt-auto text-center'
