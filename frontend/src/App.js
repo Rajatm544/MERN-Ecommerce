@@ -21,6 +21,8 @@ import UserEditPage from './pages/UserEditPage';
 import ProductListPage from './pages/ProductListPage';
 import ProductEditPage from './pages/ProductEditPage';
 import OrderListPage from './pages/OrderListPage';
+
+import ServiceWorkerWrapper from './ServiceWorkerWrapper';
 // import ErrorPage from './pages/ErrorPage';
 // import LoginOptions from './components/LoginOptions';
 
@@ -28,6 +30,7 @@ const App = () => {
 	return (
 		<Router>
 			<Header />
+			<ServiceWorkerWrapper />
 			<main className='py-2'>
 				<Container>
 					{/* <Switch> */}

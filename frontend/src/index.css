@@ -19,7 +19,14 @@ h2 {
 img.error-img {
     width: 15rem;
     object-fit: cover;
+}
 
+.update-toast {
+    z-index: 100;
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    transition: all 0.3s ease-in-out;
 }
 
 p.text-error {
@@ -335,6 +342,11 @@ table td {
 }
 
 @media (max-width: 430px) {
+
+    .update-toast {
+        top: auto;
+        bottom: 1%;
+    }
 
     img.error-img {
         width: 10rem;
