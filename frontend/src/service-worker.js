@@ -37,6 +37,10 @@ registerRoute(
 			return false;
 		} // If this looks like a URL for a resource, because it contains // a file extension, skip.
 
+		if (url.pathname.indexOf('/api/auth') !== -1) {
+			return false;
+		}
+
 		if (url.pathname.match(fileExtensionRegexp)) {
 			return false;
 		} // Return true to signal that we want to use the handler.
