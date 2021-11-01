@@ -23,10 +23,7 @@ const ServiceWorkerWrapper = () => {
 
 	return (
 		<ToastContainer className='update-toast' onClick={reloadPage}>
-			<Toast
-				show={showReload}
-				onClose={reloadPage}
-				style={{ background: 'darkslategray' }}>
+			<Toast show={showReload} onClose={reloadPage} bg='dark'>
 				<Toast.Header>
 					<strong className='me-auto text-black'>
 						New Version Available
