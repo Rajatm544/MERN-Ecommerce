@@ -5,8 +5,10 @@ import Product from '../models/productModel.js';
 // @route GET /api/products
 // @access PUBLIC
 const getAllProducts = asyncHandler(async (req, res) => {
-	const page = Number(req.query.pageNumber) || 1;
-	const pageSize = Number(req.query.pageSize) || 10;
+	const page = Number(req.query.pageNumber) || 1; // the current page number being fetched
+	const pageSize = Number(req.query.pageSize) || 10; // the total number of entries on a single page
+
+	// match all products which include the string of chars in the keyword, not necessarily in the given order
 	const keyword = req.query.keyword
 		? {
 				name: {
@@ -15,10 +17,15 @@ const getAllProducts = asyncHandler(async (req, res) => {
 				},
 		  }
 		: {};
-	const count = await Product.countDocuments({ ...keyword });
+	const count = await Product.countDocuments({ ...keyword }); // total number of products which match with the given key
+
+	// find all products that need to be sent for the current page, by skipping the documents included in the previous pages
+	// and limiting the number of documents included in this request
 	const products = await Product.find({ ...keyword })
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
+
+	// send the list of products, current page number, total number of pages available
 	res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -54,6 +61,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route POST /api/products/
 // @access PRIVATE/ADMIN
 const createProduct = asyncHandler(async (req, res) => {
+	// create a dummy product which can be edited later
 	const product = new Product({
 		name: 'Sample',
 		brand: 'Sample Brand',
@@ -84,6 +92,8 @@ const updateProduct = asyncHandler(async (req, res) => {
 		image,
 	} = req.body;
 	const product = await Product.findById(req.params.id);
+
+	// update the fields which are sent with the payload
 	if (product) {
 		if (name) product.name = name;
 		if (price) product.price = price;
@@ -109,6 +119,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 	const { rating, review } = req.body;
 	const product = await Product.findById(req.params.id);
 	if (product) {
+		// If the user has already reviewed this product, throw an error
 		const reviewedAlready = product.reviews.find(
 			(rev) => rev.user.toString() === req.user._id.toString()
 		);
@@ -125,6 +136,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 			review,
 		};
 
+		// store the new review and update the rating of this product
 		product.reviews.push(newReview);
 		product.numReviews = product.reviews.length;
 		product.rating =
@@ -142,6 +154,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @route GET /api/products/top
 // @access PUBLIC
 const getTopProducts = asyncHandler(async (req, res) => {
+	// get top 4 rated products
 	const topProducts = await Product.find({}).sort({ rating: -1 }).limit(4);
 	res.json(topProducts);
 });
