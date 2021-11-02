@@ -3,7 +3,6 @@ import Order from '../models/orderModel.js';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 dotenv.config();
-// import { nanoid } from 'nanoid';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -65,6 +64,7 @@ const updateOrderToPay = asyncHandler(async (req, res) => {
 		const { paymentMode } = req.body;
 		order.isPaid = true;
 		order.paidAt = Date.now();
+		// update the payment result based on which mode of payment was chosen
 		if (paymentMode === 'paypal') {
 			order.paymentResult = {
 				type: 'paypal',
@@ -111,6 +111,7 @@ const updateOrderToDeliver = asyncHandler(async (req, res) => {
 // @route GET /api/orders/myorders
 // @access PRIVATE
 const getMyOrders = asyncHandler(async (req, res) => {
+	// sort orders in descending order of the date they were created at, hence negetive sign
 	const allOrders = await Order.find({ user: req.user._id }).sort(
 		'-createdAt'
 	);
@@ -121,16 +122,21 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route GET /api/orders
 // @access PRIVATE/ADMIN
 const getAllOrders = asyncHandler(async (req, res) => {
-	const page = Number(req.query.pageNumber) || 1;
-	const pageSize = 10;
+	const page = Number(req.query.pageNumber) || 1; // the current page number in the pagination
+	const pageSize = 10; // total number of entries on a single page
 
-	const count = await Order.countDocuments({});
+	const count = await Order.countDocuments({}); // total number of documents available
+
+	// find all orders that need to be sent for the current page, by skipping the documents included in the previous pages
+	// and limiting the number of documents included in this request
+	// sort this in desc order that the document was created at
 	const orders = await Order.find({})
 		.limit(pageSize)
 		.skip(pageSize * (page - 1))
 		.populate('user', 'id name')
 		.sort('-createdAt');
 
+	// send the list of orders, current page number, total number of pages available
 	res.json({ orders, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -140,17 +146,24 @@ const getAllOrders = asyncHandler(async (req, res) => {
 const stripePayment = asyncHandler(async (req, res) => {
 	const { price, email } = req.body;
 
+	// Need to create a payment intent according to stripe docs
+	// https://stripe.com/docs/api/payment_intents
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount: price,
 		currency: 'inr',
 		receipt_email: email,
-		// customer: id,
 		payment_method_types: ['card'],
 	});
 
+	// send this payment intent to the client side
 	res.send({
 		clientSecret: paymentIntent.client_secret,
 	});
+
+	// another way to include payments, is to create a new charge for a new customer, each time
+	// similar to Hitesh's video on accepting stripe payments
+	// But uses out dated stripe technique, so excluded for the current implementation
+
 	// const { order, token } = req.body;
 	// const idempotencyKey = nanoid();
 	// return stripe.customers
