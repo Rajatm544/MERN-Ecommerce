@@ -14,12 +14,13 @@ const sendMail = async (id, email, option) => {
 			from: process.env.EMAIL, // sender address
 			to: email,
 			subject: 'Confirm your email for Kosells', // Subject line
-			html: `<p>
+			html: `<div>
+					<h2>Account Created!</h2>
 					Click this link to 
 					<a href="${url}">verify your account</a>
 					<br>
 					Note that this link is valid only for the next 15 minutes.
-				</p>
+				</div>
 				
 			`,
 		};
@@ -44,12 +45,14 @@ const sendMail = async (id, email, option) => {
 			from: process.env.EMAIL, // sender address
 			to: email,
 			subject: 'Reset Password for Kosells', // Subject line
-			html: `<p>
+			html: `<div>
+					<h2>Reset Password for your Kosells account</h2>
+					<br/>
 					Forgot your password? No worries! Just click this link to 
 					<a href="${url}">reset your password</a>. 
 					<br>
 					Note that this link is valid for only the next 10 minutes. 
-				</p>
+				</div>
 				
 			`,
 		};
