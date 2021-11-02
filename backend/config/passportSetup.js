@@ -1,19 +1,26 @@
 import passport from 'passport';
 import dotenv from 'dotenv';
+import User from '../models/userModel.js';
+import generateGravatar from '../utils/generateGravatar.js';
+
+// all passport strategies
 import GoogleStrategy from 'passport-google-oauth20';
 import GithubStrategy from 'passport-github2';
 import TwitterStrategy from 'passport-twitter';
 import LinkedInStrategy from 'passport-linkedin-oauth2';
-import User from '../models/userModel.js';
-import generateGravatar from '../utils/generateGravatar.js';
 
+// to use .env variables in this file
 dotenv.config();
 const backendURL = process.env.BACKEND_BASE_URL;
 
+// Funtion to send a flash message depending on which social account the user had originally registered with
 const handleAuthError = (err, done) => {
+	// we get the email from the option the user is currently trying to login with, and find the corresponding User obj
 	User.findOne({
-		email: err.keyValue.email,
+		email: err.keyValue.email, // err obj returned from mongoose has the keyValue key
 	}).then((user) => {
+		// check which socialID was stored in this User obj, return the corresponding error in format
+		// done(null, false, {flash message}) -> which tells passport not to serialise this user
 		if (user.googleID)
 			return done(null, false, {
 				message: 'Registered using google account',
@@ -33,17 +40,21 @@ const handleAuthError = (err, done) => {
 	});
 };
 
+// Include all passport strategies' setup in this function itself
 const setupPassport = () => {
+	// setup a session with the logged in user, by serialising this user is
 	passport.serializeUser((user, done) => {
 		done(null, user.id);
 	});
 
+	// end the current login session after deserialising the user
 	passport.deserializeUser((id, done) => {
 		User.findById(id)
 			.then((user) => done(null, user))
 			.catch((err) => console.log(`${err}`.bgRed.bold));
 	});
 
+	// setup for the google strategy
 	passport.use(
 		new GoogleStrategy(
 			{
@@ -53,6 +64,7 @@ const setupPassport = () => {
 				callbackURL: `${backendURL}/api/auth/google/redirect`,
 			},
 			(accessToken, refreshToken, profile, done) => {
+				// if a user with this google ID is present, serialise that user, otherwise create a new User
 				User.findOne({ googleID: profile.id }).then((foundUser) => {
 					if (!foundUser) {
 						User.create({
@@ -61,12 +73,15 @@ const setupPassport = () => {
 							isConfirmed: profile._json.email_verified,
 							googleID: profile.id,
 							email: profile._json.email,
-							avatar: generateGravatar(profile._json.email),
+							avatar: generateGravatar(profile._json.email), // gravatar is unique for all email IDs
 						})
 							.then((user) => {
 								done(null, user);
 							})
 							.catch((err) => {
+								// In case the User couldn't be created, this means that the email key was duplicate
+								// Which implies that the current email has already been registered using some different social account
+								// So throw the corresponding flash message
 								handleAuthError(err, done);
 							});
 					} else {
@@ -77,14 +92,17 @@ const setupPassport = () => {
 		)
 	);
 
+	// setup for the github strategy
 	passport.use(
 		new GithubStrategy(
 			{
+				// options for the github strategy
 				clientID: process.env.GITHUB_CLIENT_ID,
 				clientSecret: process.env.GITHUB_CLIENT_SECRET,
 				callbackURL: `${backendURL}/api/auth/github/redirect`,
 			},
 			(accessToken, refreshToken, profile, done) => {
+				// if a user with this github ID is present, serialise that user, otherwise create a new User
 				User.findOne({ githubID: profile.id }).then((foundUser) => {
 					if (!foundUser) {
 						User.create({
@@ -110,6 +128,7 @@ const setupPassport = () => {
 	);
 };
 
+// setup for the twitter strategy
 passport.use(
 	new TwitterStrategy(
 		{
@@ -143,6 +162,7 @@ passport.use(
 	)
 );
 
+// setup for the linkedin strategy
 passport.use(
 	new LinkedInStrategy.Strategy(
 		{
