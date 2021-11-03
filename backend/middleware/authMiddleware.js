@@ -28,7 +28,9 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 			res.status(401);
 			throw new Error('Not authorised. Token failed');
 		}
-	} else if (
+	}
+	// if the header includes a token for social login case
+	else if (
 		req.headers.authorization &&
 		req.headers.authorization.startsWith('SocialLogin')
 	) {
