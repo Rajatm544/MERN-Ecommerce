@@ -21,6 +21,7 @@ import {
 
 import axios from 'axios';
 
+// get all the details about the order and dispatch only of currently logged in
 export const createOrder = (order) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: ORDER_CREATE_REQUEST });
@@ -29,6 +30,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -57,6 +59,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 	}
 };
 
+// get details about a particular order
 export const getOrderDetails = (orderID) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: ORDER_DETAILS_REQUEST });
@@ -65,6 +68,7 @@ export const getOrderDetails = (orderID) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -91,6 +95,7 @@ export const getOrderDetails = (orderID) => async (dispatch, getState) => {
 	}
 };
 
+// update the current order to that of a paid one, and store the correct payment result
 export const payOrder =
 	(orderID, paymentResult) => async (dispatch, getState) => {
 		try {
@@ -100,6 +105,7 @@ export const payOrder =
 				userLogin: { userInfo },
 			} = getState();
 
+			// different headers are used when it is a social login, and when it is a std email login
 			const config = userInfo.isSocialLogin
 				? {
 						headers: {
@@ -132,6 +138,7 @@ export const payOrder =
 		}
 	};
 
+// Set the current order as delivered, only when logged in user is an admin
 export const deliverOrder = (orderID) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: ORDER_DELIVER_REQUEST });
@@ -170,6 +177,7 @@ export const deliverOrder = (orderID) => async (dispatch, getState) => {
 	}
 };
 
+// list all the orders of a particular user
 export const listMyOrders = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: ORDER_USER_LIST_REQUEST });
@@ -178,6 +186,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -204,6 +213,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
 	}
 };
 
+// list all orders for the admin panel view, include the pagenumber being fetched
 export const listAllOrders =
 	(pageNumber = '') =>
 	async (dispatch, getState) => {
@@ -214,6 +224,7 @@ export const listAllOrders =
 				userLogin: { userInfo },
 			} = getState();
 
+			// different headers are used when it is a social login, and when it is a std email login
 			const config = userInfo.isSocialLogin
 				? {
 						headers: {
