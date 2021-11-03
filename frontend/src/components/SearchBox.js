@@ -3,6 +3,8 @@ import { Form, InputGroup } from 'react-bootstrap';
 
 const SearchBox = ({ history }) => {
 	const [keyword, setKeyword] = useState('');
+
+	// search for the keyword by redirecting to homepage with param
 	const handleSearch = (e) => {
 		e.preventDefault();
 		if (keyword.trim()) {
@@ -11,8 +13,10 @@ const SearchBox = ({ history }) => {
 			history.push('/');
 		}
 	};
+
 	return (
 		<Form onSubmit={handleSearch} className='d-flex'>
+			{/* display searchbar inside navbar in large screens only */}
 			<InputGroup className='mt-2'>
 				<Form.Control
 					type='text'
@@ -49,14 +53,6 @@ const SearchBox = ({ history }) => {
 					</button>
 				</InputGroup.Text>
 			</InputGroup>
-
-			{/* <Button
-				type='submit'
-				size='sm'
-				variant={window.innerWidth > 430 ? 'secondary' : 'primary'}
-				className='ms-2'>
-				Search
-			</Button> */}
 		</Form>
 	);
 };
