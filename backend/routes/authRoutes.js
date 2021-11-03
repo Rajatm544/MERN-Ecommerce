@@ -1,14 +1,4 @@
 import express from 'express';
-// import {
-// 	googleLoginSuccess,
-// 	googleLoginFailure,
-// 	githubLoginSuccess,
-// 	githubLoginFailure,
-// 	twitterLoginSuccess,
-// 	twitterLoginFailure,
-// 	linkedinLoginSuccess,
-// 	linkedinLoginFailure,
-// } from '../controllers/authControllers.js';
 import {
 	passportLoginSuccess,
 	passportLoginFailure,
@@ -21,7 +11,6 @@ const router = express.Router();
 // @route GET /api/auth/google
 // @access PUBLIC
 router.route('/google').get(
-	// googleLogin,
 	passport.authenticate('google', {
 		scope: ['profile', 'email'],
 	})
@@ -30,8 +19,7 @@ router.route('/google').get(
 // @desc redirect route for the passport google strategy
 // @route GET /api/auth/google/redirect
 // @access PUBLIC
-router.get(
-	'/google/redirect',
+router.route('/google/redirect').get(
 	passport.authenticate('google', {
 		successRedirect: '/api/auth/google/redirect/success',
 		failureRedirect: '/api/auth/google/redirect/failure',
@@ -62,11 +50,11 @@ router.route('/github').get(
 // @desc redirect route for the passport github strategy
 // @route GET /api/auth/github/redirect
 // @access PUBLIC
-router.get(
-	'/github/redirect',
+router.route('/github/redirect').get(
 	passport.authenticate('github', {
 		successRedirect: '/api/auth/github/redirect/success',
 		failureRedirect: '/api/auth/github/redirect/failure',
+		failureFlash: true,
 	})
 );
 
@@ -88,11 +76,11 @@ router.route('/twitter').get(passport.authenticate('twitter'));
 // @desc redirect route for the passport twitter strategy
 // @route GET /api/auth/twitter/redirect
 // @access PUBLIC
-router.get(
-	'/twitter/redirect',
+router.route('/twitter/redirect').get(
 	passport.authenticate('twitter', {
 		successRedirect: '/api/auth/twitter/redirect/success',
 		failureRedirect: '/api/auth/twitter/redirect/failure',
+		failureFlash: true,
 	})
 );
 
@@ -114,11 +102,11 @@ router.route('/linkedin').get(passport.authenticate('linkedin'));
 // @desc redirect route for the passport linkedin strategy
 // @route GET /api/auth/linkedin/redirect
 // @access PUBLIC
-router.get(
-	'/linkedin/redirect',
+router.route('/linkedin/redirect').get(
 	passport.authenticate('linkedin', {
 		successRedirect: '/api/auth/linkedin/redirect/success',
 		failureRedirect: '/api/auth/linkedin/redirect/failure',
+		failureFlash: true,
 	})
 );
 
