@@ -6,6 +6,7 @@ import {
 	CART_SAVE_PAYMENT_METHOD,
 } from '../constants/cartConstants';
 
+// get the product id and the quantity of the item to add to the cart
 export const addItem = (id, qty) => async (dispatch, getState) => {
 	try {
 		const { data } = await axios.get(`/api/products/${id}`);
@@ -21,6 +22,7 @@ export const addItem = (id, qty) => async (dispatch, getState) => {
 			},
 		});
 
+		// update the local storage with the new cart
 		localStorage.setItem(
 			'cartItems',
 			JSON.stringify(getState().cart.cartItems)
@@ -30,12 +32,14 @@ export const addItem = (id, qty) => async (dispatch, getState) => {
 	}
 };
 
+// get the product id to be removed from the cart
 export const removeItem = (id) => async (dispatch, getState) => {
 	try {
 		dispatch({
 			type: CART_REMOVE_ITEM,
 			payload: id,
 		});
+		// update the local storage with the updated cart
 		localStorage.setItem(
 			'cartItems',
 			JSON.stringify(getState().cart.cartItems)
@@ -45,6 +49,7 @@ export const removeItem = (id) => async (dispatch, getState) => {
 	}
 };
 
+// get the shipping address data and dispatch corresponding action
 export const saveShippingAddress = (data) => async (dispatch) => {
 	try {
 		dispatch({
@@ -56,6 +61,8 @@ export const saveShippingAddress = (data) => async (dispatch) => {
 		console.log(error);
 	}
 };
+
+// get the option for payment and update the local storage as well
 export const savePaymentMethod = (data) => async (dispatch) => {
 	try {
 		dispatch({
