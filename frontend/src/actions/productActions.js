@@ -23,6 +23,7 @@ import {
 } from '../constants/productConstants';
 import axios from 'axios';
 
+// list orders based on keyword and page number when paginated
 export const listProducts =
 	(keyword = '', pageNumber = '', pageSize = '') =>
 	async (dispatch) => {
@@ -45,6 +46,7 @@ export const listProducts =
 		}
 	};
 
+// fetch details of a particular product
 export const listProductDetails = (id) => async (dispatch) => {
 	try {
 		dispatch({ type: PRODUCT_DETAILS_REQUEST });
@@ -63,6 +65,7 @@ export const listProductDetails = (id) => async (dispatch) => {
 	}
 };
 
+// delete a particular product by taking an id
 export const deleteProduct = (id) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_DELETE_REQUEST });
@@ -71,6 +74,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -97,6 +101,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	}
 };
 
+// create a product, when the user is an admin
 export const createProduct = () => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_CREATE_REQUEST });
@@ -105,6 +110,7 @@ export const createProduct = () => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -133,6 +139,7 @@ export const createProduct = () => async (dispatch, getState) => {
 	}
 };
 
+// update the product details from the admin panel view
 export const updateProduct = (product) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_UPDATE_REQUEST });
@@ -141,6 +148,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
+		// different headers are used when it is a social login, and when it is a std email login
 		const config = userInfo.isSocialLogin
 			? {
 					headers: {
@@ -173,6 +181,7 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 	}
 };
 
+// create a new product review for particular product
 export const createProductReview =
 	(productID, review) => async (dispatch, getState) => {
 		try {
@@ -182,6 +191,7 @@ export const createProductReview =
 				userLogin: { userInfo },
 			} = getState();
 
+			// different headers are used when it is a social login, and when it is a std email login
 			const config = userInfo.isSocialLogin
 				? {
 						headers: {
@@ -214,6 +224,7 @@ export const createProductReview =
 		}
 	};
 
+// fetch the top rated products for the carousel
 export const getTopRatedProducts = () => async (dispatch) => {
 	try {
 		dispatch({ type: PRODUCT_TOP_RATED_REQUEST });
