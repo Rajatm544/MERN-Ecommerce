@@ -2,6 +2,7 @@ import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+// different paginate components for products, and for admin panel view
 const Paginate = ({
 	pages,
 	page,
