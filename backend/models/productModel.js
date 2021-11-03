@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// a schema for stroing reviews for each product
 const reviewsSchema = mongoose.Schema(
 	{
 		user: {
@@ -42,6 +43,7 @@ const productSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		// store an array of review objs
 		reviews: [reviewsSchema],
 		rating: {
 			type: Number,

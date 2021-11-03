@@ -30,6 +30,7 @@ const userSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		// one of the following 4 will be filled, or the password field is available
 		googleID: {
 			type: String,
 		},

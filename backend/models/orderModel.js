@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const orderSchema = mongoose.Schema(
 	{
+		// add a reference to the corresponding user
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			required: true,
@@ -30,6 +31,7 @@ const orderSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		// depends on if stripe or paypal method is used
 		paymentResult: {
 			id: { type: String },
 			status: { type: String },
