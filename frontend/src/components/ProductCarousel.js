@@ -23,6 +23,7 @@ const ProductCarousel = () => {
 					{error}
 				</Message>
 			)}
+			{/* render carousel only on large screens */}
 			<Carousel
 				style={{ marginTop: '0.5em' }}
 				pause='hover'
