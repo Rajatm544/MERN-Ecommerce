@@ -41,26 +41,20 @@ router.route('/confirm').post(mailForEmailVerification);
 
 // @desc send a mail with the link to reset password
 // @route POST /api/users/reset
-// @access PUBLIC
-router.route('/reset').post(mailForPasswordReset);
-
+// and
 // @desc reset password of any verified user
 // @route PUT /api/users/reset
+
 // @access PUBLIC
-router.route('/reset').put(resetUserPassword);
+router.route('/reset').post(mailForPasswordReset).put(resetUserPassword);
 
 // @desc obtain new access tokens using the refresh tokens
 // @route GET /api/users/refresh
 // @access PUBLIC
 router.route('/refresh').post(getAccessToken);
 
-// @desc get data for an authenticated user
-// @route GET /api/users/profile
-// @access PRIVATE
-router.route('/profile').get(protectRoute, getUserProfile);
-
-// @desc update data for an authenticated user
-// @route PUT /api/users/profile
+// @desc get data for an authenticated user, and update data for an authenticated user
+// @route PUT & GET /api/users/profile
 // @access PRIVATE
 router
 	.route('/profile')
