@@ -7,6 +7,7 @@ import linkedinLogo from '../assets/linkedinLogo.png';
 
 const SocialLoginOptions = () => {
 	const baseURL = process.env.REACT_APP_BASE_URL;
+	// display a list of 4 options and make API request to passport login on click
 	return (
 		<div
 			id='social-login'
