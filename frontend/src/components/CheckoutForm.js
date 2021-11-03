@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { payOrder } from '../actions/orderActions';
 import { savePaymentMethod } from '../actions/cartActions';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'; // for stripe CC component
 import Message from '../components/Message';
 
 const CheckoutForm = ({ price, orderID }) => {
-	const [error, setError] = useState('');
+	const [error, setError] = useState(''); // from the stripe component itself
 	const dispatch = useDispatch();
-	const [clientSecret, setClientSecret] = useState('');
+	const [clientSecret, setClientSecret] = useState(''); // from the payment intent sent from server
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -53,7 +53,7 @@ const CheckoutForm = ({ price, orderID }) => {
 					},
 				},
 			});
-			console.log(payload.error);
+			// console.log(payload.error);
 			if (!payload.error) {
 				dispatch(savePaymentMethod('Stripe'));
 				dispatch(
@@ -70,6 +70,7 @@ const CheckoutForm = ({ price, orderID }) => {
 		}
 	};
 
+	// render a checkout form for filling details about credit or debit cards
 	return (
 		<Form id='payment-form' onSubmit={makePayment}>
 			{error && (
