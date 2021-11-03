@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const Rating = ({ value, text, color }) => {
 	return (
+		// show full/half star icon depending on rating value
 		<div className='rating'>
 			{[1, 2, 3, 4, 5].map((ele, idx) => (
 				<span key={idx}>
