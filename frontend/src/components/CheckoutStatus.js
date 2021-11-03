@@ -2,6 +2,11 @@ import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
+// there are 4 steps in the checkout process
+// step 1 is logging in
+// step 2 is shipping address input
+// step 3 is selecting payment option
+// step 4 is placing the order and seeing payment button
 const CheckoutStatus = ({ step1, step2, step3, step4 }) => {
 	return (
 		<Nav className='status-bar'>
