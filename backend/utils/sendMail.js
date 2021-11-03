@@ -6,10 +6,14 @@ dotenv.config();
 
 const sendMail = async (id, email, option) => {
 	const frontendURL = process.env.FRONTEND_BASE_URL;
+
+	// send email for the email verification option
 	if (option === 'email verification') {
 		// create a new JWT to verify user via email
 		const emailToken = generateToken(id, 'email');
 		const url = `${frontendURL}/user/confirm/${emailToken}`;
+
+		// set the correct mail option
 		const mailOptions = {
 			from: process.env.EMAIL, // sender address
 			to: email,
@@ -36,8 +40,11 @@ const sendMail = async (id, email, option) => {
 			}
 		);
 
+		// send a promise since nodemailer is async
 		if (mailSent) return Promise.resolve(1);
-	} else if (option === 'forgot password') {
+	}
+	// send a mail for resetting password if forgot password
+	else if (option === 'forgot password') {
 		// create a new JWT to verify user via email
 		const forgetPasswordToken = generateToken(id, 'forgot password');
 		const url = `${frontendURL}/user/password/reset/${forgetPasswordToken}`;
