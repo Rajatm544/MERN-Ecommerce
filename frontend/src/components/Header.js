@@ -13,14 +13,16 @@ const Header = () => {
 	const { userInfo } = userLogin;
 	const { cartItems } = cart;
 
-	const [show1, setShow1] = useState(false);
-	const [show2, setShow2] = useState(false);
+	const [show1, setShow1] = useState(false); // to close dropdown when clicking anywhere outside
+	const [show2, setShow2] = useState(false); // to close dropdown when clicking anywhere outside
 	const [count, setCount] = useState(0);
 
+	// update count when new cart changes
 	useEffect(() => {
 		setCount(cartItems.reduce((acc, item) => acc + item.qty, 0));
 	}, [cartItems]);
 
+	// close the second dropdown when it is open and user clicks anywhere else
 	const handleDropdown2 = (e) => {
 		if (show2) {
 			setShow2(false);
@@ -30,6 +32,7 @@ const Header = () => {
 		}
 	};
 
+	// close the first dropdown when it is open and user clicks anywhere else
 	const handleDropdown1 = (e) => {
 		if (show1) {
 			setShow1(false);
@@ -39,13 +42,16 @@ const Header = () => {
 		}
 	};
 
+	// dispatch action to logout user
 	const handleLogout = () => {
 		dispatch(logoutUser());
 		window.location.href = '/';
 	};
 
+	// render different navbars for large and small screens without navbar toggle
 	return (
 		<header>
+			{/* this section covers entire screen except the dropdown, to handle onclicks */}
 			<section
 				className='navbar-dropdown-cover'
 				style={{
@@ -55,7 +61,6 @@ const Header = () => {
 							: 'none',
 					minWidth: '100%',
 					height: '100%',
-					// background: 'red',
 					zIndex: '100',
 					position: 'absolute',
 				}}
@@ -65,6 +70,7 @@ const Header = () => {
 				}}
 			/>
 
+			{/* conditionally render different navbars for the mobile sreens */}
 			<Navbar bg='primary' variant='dark' expand='lg'>
 				<Container>
 					<LinkContainer to='/'>
@@ -78,12 +84,8 @@ const Header = () => {
 						</Navbar.Brand>
 					</LinkContainer>
 
-					{/* <Navbar.Toggle
-						className='navbar-toggle-btn'
-						aria-controls='basic-navbar-nav'
-					/> */}
-
-					{/* <Navbar.Collapse id='basic-navbar-nav'> */}
+					{/* history is available only inside Route, so this is used */}
+					{/* display searchbar inside navbar in large screens only */}
 					<Route
 						render={({ history }) => (
 							<div className='d-none d-md-block'>
@@ -105,6 +107,7 @@ const Header = () => {
 						}>
 						{userInfo && userInfo.isAdmin && (
 							<>
+								{/* display this only on mobile screens */}
 								<LinkContainer
 									className='d-block d-md-none'
 									to='/admin/userlist'>
@@ -130,6 +133,7 @@ const Header = () => {
 						)}
 						<LinkContainer to='/cart'>
 							<Nav.Link>
+								{/* indicate cart size */}
 								{count ? (
 									<div className='nav-cart-size'>
 										<span
@@ -152,6 +156,7 @@ const Header = () => {
 							</Nav.Link>
 						</LinkContainer>
 						{userInfo && userInfo.isAdmin && (
+							// show this only on md screens and above
 							<NavDropdown
 								className='d-none d-md-block'
 								title='Admin'
@@ -173,6 +178,7 @@ const Header = () => {
 						)}
 
 						{userInfo && (
+							// show this only on mobile screens
 							<Nav.Link
 								className='d-block d-md-none'
 								onClick={handleLogout}>
@@ -180,8 +186,10 @@ const Header = () => {
 								{!(userInfo && userInfo.isAdmin) && 'Logout'}
 							</Nav.Link>
 						)}
+
 						{userInfo ? (
 							<div className='nav-avatar-container'>
+								{/* show this container only on mobile screens */}
 								<LinkContainer
 									to='/profile'
 									className='d-block d-md-none'>
@@ -198,6 +206,8 @@ const Header = () => {
 									className='nav-avatar d-none d-md-block'
 									alt={userInfo.name}
 								/>
+
+								{/* show this dropdown only on large screens */}
 								<NavDropdown
 									className='d-none d-md-block'
 									title={userInfo.name}
@@ -223,7 +233,6 @@ const Header = () => {
 							</LinkContainer>
 						)}
 					</Nav>
-					{/* </Navbar.Collapse> */}
 				</Container>
 			</Navbar>
 		</header>
