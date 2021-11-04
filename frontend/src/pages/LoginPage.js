@@ -17,7 +17,7 @@ import FormContainer from '../components/FormContainer';
 import SocialLoginOptions from '../components/SocialLoginOptions';
 
 const LoginPage = ({ location, history }) => {
-	const [authFailedMsg, setAuthFailedMsg] = useState('');
+	const [authFailedMsg, setAuthFailedMsg] = useState(''); // if user tried to login with different social account after registering with some other social account
 	const [showRedirectMsg, setShowRedirectMsg] = useState(false);
 	const [forgotPassword, setForgotPassword] = useState(false);
 	const [showLoading, setShowLoading] = useState(false); // to display loader after user submits the email to reset password
@@ -68,6 +68,7 @@ const LoginPage = ({ location, history }) => {
 		}
 	}, [location.search]);
 
+	// if redirected to login page after refresh token expired, show a message
 	useEffect(() => {
 		const flag = localStorage.getItem('redirectLogin');
 		if (flag && flag === 'true') {
@@ -77,12 +78,15 @@ const LoginPage = ({ location, history }) => {
 		}
 	}, []);
 
+	// if the passport social login is successful, get the user's data and store in redux store
 	useEffect(() => {
 		// check for url params
 		if (window.location.search.includes('success')) {
 			const queries = window.location.search.split('&');
 			const isSuccess = queries[0].split('=')[1] === 'success';
 			const id = queries[1].split('=')[1];
+
+			// if successful login
 			if (isSuccess) {
 				// get user data and dispatch login success
 				axios
@@ -107,22 +111,28 @@ const LoginPage = ({ location, history }) => {
 							avatar,
 							isSocialLogin: true,
 						};
+
+						// login user in frontend
 						dispatch({
 							type: USER_LOGIN_SUCCESS,
 							payload: userData,
 						});
+						// update the local storage
 						localStorage.setItem(
 							'userInfo',
 							JSON.stringify(userData)
 						);
+
+						// remove variable that was meant to promt email verification if it is a social login
 						localStorage.removeItem('promptEmailVerfication');
-						history.push('/shipping');
+						history.push('/shipping'); // move to shipping page by default
 					});
 			}
 		}
 	}, [dispatch, history, redirect]);
 
 	useEffect(() => {
+		// if redirected from confirmation page, fill email and let user fill the password field
 		if (
 			storedInfo &&
 			storedInfo.email &&
@@ -133,17 +143,20 @@ const LoginPage = ({ location, history }) => {
 		}
 	}, [storedInfo]);
 
+	// to show/hide the password field content
 	const showHide = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 		setType(type === 'password' ? 'text' : 'password');
 	};
 
+	// login user from email and password
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(loginUser(email, password));
 	};
 
+	// to send a mail for resetting password if forgotted
 	const handleEmailSubmit = async (e) => {
 		e.preventDefault();
 		setShowLoading(true);
@@ -165,14 +178,16 @@ const LoginPage = ({ location, history }) => {
 			setShowLoading(false);
 			setEmailSent(true);
 			// store the name in localstorage
-			localStorage.setItem('EcommerceUserName', data.name);
+			localStorage.setItem('EcommerceUserName', data.name); // store the user name, so that we can use it in the profile page to ask them to confirm email
 		}
 	};
 
+	// there are 2 sorts of forms to be shown, one when resetting password, and other when normal login
 	if (!forgotPassword) {
 		return (
 			<>
 				<FormContainer>
+					{/* if passport login has failed because user logged in with differrent social account, shoe the error msg */}
 					{authFailedMsg && (
 						<Message variant='danger' dismissible>
 							{authFailedMsg}
@@ -202,6 +217,7 @@ const LoginPage = ({ location, history }) => {
 								{error}
 							</Message>
 						)}
+						{/* the message when refresh token has expired */}
 						{showRedirectMsg && (
 							<Message dismissible variant='info' duration={10}>
 								Your session has expired. Please login again.
