@@ -25,6 +25,7 @@ import {
 	PRODUCT_TOP_RATED_REQUEST,
 } from '../constants/productConstants';
 
+// list products based on keyword and paginated page number
 export const productListReducer = (state = { products: [] }, action) => {
 	switch (action.type) {
 		case PRODUCT_LIST_REQUEST:
@@ -46,6 +47,7 @@ export const productListReducer = (state = { products: [] }, action) => {
 	}
 };
 
+// details about a particular product
 export const productDetailsReducer = (
 	state = { product: { reviews: [] } },
 	action
@@ -120,6 +122,7 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
 	}
 };
 
+// fetching top rated products
 export const productTopRatedReducer = (state = { products: [] }, action) => {
 	switch (action.type) {
 		case PRODUCT_TOP_RATED_REQUEST:
