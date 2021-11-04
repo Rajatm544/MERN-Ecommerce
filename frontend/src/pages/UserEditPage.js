@@ -4,6 +4,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import FormContainer from '../components/FormContainer';
 import {
 	getUserDetails,
@@ -11,7 +12,6 @@ import {
 	refreshLogin,
 } from '../actions/userActions';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
-import Meta from '../components/Meta';
 
 const UserEditPage = ({ match, history }) => {
 	const userId = match.params.id;
@@ -33,6 +33,7 @@ const UserEditPage = ({ match, history }) => {
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
+	// get new access tokens
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -40,6 +41,7 @@ const UserEditPage = ({ match, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	// update user details from the admin panel view
 	useEffect(() => {
 		if (successUpdate) {
 			dispatch({ type: USER_UPDATE_RESET });
