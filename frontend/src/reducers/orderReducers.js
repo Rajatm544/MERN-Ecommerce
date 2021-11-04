@@ -23,6 +23,7 @@ import {
 	ORDER_ALL_LIST_FAILURE,
 } from '../constants/orderConstants';
 
+// create an order
 export const orderCreateReducer = (state = {}, action) => {
 	switch (action.type) {
 		case ORDER_CREATE_REQUEST:
@@ -46,6 +47,8 @@ export const orderCreateReducer = (state = {}, action) => {
 			return { ...state };
 	}
 };
+
+// get order details
 export const orderDetailsReducer = (
 	state = { loading: true, orderItems: [], shippingAddress: {} },
 	action
@@ -71,6 +74,7 @@ export const orderDetailsReducer = (
 	}
 };
 
+// update order payment options
 export const orderPayReducer = (state = {}, action) => {
 	switch (action.type) {
 		case ORDER_PAY_REQUEST:
@@ -95,6 +99,7 @@ export const orderPayReducer = (state = {}, action) => {
 	}
 };
 
+// update order to be delivered or not
 export const orderDeliverReducer = (state = {}, action) => {
 	switch (action.type) {
 		case ORDER_DELIVER_REQUEST:
@@ -119,6 +124,7 @@ export const orderDeliverReducer = (state = {}, action) => {
 	}
 };
 
+// reducer to list orders of the particular user
 export const orderListUserReducer = (state = { orders: [] }, action) => {
 	switch (action.type) {
 		case ORDER_USER_LIST_REQUEST:
@@ -143,6 +149,7 @@ export const orderListUserReducer = (state = { orders: [] }, action) => {
 	}
 };
 
+// reducer to list all orders for the admin panel view
 export const orderListAllReducer = (state = { orders: [] }, action) => {
 	switch (action.type) {
 		case ORDER_ALL_LIST_REQUEST:
