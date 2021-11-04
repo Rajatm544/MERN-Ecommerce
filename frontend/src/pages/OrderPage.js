@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { PayPalButton } from 'react-paypal-button-v2';
+import { PayPalButton } from 'react-paypal-button-v2'; // for paypal payments
 import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -16,17 +16,18 @@ import {
 	ORDER_DELIVER_RESET,
 } from '../constants/orderConstants';
 import { savePaymentMethod } from '../actions/cartActions';
-// import StripeCheckout from 'react-stripe-checkout';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { refreshLogin } from '../actions/userActions';
-import CheckoutForm from '../components/CheckoutForm';
+import CheckoutForm from '../components/CheckoutForm'; //stripe checkout form
 import getDateString from '../utils/getDateString';
 
 const OrderPage = ({ match, history }) => {
+	// load stripe
 	const stripePromise = loadStripe(
 		process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 	);
+	// for paypal payment
 	const [SDKReady, setSDKReady] = useState(false);
 	const dispatch = useDispatch();
 	const orderID = match.params.id;
@@ -46,6 +47,7 @@ const OrderPage = ({ match, history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userLoginError } = userDetails;
 
+	// get new access tokens using the refresh token, is user details throws an error
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -53,6 +55,7 @@ const OrderPage = ({ match, history }) => {
 		}
 	}, [userLoginError, dispatch, userInfo]);
 
+	// set order to paid or delivered, and fetch updated orders
 	useEffect(() => {
 		if (!order || order._id !== orderID || successPay || successDeliver) {
 			if (successPay) dispatch({ type: ORDER_PAY_RESET });
@@ -61,6 +64,7 @@ const OrderPage = ({ match, history }) => {
 		}
 	}, [order, orderID, dispatch, successPay, successDeliver]);
 
+	// add the script required for paypal payments dynamically, to avoid possible attacks
 	useEffect(() => {
 		const addScript = async () => {
 			const config = userInfo.isSocialLogin
@@ -86,10 +90,11 @@ const OrderPage = ({ match, history }) => {
 			script.onload = () => setSDKReady(true);
 			document.body.appendChild(script);
 		};
-		if (!userInfo) history.push('/login');
+		if (!userInfo) history.push('/login'); // if not loggein in
 		if (!SDKReady) addScript();
 	}, [userInfo, SDKReady, history]);
 
+	// save the payment mthod as paypal
 	const successPaymentHandler = (paymentResult) => {
 		dispatch(savePaymentMethod('PayPal'));
 		dispatch(
@@ -97,28 +102,7 @@ const OrderPage = ({ match, history }) => {
 		);
 	};
 
-	// const handleStripePayment = (token) => {
-	// 	// const body = { token, order };
-	// 	const config = userInfo.isSocialLogin
-	// 		? {
-	// 				headers: {
-	// 					'Content-Type': 'application/json',
-	// 					Authorization: `SocialLogin ${userInfo.id}`,
-	// 				},
-	// 		  }
-	// 		: {
-	// 				headers: {
-	// 					'Content-Type': 'application/json',
-	// 					Authorization: `Bearer ${userInfo.accessToken}`,
-	// 				},
-	// 		  };
-
-	// 	axios
-	// 		.post('/api/orders/stripe-payment', { token, order }, config)
-	// 		.then((res) => console.log(res))
-	// 		.catch((err) => console.error(err));
-	// };
-
+	// set order as delivered
 	const successDeliveryHandler = () => {
 		dispatch(deliverOrder(orderID));
 	};
@@ -336,6 +320,7 @@ const OrderPage = ({ match, history }) => {
 											</Col>
 										</Row>
 									</ListGroup.Item>
+									{/* show paypal button or the stripe checkout form */}
 									{!order.isPaid && (
 										<>
 											{order.paymentMethod ===
@@ -353,6 +338,7 @@ const OrderPage = ({ match, history }) => {
 																label: 'pay',
 															}}
 															currency='USD'
+															// converting INR to USD, as paypal cannot support INR
 															amount={Number(
 																order.totalPrice /
 																	72
@@ -368,6 +354,7 @@ const OrderPage = ({ match, history }) => {
 													{loadingPay && <Loader />}
 													<Elements
 														stripe={stripePromise}>
+														{/* price in paisa */}
 														<CheckoutForm
 															price={
 																order.totalPrice *
@@ -378,41 +365,9 @@ const OrderPage = ({ match, history }) => {
 													</Elements>
 												</ListGroup.Item>
 											)}
-											{/* <ListGroup.Item> */}
-											{/* <StripeCheckout
-													stripeKey={
-														process.env
-															.REACT_APP_STRIPE_PUBLISHABLE_KEY
-													}
-													currency='INR'
-													token={handleStripePayment}
-													amount={
-														order.totalPrice * 100
-													}>
-													<div className='d-grid'>
-														<Button
-															type='button'
-															variant='info'
-															// onClick={
-															// 	successDeliveryHandler
-														>
-															Pay With Card
-														</Button>
-													</div>
-												</StripeCheckout> */}
-											{/* <Elements
-													stripe={stripePromise}>
-													<CheckoutForm
-														price={
-															order.totalPrice *
-															100
-														}
-														orderID={orderID}
-													/>
-												</Elements> */}
-											{/* </ListGroup.Item> */}
 										</>
 									)}
+									{/* show this only to admins, after payment is done */}
 									{userInfo &&
 										userInfo.isAdmin &&
 										order.isPaid &&
