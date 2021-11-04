@@ -2,6 +2,7 @@ import React from 'react';
 import errorImg from '../assets/404Error.png';
 import { Link } from 'react-router-dom';
 
+// 404 page
 const ErrorPage = () => {
 	return (
 		<div className='text-center'>
