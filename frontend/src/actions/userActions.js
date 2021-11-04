@@ -125,7 +125,7 @@ export const refreshLogin = (email) => async (dispatch, getState) => {
 			} else if (!data.success) {
 				// set a variable in local storage which redirects to login page, if this refresh thing fails
 				localStorage.removeItem('userInfo');
-				localStorage.setItem('redirectLogin', 'true');
+				localStorage.setItem('redirectLogin', 'true'); // after refresh token also expires, redirect to login page after loggin out the user
 				dispatch({ type: USER_LOGOUT });
 			}
 		}
@@ -273,7 +273,7 @@ export const resetUserPassword =
 		}
 	};
 
-// get user details for profile page -> for social login
+// get user details for profile page
 export const getUserDetails = (id) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: USER_DETAILS_REQUEST });
@@ -307,7 +307,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 			};
 
 			const { data } = await axios.get(`/api/users/${id}`, config);
-
 			dispatch({
 				type: USER_DETAILS_SUCCESS,
 				payload: { ...data, isSocialLogin: false },
