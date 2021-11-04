@@ -10,9 +10,9 @@ import { listAllOrders } from '../actions/orderActions';
 import getDateString from '../utils/getDateString';
 
 const ProductListPage = ({ history, match }) => {
-	const pageNumber = match.params.pageNumber || 1;
+	const pageNumber = match.params.pageNumber || 1; // to fetch various pages of orders
 	const dispatch = useDispatch();
-	const orderListAll = useSelector((state) => state.orderListAll);
+	const orderListAll = useSelector((state) => state.orderListAll); // to avoid blank screen display
 	const { loading, orders, error, page, pages } = orderListAll;
 
 	const userLogin = useSelector((state) => state.userLogin);
@@ -21,6 +21,7 @@ const ProductListPage = ({ history, match }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userLoginError } = userDetails;
 
+	// refresh access tokens aif user details are failed
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -28,6 +29,7 @@ const ProductListPage = ({ history, match }) => {
 		}
 	}, [userLoginError, dispatch, userInfo]);
 
+	// get all orders by pagenumber
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) dispatch(listAllOrders(pageNumber));
 		else history.push('/login');
