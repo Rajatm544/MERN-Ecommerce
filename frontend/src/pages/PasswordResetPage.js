@@ -17,6 +17,7 @@ const PasswordResetPage = ({ match, history }) => {
 	const userResetPassword = useSelector((state) => state.userResetPassword);
 	const { loading, resetPassword, error } = userResetPassword;
 
+	// get the name stored in the local storage and ask that user to reset password
 	useEffect(() => {
 		const nameFromLocalStorage = localStorage.getItem('EcommerceUserName');
 		if (nameFromLocalStorage) {
