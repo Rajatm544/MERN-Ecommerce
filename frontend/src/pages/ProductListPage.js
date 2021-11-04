@@ -40,6 +40,7 @@ const ProductListPage = ({ history, match }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userLoginError } = userDetails;
 
+	// fetch user login info
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -48,6 +49,7 @@ const ProductListPage = ({ history, match }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// refresh token for expired access tokens
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -57,7 +59,7 @@ const ProductListPage = ({ history, match }) => {
 
 	useEffect(() => {
 		if (!userInfo.isAdmin) history.push('/login');
-		dispatch({ type: PRODUCT_CREATE_RESET });
+		dispatch({ type: PRODUCT_CREATE_RESET }); //reset the new product detail
 		if (successCreate)
 			history.push(`/admin/product/${createdProduct._id}/edit`);
 		else dispatch(listProducts('', pageNumber, 10)); // 3rd parameter is the no of products to be listed per page
@@ -71,11 +73,13 @@ const ProductListPage = ({ history, match }) => {
 		pageNumber,
 	]);
 
+	// delete product after confirming
 	const handleDelete = (id) => {
 		if (window.confirm('Are you sure you wanna delete this product?'))
 			dispatch(deleteProduct(id));
 	};
-	const handleCreateProduct = (product) => {
+	// create a new dummy product
+	const handleCreateProduct = () => {
 		dispatch(createProduct());
 	};
 	return (
