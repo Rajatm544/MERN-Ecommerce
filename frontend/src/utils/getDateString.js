@@ -1,3 +1,5 @@
+// there is a need to convert mongodb dates to readable date formats in various pages
+// this util function does that, and has a second argument to decide whether the time has to be included
 const getDateString = (date, showTime = true) => {
 	const options = {
 		year: 'numeric',
