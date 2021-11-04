@@ -11,13 +11,14 @@ const PaymentPage = ({ history }) => {
 	const cart = useSelector((state) => state.cart);
 	const { shippingAddress } = cart;
 
-	const [paymentMethod, setPaymentMethod] = useState('Credit/Debit Card');
+	const [paymentMethod, setPaymentMethod] = useState('Credit/Debit Card'); // default option is the stripe one, but users might not understand 'stripe'
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
 
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error } = userDetails;
 
+	// fetch user details
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -26,6 +27,7 @@ const PaymentPage = ({ history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// refresh the access tokens when user details throws an error
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -33,6 +35,7 @@ const PaymentPage = ({ history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	// if shipping address is empty, redirect
 	useEffect(() => {
 		if (!shippingAddress) {
 			history.push('/shipping');
@@ -52,6 +55,7 @@ const PaymentPage = ({ history }) => {
 
 	return (
 		<FormContainer>
+			{/* three steps are done in the checkout process */}
 			<CheckoutStatus step1 step2 step3 />
 			<div
 				style={{
@@ -62,7 +66,6 @@ const PaymentPage = ({ history }) => {
 				<h1>Payment Method</h1>
 				<Form onSubmit={handleSubmit}>
 					<Form.Group>
-						{/* <Form.Label as='legend'>Select Method</Form.Label> */}
 						<Col>
 							<Form.Check
 								inline
@@ -87,20 +90,10 @@ const PaymentPage = ({ history }) => {
 						</Col>
 					</Form.Group>
 					<div className='d-grid'>
-						<Button
-							type='submit'
-							className='my-3'
-							size='lg'
-							// variant='info'
-							// onClick={
-							// 	successDeliveryHandler
-						>
+						<Button type='submit' className='my-3' size='lg'>
 							Continue
 						</Button>
 					</div>
-					{/* <Button type='submit' variant='dark' className='my-1'>
-						Continue
-					</Button> */}
 				</Form>
 			</div>
 		</FormContainer>
