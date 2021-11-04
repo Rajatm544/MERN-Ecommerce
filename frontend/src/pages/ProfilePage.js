@@ -27,9 +27,9 @@ import Meta from '../components/Meta';
 import axios from 'axios';
 import getDateString from '../utils/getDateString';
 
-const ProfilePage = ({ location, history }) => {
+const ProfilePage = ({ history }) => {
 	const inputFile = useRef(null);
-	const [showSubmitButton, setShowSubmitButton] = useState(false);
+	const [showSubmitButton, setShowSubmitButton] = useState(false); // sisable the submit button unless some user detail is changed by user
 	const [typePassword, setTypePassword] = useState('password');
 	const [typeConfirmPassword, setTypeConfirmPassword] = useState('password');
 
@@ -61,11 +61,13 @@ const ProfilePage = ({ location, history }) => {
 		error: errorOrdersList,
 	} = orderListUser;
 
+	// check whether verification email has to be sent
 	const userSendEmailVerfication = useSelector(
 		(state) => state.userSendEmailVerfication
 	);
 	const { emailSent, hasError } = userSendEmailVerfication;
 
+	// refresh access token for user details error
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -73,18 +75,14 @@ const ProfilePage = ({ location, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
-	// useEffect(() => {
-	// 	if (userInfo && !orders) {
-	// 		dispatch(listMyOrders());
-	// 	}
-	// }, [userInfo, loadingOrdersList, orders, dispatch]);
-
+	// set orders to local state
 	useEffect(() => {
 		if (orders && orders.length) {
 			setAllOrders([...orders]);
 		}
 	}, [orders]);
 
+	// check if any of the input fields value is changed, only then show the submit button
 	useEffect(() => {
 		if (userInfo) {
 			if (name && userInfo.name !== name) setShowSubmitButton(true);
@@ -139,6 +137,7 @@ const ProfilePage = ({ location, history }) => {
 		);
 	};
 
+	// handle file upload to aws bucket
 	const handleImageUpload = async (e) => {
 		const file = e.target.files[0];
 		const formData = new FormData();
@@ -166,10 +165,12 @@ const ProfilePage = ({ location, history }) => {
 		}
 	};
 
+	// handle image overlay div's click to upload new file
 	const handleImageClick = () => {
 		inputFile.current.click();
 	};
 
+	// update user details
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
@@ -187,18 +188,19 @@ const ProfilePage = ({ location, history }) => {
 			);
 		}
 	};
+
 	return (
 		<Row className='mt-2'>
 			<Meta title='My Profile | Kosells' />
 			{userInfo && !userInfo.isConfirmed ? (
 				<>
 					{emailSent && (
-						<Message variant='success' duration={8}>
+						<Message variant='success' dismissible>
 							A verification link has been sent your mail!
 						</Message>
 					)}
 					{hasError && (
-						<Message dismissible variant='danger' duration={10}>
+						<Message dismissible variant='danger'>
 							{hasError}
 						</Message>
 					)}
@@ -294,7 +296,7 @@ const ProfilePage = ({ location, history }) => {
 								</div>
 							</div>
 						)}
-
+						{/* for image upload */}
 						<input
 							type='file'
 							id='file'
@@ -330,7 +332,6 @@ const ProfilePage = ({ location, history }) => {
 										  }
 										: {}
 								}>
-								{/* <Form.Label>Email Address</Form.Label> */}
 								<FloatingLabel
 									controlId='emailinput'
 									label='Email'
@@ -457,6 +458,7 @@ const ProfilePage = ({ location, history }) => {
 					</div>
 				)}
 			</Col>
+			{/* display orders */}
 			<Col
 				md={9}
 				style={
@@ -487,7 +489,6 @@ const ProfilePage = ({ location, history }) => {
 								className='table-sm text-center'>
 								<thead>
 									<tr>
-										{/* <th>ID</th> */}
 										<th>DATE</th>
 										<th>TOTAL</th>
 										<th>PAID</th>
@@ -503,7 +504,6 @@ const ProfilePage = ({ location, history }) => {
 												textAlign: 'center',
 												padding: '0',
 											}}>
-											{/* <td>{order._id}</td> */}
 											<td>
 												{getDateString(order.createdAt)}
 											</td>
