@@ -11,8 +11,10 @@ import { refreshLogin, getUserDetails } from '../actions/userActions';
 
 const PlaceOrderPage = ({ history }) => {
 	const dispatch = useDispatch();
+
 	const cart = useSelector((state) => state.cart);
 	const { cartItems, shippingAddress, paymentMethod } = cart;
+
 	const orderCreate = useSelector((state) => state.orderCreate);
 	const { order, loading, success, error } = orderCreate;
 
@@ -22,6 +24,7 @@ const PlaceOrderPage = ({ history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userLoginError } = userDetails;
 
+	// fetch the userinfo from reducx store
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -30,6 +33,7 @@ const PlaceOrderPage = ({ history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// refresh access token when user detail throws error
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -40,23 +44,21 @@ const PlaceOrderPage = ({ history }) => {
 	useEffect(() => {
 		if (success) {
 			localStorage.removeItem('cartItems');
-			dispatch({ type: CART_RESET, payload: shippingAddress });
+			dispatch({ type: CART_RESET, payload: shippingAddress }); // remove items from cart once paid, but keep the shipping address in store
 			history.push(`/order/${order._id}`);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [success, history]);
 
-	// All prices
-	cart.itemsPrice = cartItems
-		.reduce((acc, item) => acc + item.price * item.qty, 0)
-		.toFixed(2);
-	cart.shippingPrice = (cart.itemsPrice > 100 ? 100 : 250).toFixed(2);
-	cart.taxPrice = (0.18 * cart.itemsPrice).toFixed(2);
-	cart.totalPrice = (
-		Number(cart.itemsPrice) +
-		Number(cart.taxPrice) +
-		Number(cart.shippingPrice)
-	).toFixed(2);
+	// All prices, tax is randomly  assigned
+	cart.itemsPrice = cartItems.reduce(
+		(acc, item) => acc + item.price * item.qty,
+		0
+	);
+
+	cart.shippingPrice = cart.itemsPrice > 8000 ? 500 : 300;
+	cart.taxPrice = 0.18 * cart.itemsPrice;
+	cart.totalPrice = cart.itemsPrice + cart.taxPrice + cart.shippingPrice;
 
 	const handleOrder = (e) => {
 		e.preventDefault();
@@ -75,6 +77,7 @@ const PlaceOrderPage = ({ history }) => {
 
 	return (
 		<>
+			{/* last step in the ckecout process */}
 			<CheckoutStatus step1 step2 step3 step4 />
 			<Row>
 				{loading ? (
@@ -232,7 +235,6 @@ const PlaceOrderPage = ({ history }) => {
 									)}
 									<ListGroup.Item className='d-grid gap-2'>
 										<Button
-											// variant='dark'
 											type='button'
 											size='lg'
 											disabled={!cartItems.length}
