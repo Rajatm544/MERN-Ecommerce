@@ -23,6 +23,7 @@ const ShippingPage = ({ history }) => {
 	const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
 	const [country, setCountry] = useState(shippingAddress.country);
 
+	// fetch user details from the redux store
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -31,6 +32,7 @@ const ShippingPage = ({ history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// update access token to a new ine using the refresh tokens
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -44,6 +46,7 @@ const ShippingPage = ({ history }) => {
 		}
 	}, [cartItems, history, userInfo]);
 
+	// save shipping address and move to payment screen
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(
