@@ -12,6 +12,7 @@ import { refreshLogin, getUserDetails } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 
 const ProductEditPage = ({ match, history }) => {
+	// all variable for stroing product details
 	const productId = match.params.id;
 	const [name, setName] = useState('');
 	const [brand, setBrand] = useState('');
@@ -20,6 +21,8 @@ const ProductEditPage = ({ match, history }) => {
 	const [image, setImage] = useState('');
 	const [price, setPrice] = useState(0.0);
 	const [countInStock, setCountInStock] = useState(0);
+
+	// to upload product image
 	const [uploading, setUploading] = useState(false);
 	const [errorImageUpload, setErrorImageUpload] = useState('');
 	const dispatch = useDispatch();
@@ -40,6 +43,7 @@ const ProductEditPage = ({ match, history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userLoginError } = userDetails;
 
+	// fetch user login details
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -48,6 +52,7 @@ const ProductEditPage = ({ match, history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// fetch new access tokens if user details fail, using the refresh token
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -60,6 +65,7 @@ const ProductEditPage = ({ match, history }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// update the product details in state
 	useEffect(() => {
 		if (successUpdate) {
 			dispatch({ type: PRODUCT_UPDATE_RESET });
@@ -79,10 +85,7 @@ const ProductEditPage = ({ match, history }) => {
 		}
 	}, [product, dispatch, productId, history, successUpdate]);
 
-	// useEffect(() => {
-	// 	dispatch(listProductDetails(productId));
-	// }, [product]);
-
+	// submit the product details
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(
@@ -99,12 +102,15 @@ const ProductEditPage = ({ match, history }) => {
 		);
 	};
 
+	// for image input, use a ref
 	const inputFile = useRef(null);
 
+	// click the above ref, to handle the overlay div above the product image
 	const handleImageClick = () => {
 		inputFile.current.click();
 	};
 
+	// submit file to aws bucket, get the url
 	const handleFileUpload = async (e) => {
 		const file = e.target.files[0];
 		const formData = new FormData();
@@ -155,9 +161,7 @@ const ProductEditPage = ({ match, history }) => {
 										{error}
 									</Message>
 								)}
-
 								<Form.Group controlId='name'>
-									{/* <Form.Label>Name</Form.Label> */}
 									<FloatingLabel
 										controlId='nameinput'
 										label='Name'
