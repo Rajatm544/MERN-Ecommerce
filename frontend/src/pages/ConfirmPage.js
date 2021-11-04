@@ -10,7 +10,7 @@ import Meta from '../components/Meta';
 
 const ConfirmPage = ({ match, history }) => {
 	const dispatch = useDispatch();
-	const userConfirm = useSelector((state) => state.userConfirm);
+	const userConfirm = useSelector((state) => state.userConfirm); // get the userInfo to check if user is confirmed or not
 	const { loading, error, isConfirmed } = userConfirm;
 
 	const userLogin = useSelector((state) => state.userLogin);
@@ -26,22 +26,24 @@ const ConfirmPage = ({ match, history }) => {
 	}, []);
 
 	useEffect(() => {
+		// confirm user once the email token is available
 		dispatch(confirmUser(match.params.token, isLoggedIn));
-		// else dispatch(confirmUser(match.params.token, true));
 	}, [dispatch, match, isLoggedIn]);
 
 	if (loading || (!isConfirmed && !error)) {
 		return <Loader />;
 	} else if (error) {
+		// redirect to login page after a 10 seconds
 		setTimeout(() => {
 			history.push('/login');
-		}, 11000);
+		}, 10000);
 		return (
 			<Message dismissible variant='danger' duration={10}>
 				Verfication Failed. Please try to login again.
 			</Message>
 		);
 	} else if (isConfirmed) {
+		// set a variable in local storage to fill email aftrer redirecting to login page after email confirmation
 		localStorage.setItem('fillEmailOnLoginPage', 'true');
 		return (
 			<Card style={{ border: 'none', margin: '0 auto' }}>
