@@ -11,26 +11,26 @@ import {
 	Form,
 	FloatingLabel,
 } from 'react-bootstrap';
-import ImageMagnifier from '../components/ImageMagnifier';
+import ImageMagnifier from '../components/ImageMagnifier'; // to magnify image on hover
 import Rating from '../components/Rating';
 import Meta from '../components/Meta';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 import {
 	listProductDetails,
 	createProductReview,
 } from '../actions/productActions';
 import { listMyOrders } from '../actions/orderActions';
-import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
 import { refreshLogin, getUserDetails } from '../actions/userActions';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import getDateString from '../utils/getDateString';
 
 const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
 	const [rating, setRating] = useState(0);
 	const [review, setReview] = useState('');
-	const [hasOrderedItem, setHasOrderedItem] = useState(false);
-	const [showReviewForm, setShowReviewForm] = useState(false);
+	const [hasOrderedItem, setHasOrderedItem] = useState(false); // bool to check if the user has ordered this product
+	const [showReviewForm, setShowReviewForm] = useState(false); // bool to decide whether to show the review form or not
 	const dispatch = useDispatch();
 
 	const userLogin = useSelector((state) => state.userLogin);
@@ -54,6 +54,7 @@ const ProductPage = ({ history, match }) => {
 	const orderListUser = useSelector((state) => state.orderListUser);
 	const { orders } = orderListUser;
 
+	// fetch user login info
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -62,6 +63,7 @@ const ProductPage = ({ history, match }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// refresh the access tokens for accessing user details
 	useEffect(() => {
 		if (userLoginError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -73,6 +75,7 @@ const ProductPage = ({ history, match }) => {
 		dispatch(listMyOrders());
 	}, [dispatch]);
 
+	// add a new review, and reset the stored product review in the redux store
 	useEffect(() => {
 		if (successCreateReview) {
 			window.alert('Review Submitted!!');
@@ -85,7 +88,7 @@ const ProductPage = ({ history, match }) => {
 
 	useEffect(() => {
 		if (product && product.reviews && userInfo) {
-			let flag = 0;
+			let flag = 0; // to check if this user has already reviewed this product
 			for (let review of product.reviews) {
 				if (review.user === userInfo.id) {
 					flag = 1;
@@ -100,7 +103,7 @@ const ProductPage = ({ history, match }) => {
 
 	useEffect(() => {
 		if (orders && orders.length) {
-			let flag = 0;
+			let flag = 0; // to check is this user has ordered this item
 			for (let obj of orders) {
 				for (let ele of obj.orderItems) {
 					if (ele.product.toString() === match.params.id) {
@@ -373,18 +376,6 @@ const ProductPage = ({ history, match }) => {
 														value={review}
 													/>
 												</FloatingLabel>
-												{/* <Form.Label>Comment</Form.Label>
-												<Form.Control
-													as='textarea'
-													row='3'
-													onChange={(e) =>
-														setReview(
-															e.target.value
-														)
-													}
-													value={
-														review
-													}></Form.Control> */}
 											</Form.Group>
 											<div className='d-grid'>
 												<Button type='submit'>
