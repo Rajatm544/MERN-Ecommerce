@@ -1,0 +1,53 @@
+.profile-page-image {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-page-image .image-overlay,
+.profile-page-image .image-overlay-product {
+    display: none;
+}
+
+.profile-page-image:hover .image-overlay {
+    height: 6.3em;
+    width: 6.3em;
+    border: 1px solid #ced4da;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.8em;
+    font-weight: lighter;
+    padding: 1em;
+    margin: 0;
+    color: ghostwhite;
+    text-align: center;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.profile-page-image:hover .image-overlay-product {
+    height: 85%;
+    width: 100%;
+    border: 1px solid #ced4da;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.8em;
+    font-weight: lighter;
+    padding: 1.5em;
+    margin: 0;
+    border-radius: 0.25rem;
+    color: ghostwhite;
+    text-align: center;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+}

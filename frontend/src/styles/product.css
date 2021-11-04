@@ -1,0 +1,15 @@
+p.product-title {
+    min-height: 7ch;
+}
+
+@media screen and (max-width: 430px) {
+    p.product-title {
+        min-height: auto;
+    }
+
+    img.product-image {
+        aspect-ratio: 1.5;
+        object-fit: cover;
+    }
+
+}

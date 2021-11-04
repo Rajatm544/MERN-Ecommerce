@@ -1,0 +1,15 @@
+.update-toast {
+    z-index: 100;
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 430px) {
+    .update-toast {
+        top: auto;
+        bottom: 1%;
+    }
+
+}

@@ -1,0 +1,40 @@
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item:active {
+    display: flex
+}
+
+.carousel-inner {
+    text-align: center;
+}
+
+.carousel-caption {
+    font-size: 1.2em;
+    padding: 0;
+    margin-bottom: -0.5em;
+}
+
+
+.carousel img {
+    height: 30vh;
+    border-radius: 50%;
+    width: 30vh;
+    object-fit: cover;
+    margin: 0.5em auto 2.5em auto;
+}
+
+.carousel a {
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 900px) {
+    .carousel-caption h2 {
+        font-size: 2.5vw;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .carousel {
+        display: none;
+    }
+}

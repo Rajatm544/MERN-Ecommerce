@@ -1,0 +1,19 @@
+img.error-img {
+    width: 15rem;
+    object-fit: cover;
+}
+
+p.text-error {
+    font-size: 1.2em;
+}
+
+@media screen and (max-width: 430px) {
+    img.error-img {
+        width: 10rem;
+        margin-top: 5em;
+    }
+
+    p.text-error {
+        font-size: 1em;
+    }
+}

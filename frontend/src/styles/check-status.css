@@ -1,0 +1,46 @@
+.status-bar {
+    width: max-content;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 1em auto 0 auto;
+}
+
+.status-checkpoint {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    padding: 0;
+}
+
+.status-checkpoint .circle {
+    width: 0.9em;
+    height: 0.9em;
+    border-radius: 50%;
+    border: 0.2em solid #2c3e50;
+}
+
+.status-bar .connection {
+    align-self: flex-start;
+    border-top: 1px solid #95a5a6;
+    margin: 0;
+    margin-top: 0.5em;
+    padding: 0;
+    width: 6rem;
+}
+
+.status-bar a.nav-link {
+    padding: 0;
+}
+
+@media screen and (max-width: 430px) {
+    .status-bar {
+        width: auto;
+        justify-content: space-between;
+    }
+
+    .status-bar .connection {
+        display: none;
+    }
+
+}
