@@ -18,9 +18,10 @@ import { addItem, removeItem } from '../actions/cartActions';
 const CartPage = ({ match, location, history }) => {
 	const [totalItems, setTotalItems] = useState(0);
 	const productID = match.params.id;
-	const qty = location.search ? Number(location.search.split('=')[1]) : 1;
+	const qty = location.search ? Number(location.search.split('=')[1]) : 1; // fetch from the query string
 	const dispatch = useDispatch();
 
+	// get cart, userInfo and userdetails from redux store
 	const cart = useSelector((state) => state.cart);
 	const { cartItems } = cart;
 
@@ -30,6 +31,7 @@ const CartPage = ({ match, location, history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error } = userDetails;
 
+	// get user details depending on what type of login it is, dispatch with correspnding argument
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -38,12 +40,14 @@ const CartPage = ({ match, location, history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// store total items to local state
 	useEffect(() => {
 		if (cartItems) {
 			setTotalItems(cartItems.reduce((acc, item) => acc + item.qty, 0));
 		}
 	}, [cartItems]);
 
+	// if userdetails shows error, then use refresh token to get new access tokens
 	useEffect(() => {
 		if (error && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -51,15 +55,19 @@ const CartPage = ({ match, location, history }) => {
 		}
 	}, [error, dispatch, userInfo]);
 
+	// add item to cart
 	useEffect(() => {
 		if (productID) {
 			dispatch(addItem(productID, qty));
 		}
 	}, [dispatch, productID, qty]);
 
+	// remove item from cart
 	const handleRemoveFromCart = (id) => {
 		dispatch(removeItem(id));
 	};
+
+	// proceed to shipping address page, which is the next step in placing an order
 	const handleCheckout = (e) => {
 		history.push('/login?redirect=shipping');
 	};
@@ -117,6 +125,7 @@ const CartPage = ({ match, location, history }) => {
 											{item.qty}
 										</div>
 									</Col>
+									{/* display this col only for larger screens */}
 									<Col
 										md={3}
 										className='d-none d-md-flex'
@@ -124,29 +133,6 @@ const CartPage = ({ match, location, history }) => {
 											alignItems: 'center',
 											justifyContent: 'space-between',
 										}}>
-										{/* <Form.Control
-											as='select'
-											value={item.qty}
-											onChange={(e) =>
-												dispatch(
-													addItem(
-														item.product,
-														Number(e.target.value)
-													)
-												)
-											}>
-											{[
-												...Array(
-													item.countInStock
-												).keys(),
-											].map((ele) => (
-												<option
-													key={ele + 1}
-													value={ele + 1}>
-													{ele + 1}
-												</option>
-											))}
-										</Form.Control> */}
 										<ButtonGroup aria-label='Addtocart'>
 											<Button
 												style={{
@@ -198,6 +184,7 @@ const CartPage = ({ match, location, history }) => {
 											<i className='fas fa-trash' />
 										</Button>
 									</Col>
+									{/* display this col only on mobile screens */}
 									<Col
 										className='d-flex d-md-none mt-2'
 										style={{
@@ -237,18 +224,6 @@ const CartPage = ({ match, location, history }) => {
 												justifyContent: 'space-between',
 												width: '50%',
 											}}>
-											{/* <div>
-												<Button
-													type='button'
-													onClick={() =>
-														handleRemoveFromCart(
-															item.product
-														)
-													}>
-													<i className='fas fa-trash' />
-												</Button>
-											</div> */}
-											{/* <ButtonGroup aria-label='Addtocart'> */}
 											<Button
 												type='button'
 												onClick={() =>
@@ -297,8 +272,6 @@ const CartPage = ({ match, location, history }) => {
 												}}>
 												<i className='fas fa-minus' />
 											</Button>
-
-											{/* </ButtonGroup> */}
 										</div>
 									</Col>
 								</Row>
@@ -334,7 +307,6 @@ const CartPage = ({ match, location, history }) => {
 								<Button
 									type='button'
 									size='lg'
-									// variant='dark'
 									disabled={!cartItems.length}
 									onClick={handleCheckout}>
 									Proceed to checkout
@@ -344,7 +316,6 @@ const CartPage = ({ match, location, history }) => {
 					</Card>
 				</ListGroup>
 			</Col>
-			<Col md={2}></Col>
 		</Row>
 	);
 };
