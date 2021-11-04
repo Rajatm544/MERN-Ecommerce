@@ -13,13 +13,15 @@ import Message from '../components/Message';
 import SearchBox from '../components/SearchBox';
 
 const HomePage = ({ match, history }) => {
-	const keyword = match.params.keyword;
-	const pageNumber = Number(match.params.pageNumber) || 1;
+	const keyword = match.params.keyword; // to search for products
+	const pageNumber = Number(match.params.pageNumber) || 1; // current page number in the paginated display
 	const [allProducts, setAllProducts] = useState([]);
+	const [promptVerfication, setPromptVerification] = useState(false); // prompt user to verify email if not yet confirmed
 	const dispatch = useDispatch();
+
+	// get the products list, userinfo and user details form the redix store
 	const productList = useSelector((state) => state.productList);
 	const { products, loading, error, pages } = productList;
-	const [promptVerfication, setPromptVerification] = useState(false);
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
@@ -27,6 +29,7 @@ const HomePage = ({ match, history }) => {
 	const userDetails = useSelector((state) => state.userDetails);
 	const { error: userInfoError } = userDetails;
 
+	// fetch the user details
 	useEffect(() => {
 		userInfo
 			? userInfo.isSocialLogin
@@ -35,6 +38,7 @@ const HomePage = ({ match, history }) => {
 			: dispatch(getUserDetails('profile'));
 	}, [userInfo, dispatch]);
 
+	// refresh token to get new access token if error in user details
 	useEffect(() => {
 		if (userInfoError && userInfo && !userInfo.isSocialLogin) {
 			const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -42,16 +46,19 @@ const HomePage = ({ match, history }) => {
 		}
 	}, [userInfoError, dispatch, userInfo]);
 
+	// get products from store and put them into local state, to avoid blank screens
 	useEffect(() => {
 		if (products && products.length) {
 			setAllProducts([...products]);
 		}
 	}, [products]);
 
+	// list products based on keyword and pagenumber
 	useEffect(() => {
 		dispatch(listProducts(keyword, pageNumber));
 	}, [dispatch, keyword, pageNumber]);
 
+	// check if user needs to be promted about email verification on page load
 	useEffect(() => {
 		setPromptVerification(
 			localStorage.getItem('promptEmailVerfication') === 'true'
@@ -63,6 +70,7 @@ const HomePage = ({ match, history }) => {
 	return (
 		<>
 			<Meta />
+			{/* display carousel only on larger screens */}
 			{!keyword ? (
 				window.innerWidth > 430 && <ProductCarousel />
 			) : (
@@ -72,10 +80,12 @@ const HomePage = ({ match, history }) => {
 					Go Back
 				</Link>
 			)}
-			{/* <h1>Latest Products.</h1> */}
+			{/* display this search bar on home page on mobile screens */}
 			<div className='d-block d-md-none'>
 				<SearchBox history={history} />
 			</div>
+
+			{/* if the user needs to be prompted about email verification, show this message */}
 			{promptVerfication ? (
 				<Message dismissible variant='info' duration={10}>
 					Account Created! Please check your email to verify your
@@ -120,6 +130,7 @@ const HomePage = ({ match, history }) => {
 										</Col>
 								  )}
 						</Row>
+						{/* paginate if more than 10 entries */}
 						<Paginate
 							className='mt-auto text-center'
 							page={pageNumber}
