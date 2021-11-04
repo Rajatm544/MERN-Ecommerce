@@ -37,6 +37,7 @@ import {
 	orderListAllReducer,
 } from './reducers/orderReducers';
 
+// combine all the above reducers to the store
 const reducer = combineReducers({
 	productList: productListReducer,
 	productDetails: productDetailsReducer,
@@ -65,22 +66,27 @@ const reducer = combineReducers({
 	orderListAll: orderListAllReducer,
 });
 
+// get a few cart items from the local storage
 const cartItemsFromLocalStorage = localStorage.getItem('cartItems')
 	? JSON.parse(localStorage.getItem('cartItems'))
 	: [];
 
+// get the user info from local storage
 const userInfoFromLocalStorage = localStorage.getItem('userInfo')
 	? JSON.parse(localStorage.getItem('userInfo'))
 	: null;
 
+// get the shipping address from local storage
 const shippingAddressFromLocalStorage = localStorage.getItem('shippingAddress')
 	? JSON.parse(localStorage.getItem('shippingAddress'))
 	: {};
 
+// get refresh token from the local storage
 const tokenInfoFromLocalStoage = localStorage.getItem('refreshToken')
 	? localStorage.getItem('refreshToken')
 	: null;
 
+// set the initial state based on above local storage values
 const initialState = {
 	cart: {
 		cartItems: [...cartItemsFromLocalStorage],
@@ -94,8 +100,10 @@ const initialState = {
 	},
 };
 
+// user redux thunk for making async calls
 const middleware = [thunk];
 
+// create the redux store
 const store = createStore(
 	reducer,
 	initialState,
