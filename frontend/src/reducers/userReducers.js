@@ -54,6 +54,7 @@ export const userLoginReducer = (state = {}, action) => {
 	}
 };
 
+// use refresh token to obtain new access token for the logged in user
 export const userLoginRefreshReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_LOGIN_REFRESH_REQUEST:
@@ -67,6 +68,7 @@ export const userLoginRefreshReducer = (state = {}, action) => {
 	}
 };
 
+// sending an email for account verification
 export const userSendEmailVerficationReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_EMAIL_VERIFICATION_REQUEST:
@@ -80,6 +82,7 @@ export const userSendEmailVerficationReducer = (state = {}, action) => {
 	}
 };
 
+// update user account to confirmed
 export const userConfirmReducer = (state = { isConfirmed: false }, action) => {
 	switch (action.type) {
 		case USER_CONFIRM_REQUEST:
@@ -93,6 +96,7 @@ export const userConfirmReducer = (state = { isConfirmed: false }, action) => {
 	}
 };
 
+// reset the user password
 export const userResetPasswordReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_RESET_PASSWORD_REQUEST:
@@ -107,6 +111,7 @@ export const userResetPasswordReducer = (state = {}, action) => {
 	}
 };
 
+// register user using email and password
 export const userRegisterReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_REGISTER_REQUEST:
@@ -120,6 +125,7 @@ export const userRegisterReducer = (state = {}, action) => {
 	}
 };
 
+// fetch user details
 export const userDetailsReducer = (state = { user: {} }, action) => {
 	switch (action.type) {
 		case USER_DETAILS_REQUEST:
@@ -135,6 +141,7 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
 	}
 };
 
+// update user profile, not in admin view
 export const userProfileUpdateReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_PROFILE_UPDATE_REQUEST:
@@ -150,6 +157,7 @@ export const userProfileUpdateReducer = (state = {}, action) => {
 	}
 };
 
+// list all users for the admin view
 export const userListReducer = (state = { users: [] }, action) => {
 	switch (action.type) {
 		case USER_LIST_REQUEST:
@@ -178,6 +186,7 @@ export const userDeleteReducer = (state = {}, action) => {
 	}
 };
 
+// update user from the admin panel view
 export const userUpdateReducer = (state = { user: {} }, action) => {
 	switch (action.type) {
 		case USER_UPDATE_REQUEST:
