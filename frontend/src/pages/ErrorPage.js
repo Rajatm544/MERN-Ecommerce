@@ -1,6 +1,7 @@
 import React from 'react';
 import errorImg from '../assets/404Error.png';
 import { Link } from 'react-router-dom';
+import '../styles/error-page.css';
 
 // 404 page
 const ErrorPage = () => {
