@@ -4,6 +4,7 @@ import googleLogo from '../assets/googleLogo.png';
 import githubLogo from '../assets/githubLogo.png';
 import twitterLogo from '../assets/twitterLogo.png';
 import linkedinLogo from '../assets/linkedinLogo.png';
+import '../styles/social-login-option.css';
 
 const SocialLoginOptions = () => {
 	const baseURL = process.env.REACT_APP_BASE_URL;
