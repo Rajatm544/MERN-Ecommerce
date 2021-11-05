@@ -8,12 +8,11 @@
     text-align: center;
 }
 
-.carousel-caption {
+div.carousel-caption {
     font-size: 1.2em;
     padding: 0;
     margin-bottom: -0.5em;
 }
-
 
 .carousel img {
     height: 30vh;
