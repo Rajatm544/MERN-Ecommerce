@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import '../styles/check-status.css';
 
 // there are 4 steps in the checkout process
 // step 1 is logging in
