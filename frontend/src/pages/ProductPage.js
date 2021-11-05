@@ -24,6 +24,7 @@ import { listMyOrders } from '../actions/orderActions';
 import { refreshLogin, getUserDetails } from '../actions/userActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import getDateString from '../utils/getDateString';
+import '../styles/product-page.css';
 
 const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
