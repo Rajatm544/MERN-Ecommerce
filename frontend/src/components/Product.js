@@ -2,6 +2,7 @@ import React from 'react';
 import Rating from './Rating';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
+import '../styles/product.css';
 
 const Product = ({ product }) => {
 	return (
