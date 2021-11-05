@@ -23,6 +23,7 @@ import ProductEditPage from './pages/ProductEditPage';
 import OrderListPage from './pages/OrderListPage';
 import ErrorPage from './pages/ErrorPage';
 
+// for showing the 'new update available' banner and to register the service worker
 import ServiceWorkerWrapper from './ServiceWorkerWrapper';
 
 const App = () => {
