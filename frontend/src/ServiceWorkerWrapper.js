@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, Toast } from 'react-bootstrap';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import './styles/update-toast.css';
 
 const ServiceWorkerWrapper = () => {
 	const [showReload, setShowReload] = useState(false);
@@ -11,10 +12,12 @@ const ServiceWorkerWrapper = () => {
 		setWaitingWorker(registration.waiting);
 	};
 
+	// register the service worker on page load
 	useEffect(() => {
 		serviceWorkerRegistration.register({ onUpdate: onSWUpdate });
 	}, []);
 
+	// skip waiting and install new updates on page reload
 	const reloadPage = () => {
 		waitingWorker?.postMessage({ type: 'SKIP_WAITING' });
 		setShowReload(false);
