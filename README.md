@@ -1,9 +1,6 @@
 <h1 align="center">
 <img src="https://user-images.githubusercontent.com/42696800/140326768-e192b1fb-f7f4-48ff-9b1b-0a05ef365bc7.png" alt="logo" width="25" height="25" />
 Kosells
-
-</h1>
-
 <p align='center'>
 
 <img src='https://img.shields.io/github/license/Rajatm544/MERN-Ecommerce' alt='license'>
@@ -12,11 +9,11 @@ Kosells
 <img src='https://img.shields.io/github/v/release/Rajatm544/MERN-Ecommerce?sort=semver' alt='release'>
 <img src='https://img.shields.io/maintenance/yes/2021' alt='maintained'>
 <img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat' alt='maintained'>
-
 </p>
-
+	
+</h1>
 An installable e-commerce app built using the MERN stack, Redux.js, Bootstrap 5 and AWS's S3 Storage. The user authentication includes 4 social login options(Google, Github, Twitter, Linkedin).
-
+<br/>
 The app also implements an email verification system for users registering using an email and password. Stripe and Paypal payment gateways are implemented to provide payment options, and the app also includes an admin panel to keep track of all products, orders and users. This is also a PWA
 
 ## Getting Started
@@ -35,25 +32,27 @@ For setting up nodemailer for gmail accounts, refer [this article from freecodec
 
 Obtain the paypal client ID from the paypal developer dashboard, and also obtain the Stripe payment credentials from the Stripe developer console.
 
-_P.S: Do star this repo after tou fork it :)_
+_P.S: Do star this repo after you fork it :)_
 
 ## Demo
 
 The app has been hosted on heroku [here](https://kosells.herokuapp.com/). (You might have to wait for a few seconds for the heroku site to respond)
 
-<p align="center">
+<div align="center">
 
- <img alt="login page" src="https://i.ibb.co/bWBJLhB/Screenshot-834.png" width="534" height="300" />
- <img src="https://i.ibb.co/4sHTB83/Screenshot-835.png" alt="home page" width="534" height="300" />
- <img src="https://i.ibb.co/jg6rXpx/Screenshot-836.png" alt="rich editor" width="534" height="300" />
- <br/>
-  <img alt="mobile mockup" src="https://i.ibb.co/ZK3VRNF/mern-blog-it-herokuapp-com-Moto-G4-2.png" width="200" height="356"/> &emsp;
-  <img alt="mobile mockup 2" src="https://i.ibb.co/1TkMF7Q/mern-blog-it-herokuapp-com-Moto-G4-1.png" height="356" width="200" />
-  <br/>
-  <img alt="tablet mockup" src="https://i.ibb.co/bKqyx4w/mern-blog-it-herokuapp-com-i-Pad-1.png" width="300" height="402"/> &emsp;
-  <img alt="tablet mockup 2" src="https://i.ibb.co/vVNQ61w/mern-blog-it-herokuapp-com-i-Pad.png" width="300" height="402"/>
-  
-</p>
+<img src="https://user-images.githubusercontent.com/42696800/140549700-13a7e968-44c3-4655-9f4e-c1e33995b2cc.png" alt="home page" width="534" height="300" />
+<img src="https://user-images.githubusercontent.com/42696800/140552487-9598c06c-912b-4204-8a08-ab90328fa9d1.png" alt="login" width="534" height="300" />
+<img src="https://user-images.githubusercontent.com/42696800/140549785-6fc37bec-97c8-4a78-b858-560516db146c.png" alt="product page" width="534" height="300" />
+<img src="https://user-images.githubusercontent.com/42696800/140549881-d9bf8b74-003d-42a6-a0db-bc86eee6c049.png" alt="profile page" width="534" height="300" />
+<img src="https://user-images.githubusercontent.com/42696800/140549950-17462265-3a02-49dc-9323-1fab76bc7b40.png" alt="admin panel" width="534" height="300" />
+<img src="https://user-images.githubusercontent.com/42696800/140549912-5085954f-20bd-4b4e-8f2f-dc3a9d1a23ee.png" alt="login prompt" width="534" height="300" />
+<br/>
+<img alt="mobile mockup" src="https://user-images.githubusercontent.com/42696800/140550251-4e812a06-7809-4784-b1da-81cb625e5257.png" width="200" height="356"/> 
+<img alt="mobile mockup 2" src="https://user-images.githubusercontent.com/42696800/140550106-0a0ce922-d2e6-469b-a8c2-4f5dc9c0ea26.png" height="356" width="200" />
+<img alt="mobile mockup 3" src="https://user-images.githubusercontent.com/42696800/140553062-162670f9-570f-4c50-8a32-4cb67330d802.png" height="356" width="200"/>
+<img alt="mobile mockup 4" src="https://user-images.githubusercontent.com/42696800/140553079-a4f4eeab-23d3-4a07-86bc-8decf4e63823.png" height="356" width="200" />
+
+</div>
 
 ## Info
 
@@ -155,15 +154,16 @@ There were a few challenges that came up during the development of the applicati
 -   A user can submit a review for any product only if he/she has placed an order for the product, and hasn't already submitted a review
 -   The cart page makes it very easy to alter the quantity of the products, and the cart size is indicated to the user at all instants.
 -   The product carousel in the home page fetches the top rated products and provides the details
+-   Pagination is also implemented to be server side rendered list of products/orders.
 
 ## Potential Improvements
 
--   A UX refactor.
--   Dashboard implementation for all registered users.
--   More social login options including the likes of Github, Facebook, Amazon or Apple.
--   Fuzzy Search implementation.
--   Integrations with popular blogging platforms like Medium or dev.to, to import already published articles.
--   A system to 'like' or upvote potentially useful articles.
+-   Adding GSAP/Framer for sleek animations!
+-   Cleaner UI with use of styled components rather than just boostrap classes
+-   More payment gateways like UPI or apple pay
+-   Improved Fuzzy Search implementation.
+-   Addition of many more product categories and a sorting feature
+-   Adding products as favorites for repeated orders
 
 Any more suggestions are always welcome in the PRs!
 
@@ -175,9 +175,14 @@ Some of the technologies used in the development of this web application are as 
 -   [React.js](https://reactjs.org/): A JavaScript library for building user interfaces.
 -   [Node.js](https://nodejs.org/en/): A runtime environment to help build fast server applications using JS.
 -   [Express.js](https://expressjs.com/): A popular Node.js framework to build scalable server-side for web applications.
+-   [Redux.js](https://redux.js.org/): A predictable & global state container for React apps.
 -   [Mongoose](https://mongoosejs.com/): An ODM(Object Data Modelling)library for MongoDB and Node.js
 -   [Heroku](http://heroku.com/): A platform(PaaS) to deploy full stack web applications for free.
 -   [JSON Web Tokens or JWTs](https://jwt.io/): A standard to securely authenticate HTTP requests
--   [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/): A popular framework for building responsive, mobile-first sites.
-
-It can be noted that React can be swapped out in favor of any other popular frontend framework like Vue, Angular, Svelte or Ember. The server side can be implemented using Deno/Koa, flask/Django and similarly the data can also be modelled using the similar idea but with a SQL type DB like PS-SQL or MSSQL.
+-   [Bootstrap 5](https://getbootstrap.com/docs/4.0/getting-started/introduction/): A popular framework for building responsive, mobile-first sites.
+-   [React Bootstrap](https://react-bootstrap.github.io/): The most popular front-end framework, rebuilt for React.
+-   [passport.js](http://www.passportjs.org/): Simple, unobtrusive authentication for Node.js
+-   [nodemailer](https://nodemailer.com/about/): Send mails using a node based server
+-   [bootswatch](https://bootswatch.com/): Free & customisable themes for Bootstrap
+-   [Multer](https://www.npmjs.com/package/multer) and [Multer-S3](https://www.npmjs.com/package/multer-s3): Node.js packages that help in dealing with file uploads.
+-   [AWS S3 Storage Bucket](https://aws.amazon.com/s3/): An object storage service that offers industry-leading scalability, data availability, security, and performance.
