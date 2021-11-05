@@ -15,6 +15,7 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
 import SocialLoginOptions from '../components/SocialLoginOptions';
+import '../styles/login-register.css';
 
 const LoginPage = ({ location, history }) => {
 	const [authFailedMsg, setAuthFailedMsg] = useState(''); // if user tried to login with different social account after registering with some other social account
