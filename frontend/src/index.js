@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import './bootstrap.min.css';
-import './index.css';
 import App from './App';
 import store from './store';
 import { HelmetProvider } from 'react-helmet-async';
+import './bootstrap.min.css';
+import './index.css';
 
 ReactDOM.render(
 	<Provider store={store}>
