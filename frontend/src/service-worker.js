@@ -37,6 +37,7 @@ registerRoute(
 			return false;
 		} // If this looks like a URL for a resource, because it contains // a file extension, skip.
 
+		// ignore caching the routes that have /api/auth in the react app as they are meant to be API endpoint calls
 		if (url.pathname.indexOf('/api/auth') !== -1) {
 			return false;
 		}
