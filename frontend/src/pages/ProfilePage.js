@@ -26,6 +26,7 @@ import { USER_PROFILE_UPDATE_RESET } from '../constants/userConstants';
 import Meta from '../components/Meta';
 import axios from 'axios';
 import getDateString from '../utils/getDateString';
+import '../styles/profile-page.css';
 
 const ProfilePage = ({ history }) => {
 	const inputFile = useRef(null);
