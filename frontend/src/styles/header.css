@@ -63,7 +63,7 @@ button.navbar-toggle-btn:focus {
         margin-left: 0.5em;
     }
 
-    .nav-mobile {
+    div.nav-mobile {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
