@@ -138,7 +138,7 @@ const ProductPage = ({ history, match }) => {
 			<Link className='btn btn-outline-primary my-2' to='/'>
 				Go Back
 			</Link>
-			{loading ? (
+			{product && (!product._id || product._id !== match.params.id) ? (
 				<Loader />
 			) : error ? (
 				<Message dismissible variant='danger' duration={10}>
