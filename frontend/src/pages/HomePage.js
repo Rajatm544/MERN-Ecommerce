@@ -8,9 +8,9 @@ import ProductCarousel from '../components/ProductCarousel';
 import Meta from '../components/Meta';
 import { listProducts } from '../actions/productActions';
 import { refreshLogin, getUserDetails } from '../actions/userActions';
-import Loader from '../components/Loader';
 import Message from '../components/Message';
 import SearchBox from '../components/SearchBox';
+import ProductSkeleton from '../components/ProductSkeleton';
 
 const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword; // to search for products
@@ -84,51 +84,60 @@ const HomePage = ({ match, history }) => {
 					account and start shopping.
 				</Message>
 			) : null}
-			{window.innerWidth <= 430 && loading ? (
-				<Loader />
-			) : error ? (
+
+			{error ? (
 				<Message dismissible variant='danger' duration={10}>
 					{error}
 				</Message>
-			) : (
-				products && (
-					<>
-						<Row>
-							{products.length
-								? products.map((product) => {
-										return (
-											<Col
-												sm={12}
-												md={6}
-												lg={4}
-												xl={3}
-												key={product._id}>
-												<Product product={product} />
-											</Col>
-										);
-								  })
-								: products &&
-								  !loading &&
-								  products.length === 0 && (
-										<Col className='text-center'>
-											<div>
-												<i className='far fa-frown' />{' '}
-												No items found for this search
-												query
-											</div>
-											Go Back to the{' '}
-											<Link to='/'>Home Page</Link>
+			) : !loading && products ? (
+				<>
+					<Row>
+						{products.length
+							? products.map((product) => {
+									return (
+										<Col
+											sm={12}
+											md={6}
+											lg={4}
+											xl={3}
+											key={product._id}>
+											<Product product={product} />
 										</Col>
-								  )}
-						</Row>
-						{/* paginate if more than 10 entries */}
-						<Paginate
-							className='mt-auto text-center'
-							page={pageNumber}
-							keyword={keyword ? keyword : ''}
-							pages={pages}
-						/>
-					</>
+									);
+							  })
+							: products.length === 0 && (
+									<Col className='text-center'>
+										<div>
+											<i className='far fa-frown' /> No
+											items found for this search query
+										</div>
+										Go Back to the{' '}
+										<Link to='/'>Home Page</Link>
+									</Col>
+							  )}
+					</Row>
+					<Paginate
+						className='mt-auto text-center'
+						page={pageNumber}
+						keyword={keyword ? keyword : ''}
+						pages={pages}
+					/>
+				</>
+			) : (
+				loading &&
+				products &&
+				products.length === 0 && (
+					<Row>
+						{[1, 2, 3, 4].map((ele) => {
+							return (
+								<Col sm={12} md={6} lg={4} xl={3} key={ele}>
+									<div>
+										<ProductSkeleton />
+									</div>
+								</Col>
+							);
+						})}
+					</Row>
 				)
 			)}
 		</>
