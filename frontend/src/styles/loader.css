@@ -1,0 +1,6 @@
+div.loader {
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    margin: 5em auto;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
+import '../styles/loader.css';
 
 const Loader = () => {
 	return (
@@ -7,14 +8,8 @@ const Loader = () => {
 			animation='border'
 			role='status'
 			variant='primary'
-			style={{
-				width: '5rem',
-				height: '5rem',
-				margin: '5em auto',
-				display: 'block',
-			}}>
-			<span className='sr-only'>Loading...</span>
-		</Spinner>
+			className='loader'
+		/>
 	);
 };
 
