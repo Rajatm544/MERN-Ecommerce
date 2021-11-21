@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Carousel, CarouselItem, Image } from 'react-bootstrap';
-import Loader from './Loader';
 import Message from './Message';
 import { getTopRatedProducts } from '../actions/productActions';
 import '../styles/product-carousel.css';
+import CarouselSkeleton from '../components/CarouselSkeleton';
 
 const ProductCarousel = () => {
 	const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const ProductCarousel = () => {
 	}, [dispatch]);
 	return (
 		<>
-			{loading && <Loader />}
+			{loading && <CarouselSkeleton />}
 			{error && (
 				<Message dismissible variant='danger'>
 					{error}
