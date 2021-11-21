@@ -15,7 +15,6 @@ import SearchBox from '../components/SearchBox';
 const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword; // to search for products
 	const pageNumber = Number(match.params.pageNumber) || 1; // current page number in the paginated display
-	const [allProducts, setAllProducts] = useState([]);
 	const [promptVerfication, setPromptVerification] = useState(false); // prompt user to verify email if not yet confirmed
 	const dispatch = useDispatch();
 
@@ -45,13 +44,6 @@ const HomePage = ({ match, history }) => {
 			dispatch(refreshLogin(user?.email));
 		}
 	}, [userInfoError, dispatch, userInfo]);
-
-	// get products from store and put them into local state, to avoid blank screens
-	useEffect(() => {
-		if (products && products.length) {
-			setAllProducts([...products]);
-		}
-	}, [products]);
 
 	// list products based on keyword and pagenumber
 	useEffect(() => {
@@ -92,7 +84,7 @@ const HomePage = ({ match, history }) => {
 					account and start shopping.
 				</Message>
 			) : null}
-			{loading ? (
+			{window.innerWidth <= 430 && loading ? (
 				<Loader />
 			) : error ? (
 				<Message dismissible variant='danger' duration={10}>
@@ -102,8 +94,8 @@ const HomePage = ({ match, history }) => {
 				products && (
 					<>
 						<Row>
-							{allProducts.length
-								? allProducts.map((product) => {
+							{products.length
+								? products.map((product) => {
 										return (
 											<Col
 												sm={12}
@@ -115,12 +107,11 @@ const HomePage = ({ match, history }) => {
 											</Col>
 										);
 								  })
-								: !products && (
+								: products &&
+								  !loading &&
+								  products.length === 0 && (
 										<Col className='text-center'>
-											<div
-												style={{
-													fontSize: '1.5em',
-												}}>
+											<div>
 												<i className='far fa-frown' />{' '}
 												No items found for this search
 												query
