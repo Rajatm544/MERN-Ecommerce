@@ -300,6 +300,7 @@ const ProfilePage = ({ history }) => {
 						{/* for image upload */}
 						<input
 							type='file'
+							accept="image/*"
 							id='file'
 							ref={inputFile}
 							onChange={handleImageUpload}

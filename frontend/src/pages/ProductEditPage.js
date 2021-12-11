@@ -229,6 +229,7 @@ const ProductEditPage = ({ match, history }) => {
 											</Col>
 											<Col md={3}>
 												<input
+													accept='image/*'
 													type='file'
 													id='file'
 													ref={inputFile}
