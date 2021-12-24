@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src="https://user-images.githubusercontent.com/42696800/140326768-e192b1fb-f7f4-48ff-9b1b-0a05ef365bc7.png" alt="logo" width="25" height="25" />
+<img src="https://user-images.githubusercontent.com/42696800/147324216-b7c6f919-e9c4-4e3a-9411-4ffabb3a35d2.png" alt="logo" width="30" height="30" />
 Kosells
 <p align='center'>
 
@@ -7,7 +7,7 @@ Kosells
 <img src='https://img.shields.io/github/last-commit/Rajatm544/MERN-Ecommerce' alt='last commit'>
 <img src='https://img.shields.io/website?down_message=Down&up_message=Up&url=https%3A%2F%2Fkosells.herokuapp.com%2F' alt='website'>
 <img src='https://img.shields.io/github/v/release/Rajatm544/MERN-Ecommerce?sort=semver' alt='release'>
-<img src='https://img.shields.io/maintenance/yes/2021' alt='maintained'>
+<img src='https://img.shields.io/maintenance/yes/2021'
 <img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat' alt='maintained'>
 </p>
 	
@@ -69,13 +69,13 @@ The app has been hosted on heroku [here](https://kosells.herokuapp.com/). (You m
     -   Here, the JWT tokens are used to verify each new registered user by sending an email for account verification.
     -   There is also a feature of allowing the user to reset password in case he/she forgets the credentials. This also uses refresh tokens and access tokens of varying life spans.
     -   If user changes the email id after logging in, another verification link is sent to verify the new email id for extra security.
-    -   This feature has been implemented using the [nodemailer](https://nodemailer.com/about/) module, along with the json web tokens(JWT).
+    -   This feature has been implemented using the [nodemailer](https://nodemailer.com/about/) package, along with the json web tokens(JWT).
 
     ii) **Social account based login**:
 
     -   There are 4 options for logging in using an already exisiting social account.
     -   The Google, Github, Linkedin and Twitter account details that are required for this app include the profile email and ID, nothing else is stored or fetched from the response.
-    -   The [passport.js](http://www.passportjs.org/) module is used to configure all this.
+    -   The [passport.js](http://www.passportjs.org/) package is used to configure all this.
     -   In case the user tries to login with a different social account after having registered with some other type of social account, the **app also notifies** the user to login using the correct social media account.
 
 -   The user avatar is a [gravatar](https://en.gravatar.com/) based on the stored user email.
