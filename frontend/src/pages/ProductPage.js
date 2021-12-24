@@ -30,6 +30,7 @@ const ProductPage = ({ history, match }) => {
 	const [quantity, setQuantity] = useState(1);
 	const [rating, setRating] = useState(0);
 	const [review, setReview] = useState('');
+	const [allReviews, setAllReviews] = useState([]);
 	const [hasOrderedItem, setHasOrderedItem] = useState(false); // bool to check if the user has ordered this product
 	const [showReviewForm, setShowReviewForm] = useState(false); // bool to decide whether to show the review form or not
 	const dispatch = useDispatch();
@@ -119,6 +120,16 @@ const ProductPage = ({ history, match }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [orders]);
+
+	// arrange all reviews in reverse chronological order
+	useEffect(() => {
+		if (product && product.reviews) {
+			const sortedArr = product.reviews.sort(
+				(a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+			);
+			setAllReviews(sortedArr);
+		}
+	}, [product]);
 
 	const handleAddToCart = (e) => {
 		history.push(`/cart/${match.params.id}?qty=${quantity}`);
@@ -282,7 +293,10 @@ const ProductPage = ({ history, match }) => {
 								</Message>
 							)}
 							<ListGroup variant='flush'>
-								{product.reviews.map((item) => {
+								{/* {console.log(
+									product.reviews.
+								)} */}
+								{allReviews.map((item) => {
 									return (
 										<ListGroup.Item key={item._id}>
 											<div>
