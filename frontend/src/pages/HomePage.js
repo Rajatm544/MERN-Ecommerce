@@ -16,6 +16,7 @@ const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword; // to search for products
 	const pageNumber = Number(match.params.pageNumber) || 1; // current page number in the paginated display
 	const [promptVerfication, setPromptVerification] = useState(false); // prompt user to verify email if not yet confirmed
+	const [productsAvailable, setProductsAvailable] = useState(false);
 	const dispatch = useDispatch();
 
 	// get the products list, userinfo and user details form the redix store
@@ -47,8 +48,15 @@ const HomePage = ({ match, history }) => {
 
 	// list products based on keyword and pagenumber
 	useEffect(() => {
-		dispatch(listProducts(keyword, pageNumber));
+		if (!productsAvailable) dispatch(listProducts(keyword, pageNumber));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch, keyword, pageNumber]);
+
+	// if products is undefined, reload with another request
+	useEffect(() => {
+		if (products) setProductsAvailable(true);
+		else setProductsAvailable(false);
+	}, [products]);
 
 	// check if user needs to be promted about email verification on page load
 	useEffect(() => {
