@@ -163,6 +163,7 @@ export const orderListAllReducer = (state = { orders: [] }, action) => {
 				orders: action.payload.orders,
 				page: action.payload.page,
 				pages: action.payload.pages,
+				total: action.payload.total,
 			};
 		case ORDER_ALL_LIST_FAILURE:
 			return {
