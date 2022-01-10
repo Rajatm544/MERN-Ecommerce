@@ -72,6 +72,12 @@ const App = () => {
 						<Route
 							path='/admin/userlist'
 							component={UserListPage}
+							exact
+						/>
+						<Route
+							path='/admin/userlist/:pageNumber'
+							component={UserListPage}
+							exact
 						/>
 						<Route
 							path='/admin/user/:id/edit'
