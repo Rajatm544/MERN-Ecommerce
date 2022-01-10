@@ -5,11 +5,13 @@ import { Table, Button } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { listAllUsers, deleteUser, refreshLogin } from '../actions/userActions';
+import Paginate from '../components/Paginate';
 
-const UserListPage = ({ history }) => {
+const UserListPage = ({ match, history }) => {
+	const pageNumber = match.params.pageNumber || 1; // to fetch various pages of orders
 	const dispatch = useDispatch();
 	const userList = useSelector((state) => state.userList);
-	const { loading, users, error } = userList;
+	const { loading, users, error, page, pages, total } = userList;
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
@@ -28,9 +30,9 @@ const UserListPage = ({ history }) => {
 	}, [userLoginError, dispatch, userInfo]);
 
 	useEffect(() => {
-		if (userInfo && userInfo.isAdmin) dispatch(listAllUsers());
+		if (userInfo && userInfo.isAdmin) dispatch(listAllUsers(pageNumber));
 		else history.push('/login');
-	}, [dispatch, history, userInfo, successDelete]);
+	}, [dispatch, history, userInfo, successDelete, pageNumber]);
 
 	const handleDelete = (id) => {
 		if (window.confirm('Are you sure you wanna delete user?'))
@@ -38,7 +40,7 @@ const UserListPage = ({ history }) => {
 	};
 	return (
 		<>
-			<h1>Users</h1>
+			<h1>Users ({`${total || 0}`})</h1>
 			{loading ? (
 				<Loader />
 			) : error ? (
@@ -62,72 +64,79 @@ const UserListPage = ({ history }) => {
 						</tr>
 					</thead>
 					<tbody>
-						{users.map((user) => {
-							return (
-								<tr key={user._id}>
-									<td>{user._id}</td>
-									<td>{user.name}</td>
-									<td>
-										<a href={`mailto:${user.email}`}>
-											{user.email}
-										</a>
-									</td>
-									<td>
-										{user.isConfirmed ? (
-											<i
-												className='fas fa-check'
-												style={{ color: 'green' }}
-											/>
-										) : (
-											<i
-												className='fas fa-times'
-												style={{ color: 'red' }}
-											/>
-										)}
-									</td>
-									<td>
-										{user.isAdmin ? (
-											<i
-												className='fas fa-check'
-												style={{ color: 'green' }}
-											/>
-										) : (
-											<i
-												className='fas fa-times'
-												style={{ color: 'red' }}
-											/>
-										)}
-									</td>
+						{users &&
+							users.map((user) => {
+								return (
+									<tr key={user._id}>
+										<td>{user._id}</td>
+										<td>{user.name}</td>
+										<td>
+											<a href={`mailto:${user.email}`}>
+												{user.email}
+											</a>
+										</td>
+										<td>
+											{user.isConfirmed ? (
+												<i
+													className='fas fa-check'
+													style={{ color: 'green' }}
+												/>
+											) : (
+												<i
+													className='fas fa-times'
+													style={{ color: 'red' }}
+												/>
+											)}
+										</td>
+										<td>
+											{user.isAdmin ? (
+												<i
+													className='fas fa-check'
+													style={{ color: 'green' }}
+												/>
+											) : (
+												<i
+													className='fas fa-times'
+													style={{ color: 'red' }}
+												/>
+											)}
+										</td>
 
-									<td
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'space-around',
-										}}>
-										<LinkContainer
-											to={`/admin/user/${user._id}/edit`}>
+										<td
+											style={{
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'space-around',
+											}}>
+											<LinkContainer
+												to={`/admin/user/${user._id}/edit`}>
+												<Button
+													variant='link'
+													className='btn-sm'>
+													<i className='fas fa-edit' />
+												</Button>
+											</LinkContainer>
 											<Button
-												variant='link'
-												className='btn-sm'>
-												<i className='fas fa-edit' />
+												className='btn-sm'
+												variant='danger'
+												onClick={() =>
+													handleDelete(user._id)
+												}>
+												<i className='fas fa-trash' />
 											</Button>
-										</LinkContainer>
-										<Button
-											className='btn-sm'
-											variant='danger'
-											onClick={() =>
-												handleDelete(user._id)
-											}>
-											<i className='fas fa-trash' />
-										</Button>
-									</td>
-								</tr>
-							);
-						})}
+										</td>
+									</tr>
+								);
+							})}
 					</tbody>
 				</Table>
 			)}
+			<Paginate
+				pages={pages}
+				page={page}
+				isAdmin={true}
+				forUsers={true}
+			/>
 		</>
 	);
 };
