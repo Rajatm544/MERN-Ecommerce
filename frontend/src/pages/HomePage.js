@@ -16,12 +16,13 @@ const HomePage = ({ match, history }) => {
 	const keyword = match.params.keyword; // to search for products
 	const pageNumber = Number(match.params.pageNumber) || 1; // current page number in the paginated display
 	const [promptVerfication, setPromptVerification] = useState(false); // prompt user to verify email if not yet confirmed
-	const [productsAvailable, setProductsAvailable] = useState(false);
+	const [products, setProducts] = useState(null);
+	// const [productAvailable, setProductAvailable] = useState(true);
 	const dispatch = useDispatch();
 
 	// get the products list, userinfo and user details form the redix store
 	const productList = useSelector((state) => state.productList);
-	const { products, loading, error, pages } = productList;
+	let { loading, error, pages } = productList;
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
@@ -46,17 +47,20 @@ const HomePage = ({ match, history }) => {
 		}
 	}, [userInfoError, dispatch, userInfo]);
 
+	// fetch products from redux store into local state
+	useEffect(() => {
+		if (productList) {
+			if (productList.products) setProducts([...productList.products]);
+			// if (productList.products && !productList.products.length)
+			// 	setProductAvailable(false);
+		}
+	}, [productList]);
+
 	// list products based on keyword and pagenumber
 	useEffect(() => {
-		if (!productsAvailable) dispatch(listProducts(keyword, pageNumber));
+		dispatch(listProducts(keyword, pageNumber));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch, keyword, pageNumber]);
-
-	// if products is undefined, reload with another request
-	useEffect(() => {
-		if (products) setProductsAvailable(true);
-		else setProductsAvailable(false);
-	}, [products]);
 
 	// check if user needs to be promted about email verification on page load
 	useEffect(() => {
@@ -100,29 +104,32 @@ const HomePage = ({ match, history }) => {
 			) : !loading && products ? (
 				<>
 					<Row>
-						{products.length
-							? products.map((product) => {
-									return (
-										<Col
-											sm={12}
-											md={6}
-											lg={4}
-											xl={3}
-											key={product._id}>
-											<Product product={product} />
-										</Col>
-									);
-							  })
-							: products.length === 0 && (
-									<Col className='text-center'>
-										<div>
-											<i className='far fa-frown' /> No
-											items found for this search query
-										</div>
-										Go Back to the{' '}
-										<Link to='/'>Home Page</Link>
-									</Col>
-							  )}
+						{
+							products.length
+								? products.map((product) => {
+										return (
+											<Col
+												sm={12}
+												md={6}
+												lg={4}
+												xl={3}
+												key={product._id}>
+												<Product product={product} />
+											</Col>
+										);
+								  })
+								: null
+							// : !productAvailable && (
+							// 		<Col className='text-center'>
+							// 			<div>
+							// 				<i className='far fa-frown' /> No
+							// 				items found for this search query
+							// 			</div>
+							// 			Go Back to the{' '}
+							// 			<Link to='/'>Home Page</Link>
+							// 		</Col>
+							//   )}
+						}
 					</Row>
 					<Paginate
 						className='mt-auto text-center'
