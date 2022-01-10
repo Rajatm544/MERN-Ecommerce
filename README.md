@@ -7,7 +7,7 @@ Kosells
 <img src='https://img.shields.io/github/last-commit/Rajatm544/MERN-Ecommerce' alt='last commit'>
 <img src='https://img.shields.io/website?down_message=Down&up_message=Up&url=https%3A%2F%2Fkosells.herokuapp.com%2F' alt='website'>
 <img src='https://img.shields.io/github/v/release/Rajatm544/MERN-Ecommerce?sort=semver' alt='release'>
-<img src='https://img.shields.io/maintenance/yes/2021'
+<img src='https://img.shields.io/maintenance/yes/2022'
 <img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat' alt='maintained'>
 </p>
 	
