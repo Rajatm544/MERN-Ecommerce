@@ -123,7 +123,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access PRIVATE/ADMIN
 const getAllOrders = asyncHandler(async (req, res) => {
 	const page = Number(req.query.pageNumber) || 1; // the current page number in the pagination
-	const pageSize = 10; // total number of entries on a single page
+	const pageSize = 20; // total number of entries on a single page
 
 	const count = await Order.countDocuments({}); // total number of documents available
 
@@ -137,7 +137,12 @@ const getAllOrders = asyncHandler(async (req, res) => {
 		.sort('-createdAt');
 
 	// send the list of orders, current page number, total number of pages available
-	res.json({ orders, page, pages: Math.ceil(count / pageSize) });
+	res.json({
+		orders,
+		page,
+		pages: Math.ceil(count / pageSize),
+		total: count,
+	});
 });
 
 // @desc  create payment intent for stripe payment
