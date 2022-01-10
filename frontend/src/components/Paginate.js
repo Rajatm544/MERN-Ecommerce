@@ -9,6 +9,7 @@ const Paginate = ({
 	isAdmin = false,
 	keyword = '',
 	forOrders = false,
+	forUsers = false,
 }) => {
 	return (
 		pages > 1 && (
@@ -20,6 +21,8 @@ const Paginate = ({
 							isAdmin
 								? forOrders
 									? `/admin/orderlist/${ele + 1}`
+									: forUsers
+									? `/admin/userlist/${ele + 1}`
 									: `/admin/productlist/${ele + 1}`
 								: keyword
 								? `/search/${keyword}/page/${ele + 1}`
