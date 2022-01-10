@@ -375,40 +375,45 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 };
 
 // fetch a list of all users, for the admin panel view
-export const listAllUsers = () => async (dispatch, getState) => {
-	try {
-		dispatch({ type: USER_LIST_REQUEST });
+export const listAllUsers =
+	(pageNumber = '') =>
+	async (dispatch, getState) => {
+		try {
+			dispatch({ type: USER_LIST_REQUEST });
 
-		const {
-			userLogin: { userInfo },
-		} = getState();
+			const {
+				userLogin: { userInfo },
+			} = getState();
 
-		// different headers are used when it is a social login, and when it is a std email login
-		const config = userInfo.isSocialLogin
-			? {
-					headers: {
-						Authorization: `SocialLogin ${userInfo.id}`,
-					},
-			  }
-			: {
-					headers: {
-						Authorization: `Bearer ${userInfo.accessToken}`,
-					},
-			  };
+			// different headers are used when it is a social login, and when it is a std email login
+			const config = userInfo.isSocialLogin
+				? {
+						headers: {
+							Authorization: `SocialLogin ${userInfo.id}`,
+						},
+				  }
+				: {
+						headers: {
+							Authorization: `Bearer ${userInfo.accessToken}`,
+						},
+				  };
 
-		const { data } = await axios.get('/api/users/', config);
+			const { data } = await axios.get(
+				`/api/users?pageNumber=${pageNumber}`,
+				config
+			);
 
-		dispatch({ type: USER_LIST_SUCCESS, payload: data });
-	} catch (error) {
-		dispatch({
-			type: USER_LIST_FAILURE,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.message,
-		});
-	}
-};
+			dispatch({ type: USER_LIST_SUCCESS, payload: data });
+		} catch (error) {
+			dispatch({
+				type: USER_LIST_FAILURE,
+				payload:
+					error.response && error.response.data.message
+						? error.response.data.message
+						: error.message,
+			});
+		}
+	};
 
 // delete the user from the admin panel view
 export const deleteUser = (id) => async (dispatch, getState) => {
