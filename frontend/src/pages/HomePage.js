@@ -17,7 +17,7 @@ const HomePage = ({ match, history }) => {
 	const pageNumber = Number(match.params.pageNumber) || 1; // current page number in the paginated display
 	const [promptVerfication, setPromptVerification] = useState(false); // prompt user to verify email if not yet confirmed
 	const [products, setProducts] = useState(null);
-	// const [productAvailable, setProductAvailable] = useState(true);
+	const [productAvailable, setProductAvailable] = useState(false);
 	const dispatch = useDispatch();
 
 	// get the products list, userinfo and user details form the redix store
@@ -47,12 +47,19 @@ const HomePage = ({ match, history }) => {
 		}
 	}, [userInfoError, dispatch, userInfo]);
 
+	// set a state variable to true or false depending on if products is avialable in the state
+	useEffect(() => {
+		if (products) {
+			products.length
+				? setProductAvailable(true)
+				: setProductAvailable(false);
+		}
+	}, [products]);
+
 	// fetch products from redux store into local state
 	useEffect(() => {
 		if (productList) {
 			if (productList.products) setProducts([...productList.products]);
-			// if (productList.products && !productList.products.length)
-			// 	setProductAvailable(false);
 		}
 	}, [productList]);
 
@@ -104,32 +111,31 @@ const HomePage = ({ match, history }) => {
 			) : !loading && products ? (
 				<>
 					<Row>
-						{
-							products.length
-								? products.map((product) => {
-										return (
-											<Col
-												sm={12}
-												md={6}
-												lg={4}
-												xl={3}
-												key={product._id}>
-												<Product product={product} />
-											</Col>
-										);
-								  })
-								: null
-							// : !productAvailable && (
-							// 		<Col className='text-center'>
-							// 			<div>
-							// 				<i className='far fa-frown' /> No
-							// 				items found for this search query
-							// 			</div>
-							// 			Go Back to the{' '}
-							// 			<Link to='/'>Home Page</Link>
-							// 		</Col>
-							//   )}
-						}
+						{products.length
+							? products.map((product) => {
+									return (
+										<Col
+											sm={12}
+											md={6}
+											lg={4}
+											xl={3}
+											key={product._id}>
+											<Product product={product} />
+										</Col>
+									);
+							  })
+							: keyword &&
+							  !productAvailable && (
+									//   show this only if user has searched for some item and it is not available
+									<Col className='text-center'>
+										<div>
+											<i className='far fa-frown' /> No
+											items found for this search query
+										</div>
+										Go Back to the{' '}
+										<Link to='/'>Home Page</Link>
+									</Col>
+							  )}
 					</Row>
 					<Paginate
 						className='mt-auto text-center'
