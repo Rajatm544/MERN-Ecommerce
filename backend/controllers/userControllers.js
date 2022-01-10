@@ -10,8 +10,26 @@ import jwt from 'jsonwebtoken';
 // @route GET /api/users
 // @access PRIVATE/ADMIN
 const getAllUsers = asyncHandler(async (req, res) => {
-	const allUsers = await User.find({});
-	res.json(allUsers);
+	const page = Number(req.query.pageNumber) || 1; // the current page number in the pagination
+	const pageSize = 20; // total number of entries on a single page
+	const count = await User.countDocuments({}); // total number of documents available
+	// const count = await Order.countDocuments({}); // total number of documents available
+
+	// find all orders that need to be sent for the current page, by skipping the documents included in the previous pages
+	// and limiting the number of documents included in this request
+	// sort this in desc order that the document was created at
+	const allUsers = await User.find({})
+		.limit(pageSize)
+		.skip(pageSize * (page - 1))
+		.sort('-createdAt');
+
+	// send the list of orders, current page number, total number of pages available
+	res.json({
+		users: allUsers,
+		page,
+		pages: Math.ceil(count / pageSize),
+		total: count,
+	});
 });
 
 // @desc Delete a user
