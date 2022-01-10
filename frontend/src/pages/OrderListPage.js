@@ -13,7 +13,7 @@ const ProductListPage = ({ history, match }) => {
 	const pageNumber = match.params.pageNumber || 1; // to fetch various pages of orders
 	const dispatch = useDispatch();
 	const orderListAll = useSelector((state) => state.orderListAll); // to avoid blank screen display
-	const { loading, orders, error, page, pages } = orderListAll;
+	const { loading, orders, error, page, pages, total } = orderListAll;
 
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
@@ -39,7 +39,7 @@ const ProductListPage = ({ history, match }) => {
 		<>
 			<Row className='align-items-center'>
 				<Col>
-					<h1>ORDERS</h1>
+					<h1>All Orders ({`${total || 0}`})</h1>
 				</Col>
 			</Row>
 			{loading ? (
