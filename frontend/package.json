@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
-    "follow-redirects": "^1.14.7",
+    "follow-redirects": "^1.14.8",
     "immer": "^9.0.7",
     "install": "^0.13.0",
     "is-svg": "^4.3.2",
