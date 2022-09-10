@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// a schema for stroing reviews for each product
+// a schema for storing reviews for each product
 const reviewsSchema = mongoose.Schema(
 	{
 		user: {
