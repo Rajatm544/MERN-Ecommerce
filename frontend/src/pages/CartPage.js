@@ -111,10 +111,10 @@ const CartPage = ({ match, location, history }) => {
 											alignItems: 'center',
 											justifyContent: 'space-evenly',
 										}}>
-										{item.price.toLocaleString('en-IN', {
+										{item.price.toLocaleString('en-PK', {
 											maximumFractionDigits: 2,
 											style: 'currency',
-											currency: 'INR',
+											currency: 'PKR',
 										})}
 
 										<div>
@@ -198,11 +198,11 @@ const CartPage = ({ match, location, history }) => {
 												width: '50%',
 											}}>
 											{item.price.toLocaleString(
-												'en-IN',
+												'en-PK',
 												{
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												}
 											)}
 
@@ -295,10 +295,10 @@ const CartPage = ({ match, location, history }) => {
 											acc + item.qty * item.price,
 										0
 									)
-									.toLocaleString('en-IN', {
+									.toLocaleString('en-PK', {
 										maximumFractionDigits: 2,
 										style: 'currency',
-										currency: 'INR',
+										currency: 'PKR',
 									})}
 							</strong>
 						</ListGroup.Item>

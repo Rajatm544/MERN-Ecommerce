@@ -142,11 +142,11 @@ const ProductListPage = ({ history, match }) => {
 											<td>
 												{product.price &&
 													product.price.toLocaleString(
-														'en-IN',
+														'en-PK',
 														{
 															maximumFractionDigits: 2,
 															style: 'currency',
-															currency: 'INR',
+															currency: 'PKR',
 														}
 													)}
 											</td>
