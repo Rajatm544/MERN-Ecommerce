@@ -10,7 +10,22 @@ import Token from './models/tokenModel.js';
 import connectDB from './config/db.js';
 
 dotenv.config();
-connectDB();
+// connectDB();
+mongoose
+	.connect('mongodb+srv://blockchain:12345@cluster0.ramt9nl.mongodb.net/test', {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+		useCreateIndex: true,
+	})
+	.then((res) =>
+		console.log(
+			`MongoDB Connected: ${res.connection.host}`.cyan.underline.bold
+		)
+	)
+	.catch((err) => {
+		console.error(`Error: ${err.message}`.red.underline.bold);
+		process.exit(1);
+	});
 
 const importData = async () => {
 	try {
@@ -56,6 +71,11 @@ const destroyData = async () => {
 	}
 };
 
+importData().then(() => {
+	mongoose.connection.close();
+})
 // check the npm flag and call appropriate function
 if (process.argv[2] === '-d') destroyData();
 else importData();
+
+// module.exports = importData;

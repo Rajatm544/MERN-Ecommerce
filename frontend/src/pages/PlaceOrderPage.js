@@ -132,12 +132,12 @@ const PlaceOrderPage = ({ history }) => {
 																item.qty *
 																item.price
 															).toLocaleString(
-																'en-IN',
+																'en-PK',
 																{
 																	maximumFractionDigits: 2,
 																	style: 'currency',
 																	currency:
-																		'INR',
+																		'PKR',
 																}
 															)}
 														</Col>
@@ -167,10 +167,10 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												{Number(
 													cart.itemsPrice
-												).toLocaleString('en-IN', {
+												).toLocaleString('en-PK', {
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												})}
 											</Col>
 										</Row>
@@ -183,10 +183,10 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												{Number(
 													cart.shippingPrice
-												).toLocaleString('en-IN', {
+												).toLocaleString('en-PK', {
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												})}
 											</Col>
 										</Row>
@@ -199,10 +199,10 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												{Number(
 													cart.taxPrice
-												).toLocaleString('en-IN', {
+												).toLocaleString('en-PK', {
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												})}
 											</Col>
 										</Row>
@@ -215,10 +215,10 @@ const PlaceOrderPage = ({ history }) => {
 											<Col>
 												{Number(
 													cart.totalPrice
-												).toLocaleString('en-IN', {
+												).toLocaleString('en-PK', {
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												})}
 											</Col>
 										</Row>
