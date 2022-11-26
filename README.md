@@ -122,7 +122,7 @@ There were a few challenges that came up during the development of the applicati
 -   The **Stripe API** is used to provide the option of using a Credit/Debit Card
 -   The **Paypal option** accepts payments from any paypal account, and the _react-paypal-button-v2_ is used in the client side to initiate the payment process.
 -   The Stripe payment makes use of creating a unique **payment intent** from the server side, for each payment and logs an invoice in the stripe developer account.
--   The currency used for the paypal option is **USD by default**, because Paypal stopped accepting payments in INR from April 2021. So there's a currency conversion that is done.
+-   The currency used for the paypal option is **USD by default**, because Paypal stopped accepting payments in PKR from April 2021. So there's a currency conversion that is done.
 -   You can use the sandbox account for trying paypal payments and use the dummy CC number of 4242 4242 4242 4242 for trying the stripe payment gateway
 
 ### Admin Panel

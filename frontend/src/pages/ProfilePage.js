@@ -511,11 +511,11 @@ const ProfilePage = ({ history }) => {
 											</td>
 											<td>
 												{order.totalPrice.toLocaleString(
-													'en-IN',
+													'en-PK',
 													{
 														maximumFractionDigits: 0,
 														style: 'currency',
-														currency: 'INR',
+														currency: 'PKR',
 													}
 												)}
 											</td>
