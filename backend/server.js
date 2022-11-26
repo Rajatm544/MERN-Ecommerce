@@ -9,7 +9,6 @@ import passport from 'passport'; // for all social login options
 import cookieSession from 'cookie-session'; // for implementing cookie sessions for passport
 import flash from 'connect-flash'; // so that passport flash messages can work
 import path from 'path';
-
 // middleware
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
