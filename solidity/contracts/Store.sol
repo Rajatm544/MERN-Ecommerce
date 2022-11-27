@@ -98,6 +98,10 @@ contract Store {
 
     event ProductAdded(string name, uint256 id);
 
+    function getProduct(uint256 _id) public view returns (Product memory) {
+        return productList[_id];
+    }
+
     function addProduct(
         string memory _name,
         string memory _description,

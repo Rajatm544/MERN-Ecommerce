@@ -21,7 +21,7 @@ contract TestStore {
 
     function testAddProduct() public {
         uint256 count = store.addProduct("name0", "descp", "imgURL", 100, 1000);
-        Assert.equal(count, 5, "Product should be added");
+        Assert.equal(count, 3, "Product should be added");
     }
 
     // function testPlaceOrder() public {
