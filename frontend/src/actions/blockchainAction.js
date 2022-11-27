@@ -1,14 +1,11 @@
 import axios from 'axios'
-import { ADD_BLOCKCHAIN_ACCOUNT, UPDATE_CONTRACT } from '../constants/blockchainConstants'
+import { INIT_BLOCKCHAIN } from '../constants/blockchainConstants'
 
-export const initializeBlockchain = (id) => async (
-  dispatch,
-  getState,
-) => {
+export const initializeBlockchain = (obj) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: ADD_BLOCKCHAIN_ACCOUNT,
-      payload: id,
+      type: INIT_BLOCKCHAIN,
+      payload: obj,
     })
     // dispatch({
     //   type: UPDATE_CONTRACT,

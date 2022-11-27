@@ -34,15 +34,14 @@ import { listProducts } from './actions/productActions'
 const App = () => {
   const dispatch = useDispatch()
 
-  const fetchProducts = async(productList,count) => {
-	let arr=[];
-	for(let i=0;i<count;i++)
-	{
-		let item= await productList(i).call()
-		arr.push(item);
-	}
-	dispatch(listProducts(arr))
-}
+  const fetchProducts = async (productList, count) => {
+    let arr = []
+    for (let i = 0; i < count; i++) {
+      let item = await productList(i).call()
+      arr.push(item)
+    }
+    dispatch(listProducts(arr))
+  }
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -53,8 +52,17 @@ const App = () => {
         CONTRACT_ABI,
         process.env.DAP_ADDRESS,
       )
-      dispatch(initializeBlockchain(accounts[0]))
-      await fetchProducts(contract.methods.productList,contract.methods.productCount.call())
+      dispatch(
+        initializeBlockchain({
+          account: accounts[0],
+          contract: contract,
+          balance: accounts[0].getBalance()
+        }),
+      )
+      await fetchProducts(
+        contract.methods.productList,
+        contract.methods.productCount.call(),
+      )
     }
   }, [])
 
