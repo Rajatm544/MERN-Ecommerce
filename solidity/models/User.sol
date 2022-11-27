@@ -7,5 +7,5 @@ struct User {
     string name;
     string billingAddress;
     string password;
+    uint256[] orders;
 }
-

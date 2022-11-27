@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <=0.8.17;
 
-import {Order} from './Order.sol';
-import {User} from './User.sol';
+import {Order} from "./Order.sol";
 
 struct Review {
-    Order order;
-    User user;
+    address user;
     uint256 rating;
     string review;
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <=0.8.17;
 
-import {Review} from './Review.sol';
+import {Review} from "./Review.sol";
 
 struct Product {
     uint256 id;
@@ -11,4 +11,3 @@ struct Product {
     string imgUrl;
     Review[] reviews;
 }
-
