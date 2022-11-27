@@ -11,7 +11,7 @@ const Product = ({ product }) => {
 				<Card.Img
 					loading='lazy'
 					className='product-image'
-					src={product.image}
+					src={product.imgUrl}
 					variant='top'
 					alt={product.name}
 				/>

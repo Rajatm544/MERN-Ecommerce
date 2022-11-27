@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import Header from './components/Header'
@@ -31,56 +31,104 @@ import { useDispatch } from 'react-redux'
 import { initializeBlockchain } from './actions/blockchainAction'
 import { CONTRACT_ABI } from './sol-config/contractABI'
 import { listProducts } from './actions/productActions'
+import $ from 'jquery'
+import { blockchainLoader } from './sol-config/config'
+
 const App = () => {
   const dispatch = useDispatch()
+  const [refreshData, setRefreshData] = useState(true)
+  const [productList, setProductList] = useState([])
 
-  const fetchProducts = async (productList, count) => {
-    let arr = []
-    for (let i = 0; i < count; i++) {
-      let item = await productList(i).call()
-      arr.push(item)
-    }
-    console.log('prods Arr',arr)
-    dispatch(listProducts(arr))
-  }
+  // useEffect(() => {
+  //   if (!refreshData) return
+  //   setRefreshData(false)
+  //   blockchainLoader().then((e) => {
+  //     console.log('Account: ', e.addressAccount)
+  //     console.log('Contract: ', e.contract)
+  //     console.log('Products: ', e.productList)
+  //   })
+  // }, [])
+
+  // const fetchProducts = async (contract) => {
+  //   console.log('Product count: ')
+  //   let count = await contract.methods.productCount().call()
+  //   console.log('🚀 ~ file: App.js ~ line 40 ~ fetchProducts ~ count', count)
+  //   let arr = []
+  //   for (let i = 1; i <= count; i++) {
+  //     let item = await contract.methods.productList(i).call()
+  //     arr.push(item)
+  //   }
+  //   console.log('prods Arr', arr)
+  //   dispatch(listProducts(arr))
+  // }
+
+  // const addProduct = async (contract, id) => {
+  //   let prod = {
+  //     name: 'TEST',
+  //     imgUrl: '/imgUrls/airpods.jpg',
+  //     description:
+  //       'Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working',
+  //     price: 14999,
+  //     quantity: 20,
+  //   }
+  //   console.log('adding prod: ', prod)
+  //   let ret = await contract.methods
+  //     .addProduct(prod)
+  //     .send({ from: id })
+  //     .once('receipt', (receipt) => {
+  //       console.log('recipet:', receipt)
+  //     })
+
+  //   console.log('ret val0', ret)
+  // }
 
   useEffect(() => {
-    console.log("in ue app.js")
     const loadBlockchainData = async () => {
-      console.log('heree')
-    if (window.ethereum) {
-    App.web3Provider = window.ethereum;
-    try {
-    // Request account access
-    await window.ethereum.enable();
-  } catch (error) {
-    // User denied account access...
-    console.error("User denied account access")
-  }
-}
+      if (window.ethereum) {
+        App.web3Provider = window.ethereum
+        try {
+          // Request account access
+          await window.ethereum.enable()
+        } catch (error) {
+          // User denied account access...
+          console.error('User denied account access')
+        }
+      }
+      const web3 = new Web3(App.web3Provider)
+      await blockchainLoader(web3).then((e) => {
+        console.log('Account: ', e.addressAccount)
+        console.log('Contract: ', e.contract)
+        console.log('Products: ', e.productList)
 
-      const web3 = new Web3(Web3.givenProvider || process.env.WEB3_URL)
-      const accounts = await web3.eth.getAccounts()
-      console.log('Account loaded: ', accounts[0])
-      const contract = new web3.eth.Contract(
-        CONTRACT_ABI,
-        process.env.DAP_ADDRESS,
-      )
-      console.log("contract: ", contract)
-      dispatch(
-        initializeBlockchain({
-          account: accounts[0],
-          contract: contract,
-          // balance: accounts[0].getBalance()
-        }),
-      )
-      await fetchProducts(
-        contract.methods.productList,
-        contract.methods.productCount.call(),
-      )
+        dispatch(
+          initializeBlockchain({
+            account: e.addressAccount,
+            contract: e.contract,
+            // balance: accounts[0].getBalance()
+          }),
+        )
+        setProductList(e.productList)
+        dispatch(listProducts(e.productList))
+      })
+      // App.initContract()
+
+      //   const web3 = new Web3(Web3.givenProvider || process.env.WEB3_URL)
+      // const accounts = await web3.eth.getAccounts()
+      // console.log('Account loaded: ', accounts[0])
+      // const contract = new web3.eth.Contract(
+      //   CONTRACT_ABI,
+      //   process.env.DAP_ADDRESS,
+      // )
+      // console.log('contract: ', contract)
+      // dispatch(
+      //   initializeBlockchain({
+      //     account: accounts[0],
+      //     contract: contract,
+      //     // balance: accounts[0].getBalance()
+      //   }),
+      // )
     }
     loadBlockchainData()
-
   }, [])
 
   return (

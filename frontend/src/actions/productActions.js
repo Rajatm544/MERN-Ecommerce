@@ -33,7 +33,7 @@ export const listProducts =
       // const { data } = await axios.get(
       // 	`/api/products?keyword=${keyword}&pageNumber=${pageNumber}&pageSize=${pageSize}`
       // );
-
+      console.log('in prod data', data)
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
     } catch (error) {
       dispatch({

@@ -53,7 +53,7 @@
   "sourceMap": "69:367:0:-;;;117:10;94:33;;;;;;;;;;;;;;;;;;;;69:367;8:9:-1;5:2;;;30:1;27;20:12;5:2;69:367:0;;;;;;;",
   "deployedSourceMap": "69:367:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;69:367:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;132:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;94:33;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;328:105;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;328:105:0;;;;;;;;;;;;;;;;;:::i;:::-;;132:36;;;;:::o;94:33::-;;;;;;;;;;;;;:::o;328:105::-;234:5;;;;;;;;;;;220:19;;:10;:19;;;204:104;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;418:9;391:24;:36;;;;328:105;:::o",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.22 <0.8.0;\r\n\r\ncontract Migrations {\r\n  address public owner = msg.sender;\r\n  uint public last_completed_migration;\r\n\r\n  modifier restricted() {\r\n    require(\r\n      msg.sender == owner,\r\n      \"This function is restricted to the contract's owner\"\r\n    );\r\n    _;\r\n  }\r\n\r\n  function setCompleted(uint completed) public restricted {\r\n    last_completed_migration = completed;\r\n  }\r\n}\r\n",
-  "sourcePath": "E:\\Semester 7\\Blockchain and Cryptography\\Project\\Blockchain-MERN-Ecommerce\\solidity\\contracts\\Migrations.sol",
+  "sourcePath": "C:\\Users\\xlive\\Blockchain-MERN-Ecommerce\\solidity\\contracts\\Migrations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Migrations.sol",
     "exportedSymbols": {
@@ -915,12 +915,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xb82642852085cc32024Acf8Db6d161b43F4a1caf",
-      "transactionHash": "0x276c1c6a8c9069790c920e86cdcf0f4ff56267b32866b80162c49ee6843a1a30"
+      "address": "0x2765B59c6Ca3c60544eb08a375cf0369b640681c",
+      "transactionHash": "0x363ce33028856763270cfd5b011dc298fe19bb32e1420f6d354dacc35fc28d8a"
     }
   },
-  "schemaVersion": "3.4.10",
-  "updatedAt": "2022-11-27T15:00:12.829Z",
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-11-27T15:26:34.551Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
