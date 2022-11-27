@@ -10,7 +10,7 @@ export const blockchainReducer = (
         ...state,
         address: action?.payload?.address,
         contract: action?.payload?.contract,
-        balance: action?.payload?.balance,
+        // balance: action?.payload?.balance,
       }
     default:
       return { ...state }

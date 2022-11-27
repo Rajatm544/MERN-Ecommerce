@@ -40,11 +40,25 @@ const App = () => {
       let item = await productList(i).call()
       arr.push(item)
     }
+    console.log('prods Arr',arr)
     dispatch(listProducts(arr))
   }
 
   useEffect(() => {
+    console.log("in ue app.js")
     const loadBlockchainData = async () => {
+      console.log('heree')
+    if (window.ethereum) {
+    App.web3Provider = window.ethereum;
+    try {
+    // Request account access
+    await window.ethereum.enable();
+  } catch (error) {
+    // User denied account access...
+    console.error("User denied account access")
+  }
+}
+
       const web3 = new Web3(Web3.givenProvider || process.env.WEB3_URL)
       const accounts = await web3.eth.getAccounts()
       console.log('Account loaded: ', accounts[0])
@@ -52,11 +66,12 @@ const App = () => {
         CONTRACT_ABI,
         process.env.DAP_ADDRESS,
       )
+      console.log("contract: ", contract)
       dispatch(
         initializeBlockchain({
           account: accounts[0],
           contract: contract,
-          balance: accounts[0].getBalance()
+          // balance: accounts[0].getBalance()
         }),
       )
       await fetchProducts(
@@ -64,6 +79,8 @@ const App = () => {
         contract.methods.productCount.call(),
       )
     }
+    loadBlockchainData()
+
   }, [])
 
   return (
