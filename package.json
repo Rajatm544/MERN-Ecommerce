@@ -55,7 +55,8 @@
     "passport-twitter": "^1.0.4",
     "react-scripts": "^5.0.1",
     "spawn-command": "^0.0.2-1",
-    "stripe": "^8.176.0"
+    "stripe": "^8.176.0",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "concurrently": "^6.5.1",
