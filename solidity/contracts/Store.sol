@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <=0.8.17;
 
+// pragma experimental ABIEncoderV2;
+
 contract Store {
     struct User {
         address id;
@@ -8,13 +10,7 @@ contract Store {
         string name;
         string billingAdd;
         string password;
-        uint256[] orderList;
-    }
-
-    struct Review {
-        address user;
-        uint256 rating;
-        string review;
+        uint256 orderCount;
     }
 
     struct Product {
@@ -24,53 +20,42 @@ contract Store {
         uint256 quantity;
         string description;
         string imgUrl;
-        uint256[] reviewIDs;
+        uint256 reviewCount;
     }
 
-    struct OrderProduct {
-        uint256 productID;
-        uint256 quantity;
+    struct Review {
+        address user;
+        uint256 rating;
+        string review;
     }
 
     struct Order {
         uint256 id;
-        User user;
         uint256 amount;
         string shippingDetails;
-        uint256 productCount;
-        mapping(uint256 => OrderProduct) products;
+        uint256 orderProductCount;
     }
 
-    uint256 public productCount = 0;
-    uint256 orderCount = 0;
-    uint256 reviewCount = 0;
+    struct OrderProduct {
+        uint256 id;
+        uint256 quantity;
+    }
 
+    // Mappings for handling user functionalities
     mapping(address => User) userList;
-    mapping(uint256 => Product) public productList;
-    mapping(uint256 => Order) orderList;
-    mapping(uint256 => Review) reviewList;
+    mapping(address => mapping(uint256 => Order)) orderList;
+    mapping(address => mapping(uint256 => mapping(uint256 => Product))) orderProductList;
 
-    function addUser(
-        string memory _username,
-        string memory _name,
-        string memory _billingAdd,
-        string memory _password
-    ) public {
-        require(
-            userList[msg.sender].id != address(0),
-            "Store: addUser - User already exists"
-        );
-        User memory user = User(
-            msg.sender,
-            _username,
-            _name,
-            _billingAdd,
-            _password,
-            new uint256[](0) // oderList
-        );
+    // Mappings for handling product functionalities
+    mapping(uint256 => Product) productList;
+    mapping(uint256 => mapping(uint256 => Review)) reviewList;
 
-        userList[msg.sender] = user;
-    }
+    uint256 productCount = 0;
+
+    event UserAdded(address, string);
+    event ProductAdded(uint256, string);
+    event ReviewAdded(uint256, string, uint256);
+    event OrderPlaced(address, uint256, uint256);
 
     constructor() public {
         addProduct(
@@ -96,11 +81,65 @@ contract Store {
         );
     }
 
-    event ProductAdded(string name, uint256 id);
+    // function addUser(
+    //     string memory _username,
+    //     string memory _name,
+    //     string memory _billingAdd,
+    //     string memory _password
+    // ) public {
+    //     require(
+    //         userList[msg.sender].id != address(0),
+    //         "Store: addUser - User already exists"
+    //     );
 
-    function getProduct(uint256 _id) public view returns (Product memory) {
-        return productList[_id];
-    }
+    //     userList[msg.sender] = User(
+    //         msg.sender,
+    //         _username,
+    //         _name,
+    //         _billingAdd,
+    //         _password,
+    //         0
+    //     );
+
+    //     emit UserAdded(msg.sender, _username);
+    // }
+
+    // function getUser(string memory _username, string memory _password)
+    //     public
+    //     view
+    //     returns (bool)
+    // {
+    //     // require(StringUtils  userList[msg.sender].username == _username);
+    // }
+
+    // function getUserOrder(address _id) public view returns (Order[] memory) {
+    //     Order[] memory orders = new Order[](userList[_id].orderCount);
+
+    //     for (uint256 i = 0; i < userList[_id].orderCount; i++) {
+    //         orders[i] = orderList[_id][i];
+    //     }
+
+    //     return orders;
+    // }
+
+    // function getUserOrderProducts(address _id, uint256 _orderId)
+    //     public
+    //     view
+    //     returns (Product[] memory)
+    // {
+    //     Product[] memory products = new Product[](
+    //         orderList[_id][_orderId].orderProductCount
+    //     );
+    //     for (
+    //         uint256 i = 0;
+    //         i < orderList[_id][_orderId].orderProductCount;
+    //         i++
+    //     ) {
+    //         products[i] = orderProductList[_id][_orderId][i];
+    //     }
+
+    //     return products;
+    // }
 
     function addProduct(
         string memory _name,
@@ -109,21 +148,34 @@ contract Store {
         uint256 _price,
         uint256 _quantity
     ) public returns (uint256) {
-        Product memory product = Product(
+        productList[productCount] = Product(
             productCount,
             _name,
             _price,
             _quantity,
             _description,
             _imgUrl,
-            new uint256[](0)
+            0
         );
 
-        productList[productCount] = product;
         productCount++;
-        emit ProductAdded(_name, productCount);
-        return productList[productCount - 1].id;
+        emit ProductAdded(productCount, _name);
+        return productCount - 1;
     }
+
+    // function getProducts() public view returns (Product[] memory) {
+    //     Product[] memory products = new Product[](productCount);
+
+    //     for (uint256 i = 0; i < productCount; i++) {
+    //         products[i] = productList[i];
+    //     }
+
+    //     return products;
+    // }
+
+    // function getProduct(uint256 _id) public view returns (Product memory) {
+    //     return productList[_id];
+    // }
 
     // function addReview(
     //     uint256 _productId,
@@ -131,15 +183,122 @@ contract Store {
     //     string memory _review
     // ) public {
     //     require(
-    //         userList[msg.sender].id != address(0),
+    //         userList[msg.sender].id == address(0),
     //         "Store: addReview - User does not exist"
     //     );
+
     //     require(
-    //         _productId < productCount || _productId > productCount,
+    //         _rating < 0 || _rating > 5,
+    //         "Store: addReview - Rating should be between 0 and 5"
+    //     );
+
+    //     require(
+    //         _productId < 0 || _productId > productCount,
     //         "Store: addReview - Product does not exist"
     //     );
-    //     Review memory review = Review(msg.sender, _rating, _review);
-    //     productList[_productId].reviews.push(review);
+
+    //     require(
+    //         productList[_productId].id != _productId,
+    //         "Store: addReview - Product does not exist"
+    //     );
+
+    //     reviewList[_productId][productList[_productId].reviewCount] = Review(
+    //         msg.sender,
+    //         _rating,
+    //         _review
+    //     );
+
+    //     productList[_productId].reviewCount++;
+
+    //     emit ReviewAdded(
+    //         productList[_productId].reviewCount - 1,
+    //         _review,
+    //         _rating
+    //     );
+    // }
+
+    // function getReviews(uint256 _productId)
+    //     public
+    //     view
+    //     returns (Review[] memory)
+    // {
+    //     Review[] memory reviews = new Review[](
+    //         productList[_productId].reviewCount
+    //     );
+
+    //     for (uint256 i = 0; i < productList[_productId].reviewCount; i++) {
+    //         reviews[i] = reviewList[_productId][i];
+    //     }
+
+    //     return reviews;
+    // }
+
+    // function getReview(uint256 _productId, uint256 _reviewId)
+    //     public
+    //     view
+    //     returns (Review memory)
+    // {
+    //     return reviewList[_productId][_reviewId];
+    // }
+
+    // function addOrder(
+    //     OrderProduct[] memory _products,
+    //     string memory _shippingDet
+    // ) public {
+    //     require(
+    //         userList[msg.sender].id == address(0),
+    //         "Store: addOrder - User does not exist"
+    //     );
+
+    //     uint256 total = 0;
+    //     for (uint256 i = 0; i < _products.length; i++) {
+    //         require(
+    //             _products[i].id < 0 || _products[i].id > productCount,
+    //             "Store: addOrder - Product does not exist"
+    //         );
+
+    //         require(
+    //             productList[_products[i].id].id != _products[i].id,
+    //             "Store: addOrder - Product does not exist"
+    //         );
+
+    //         require(
+    //             productList[_products[i].quantity].quantity == 0,
+    //             "Store: addOrder - Product out of stock"
+    //         );
+    //     }
+
+    //     for (uint256 i = 0; i < _products.length; i++) {
+    //         productList[_products[i].id].quantity -= _products[i].quantity;
+    //         total += productList[_products[i].id].price;
+
+    //         orderProductList[msg.sender][userList[msg.sender].orderCount][
+    //             i
+    //         ] = Product(
+    //             _products[i].id,
+    //             productList[_products[i].id].name,
+    //             productList[_products[i].id].price,
+    //             _products[i].quantity,
+    //             productList[_products[i].id].description,
+    //             productList[_products[i].id].imgUrl,
+    //             productList[_products[i].id].reviewCount
+    //         );
+    //     }
+
+    //     orderList[msg.sender][userList[msg.sender].orderCount] = Order(
+    //         userList[msg.sender].orderCount,
+    //         total,
+    //         _shippingDet,
+    //         _products.length
+    //     );
+
+    //     userList[msg.sender].orderCount++;
+
+    //     emit OrderPlaced(
+    //         msg.sender,
+    //         userList[msg.sender].orderCount - 1,
+    //         total
+    //     );
     // }
 
     // function placeOrder(

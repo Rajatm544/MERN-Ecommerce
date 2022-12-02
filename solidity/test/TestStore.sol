@@ -17,6 +17,11 @@ contract TestStore {
     //         "test",
     //         "User should be added"
     //     );
+    // }s
+
+    // function testAddUser() public {
+    //     store.addUser("saad", "Saad", "test", "test");
+    //     Assert.equal(store.getUser(msg.sender), "saad", "User should be added");
     // }
 
     function testAddProduct() public {
