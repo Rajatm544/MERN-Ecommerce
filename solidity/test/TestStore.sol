@@ -19,10 +19,10 @@ contract TestStore {
     //     );
     // }s
 
-    // function testAddUser() public {
-    //     store.addUser("saad", "Saad", "test", "test");
-    //     Assert.equal(store.getUser(msg.sender), "saad", "User should be added");
-    // }
+    function testAddUser() public {
+        string memory username = store.addUser("saad", "Saad", "test", "test");
+        Assert.equal(username, "saad", "User should be added");
+    }
 
     function testAddProduct() public {
         uint256 count = store.addProduct("name0", "descp", "imgURL", 100, 1000);
@@ -30,7 +30,8 @@ contract TestStore {
     }
 
     // function testPlaceOrder() public {
-    //     OrderProduct[] memory orderProduct;
+
+    //     store.OrderProduct[] memory orderProduct;
     //     orderProduct.push(OrderProduct({productId: 0, quantity: 1}));
 
     //     store.placeOrder(orderProduct, "test");

@@ -23,11 +23,11 @@ contract Store {
         uint256 reviewCount;
     }
 
-    struct Review {
-        address user;
-        uint256 rating;
-        string review;
-    }
+    // struct Review {
+    //     address user;
+    //     uint256 rating;
+    //     string review;
+    // }
 
     struct Order {
         uint256 id;
@@ -48,7 +48,7 @@ contract Store {
 
     // Mappings for handling product functionalities
     mapping(uint256 => Product) productList;
-    mapping(uint256 => mapping(uint256 => Review)) reviewList;
+    // mapping(uint256 => mapping(uint256 => Review)) reviewList;
 
     uint256 productCount = 0;
 
@@ -81,28 +81,29 @@ contract Store {
         );
     }
 
-    // function addUser(
-    //     string memory _username,
-    //     string memory _name,
-    //     string memory _billingAdd,
-    //     string memory _password
-    // ) public {
-    //     require(
-    //         userList[msg.sender].id != address(0),
-    //         "Store: addUser - User already exists"
-    //     );
+    function addUser(
+        string memory _username,
+        string memory _name,
+        string memory _billingAdd,
+        string memory _password
+    ) public returns (string memory) {
+        // require(
+        //     userList[msg.sender].id == msg.sender,
+        //     "Store: addUser - User already exists"
+        // );
 
-    //     userList[msg.sender] = User(
-    //         msg.sender,
-    //         _username,
-    //         _name,
-    //         _billingAdd,
-    //         _password,
-    //         0
-    //     );
+        userList[msg.sender] = User(
+            msg.sender,
+            _username,
+            _name,
+            _billingAdd,
+            _password,
+            0
+        );
 
-    //     emit UserAdded(msg.sender, _username);
-    // }
+        emit UserAdded(msg.sender, _username);
+        return userList[msg.sender].username;
+    }
 
     // function getUser(string memory _username, string memory _password)
     //     public
@@ -245,10 +246,10 @@ contract Store {
     //     OrderProduct[] memory _products,
     //     string memory _shippingDet
     // ) public {
-    //     require(
-    //         userList[msg.sender].id == address(0),
-    //         "Store: addOrder - User does not exist"
-    //     );
+    //     // require(
+    //     //     userList[msg.sender].id == address(0),
+    //     //     "Store: addOrder - User does not exist"
+    //     // );
 
     //     uint256 total = 0;
     //     for (uint256 i = 0; i < _products.length; i++) {
@@ -299,61 +300,5 @@ contract Store {
     //         userList[msg.sender].orderCount - 1,
     //         total
     //     );
-    // }
-
-    // function placeOrder(
-    //     OrderProduct[] memory _products,
-    //     string memory _shippingDetails
-    // ) public {
-    //     require(
-    //         userList[msg.sender].id != address(0),
-    //         "Store: placeOrder - User does not exist"
-    //     );
-
-    //     require(
-    //         _products.length < 1,
-    //         "Store: placeOrder - No products in order"
-    //     );
-
-    //     require(
-    //         _products.length > productCount,
-    //         "Store: placeOrder - Too many products"
-    //     );
-
-    //     for (uint256 i = 0; i < _products.length; i++) {
-    //         require(
-    //             productList[_products[i].productID].id !=
-    //                 _products[i].productID,
-    //             "Store: placeOrder - Product does not exist"
-    //         );
-    //         require(
-    //             _products[i].quantity <
-    //                 productList[_products[i].productID].quantity,
-    //             "Store: placeOrder - Product out of stock"
-    //         );
-    //     }
-
-    //     uint256 _amount = 0;
-
-    //     for (uint256 i = 0; i < _products.length; i++) {
-    //         _amount +=
-    //             productList[_products[i].productID].price *
-    //             _products[i].quantity;
-    //         productList[_products[i].productID].quantity -= _products[i]
-    //             .quantity;
-    //     }
-
-    //     Order memory order = Order(
-    //         orderCount,
-    //         userList[msg.sender],
-    //         _amount,
-    //         _shippingDetails,
-    //         _products
-    //     );
-
-    //     orderList[orderCount] = order;
-    //     userList[msg.sender].orderList.push(orderCount);
-
-    //     orderCount++;
     // }
 }
