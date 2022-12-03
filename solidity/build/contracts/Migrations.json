@@ -123,7 +123,11 @@
                 "name": "msg",
                 "nodeType": "Identifier",
                 "overloadedDeclarations": [],
+<<<<<<< Updated upstream
                 "referencedDeclaration": 444,
+=======
+                "referencedDeclaration": 676,
+>>>>>>> Stashed changes
                 "src": "117:3:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_magic_message",
@@ -201,7 +205,11 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
+<<<<<<< Updated upstream
                             "referencedDeclaration": 444,
+=======
+                            "referencedDeclaration": 676,
+>>>>>>> Stashed changes
                             "src": "220:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -277,10 +285,17 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
+<<<<<<< Updated upstream
                         447,
                         448
                       ],
                       "referencedDeclaration": 448,
+=======
+                        679,
+                        680
+                      ],
+                      "referencedDeclaration": 680,
+>>>>>>> Stashed changes
                       "src": "204:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -541,7 +556,11 @@
                       "overloadedDeclarations": [
                         null
                       ],
+<<<<<<< Updated upstream
                       "referencedDeclaration": 444,
+=======
+                      "referencedDeclaration": 676,
+>>>>>>> Stashed changes
                       "type": "msg",
                       "value": "msg"
                     },
@@ -635,10 +654,17 @@
                                 }
                               ],
                               "overloadedDeclarations": [
+<<<<<<< Updated upstream
                                 447,
                                 448
                               ],
                               "referencedDeclaration": 448,
+=======
+                                679,
+                                680
+                              ],
+                              "referencedDeclaration": 680,
+>>>>>>> Stashed changes
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -679,7 +705,11 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
+<<<<<<< Updated upstream
                                       "referencedDeclaration": 444,
+=======
+                                      "referencedDeclaration": 676,
+>>>>>>> Stashed changes
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -915,12 +945,21 @@
     "5777": {
       "events": {},
       "links": {},
+<<<<<<< Updated upstream
       "address": "0x211FF38B7fb2A39fCae9C2BB6e7cc1CFe8069062",
       "transactionHash": "0x5a24294391a2f4e2b2adea88e8fd5a16311fb645caadbf967c9bc883c088aa99"
     }
   },
   "schemaVersion": "3.4.11",
   "updatedAt": "2022-12-02T23:33:36.456Z",
+=======
+      "address": "0xDAc40951C116762F238c7B4D5160D2aEBF2679A7",
+      "transactionHash": "0x27186fc9f95b8fad9fede4324f7224351c6f02dba23933daea9e902a2d0a67b4"
+    }
+  },
+  "schemaVersion": "3.4.10",
+  "updatedAt": "2022-12-03T00:21:44.500Z",
+>>>>>>> Stashed changes
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
