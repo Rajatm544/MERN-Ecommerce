@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <=0.8.17;
 
-// pragma experimental ABIEncoderV2;
+pragma experimental ABIEncoderV2;
 
 contract Store {
     struct User {
@@ -56,6 +56,7 @@ contract Store {
     event ProductAdded(uint256, string);
     event ReviewAdded(uint256, string, uint256);
     event OrderPlaced(address, uint256, uint256);
+    event ProductReturned(uint256, string);
 
     constructor() public {
         addProduct(
@@ -75,7 +76,7 @@ contract Store {
         addProduct(
             "Cannon EOS 80D DSLR Camera",
             "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working",
-            "data:img",
+            "data:image",
             14999,
             20
         );
@@ -142,6 +143,67 @@ contract Store {
     //     return products;
     // }
 
+    function addOrder(
+        OrderProduct[] memory _products,
+        string memory _shippingDet
+    ) public returns (uint256) {
+        // require(
+        //     userList[msg.sender].id == address(0),
+        //     "Store: addOrder - User does not exist"
+        // );
+
+        uint256 total = 0;
+        // for (uint256 i = 0; i < _products.length; i++) {
+        //     require(
+        //         _products[i].id < 0 || _products[i].id > productCount,
+        //         "Store: addOrder - Product does not exist"
+        //     );
+
+        //     require(
+        //         productList[_products[i].id].id != _products[i].id,
+        //         "Store: addOrder - Product does not exist"
+        //     );
+
+        //     require(
+        //         productList[_products[i].quantity].quantity == 0,
+        //         "Store: addOrder - Product out of stock"
+        //     );
+        // }
+
+        for (uint256 i = 0; i < _products.length; i++) {
+            productList[_products[i].id].quantity -= _products[i].quantity;
+            total += productList[_products[i].id].price;
+
+            orderProductList[msg.sender][userList[msg.sender].orderCount][
+                i
+            ] = Product(
+                _products[i].id,
+                productList[_products[i].id].name,
+                productList[_products[i].id].price,
+                _products[i].quantity,
+                productList[_products[i].id].description,
+                productList[_products[i].id].imgUrl,
+                productList[_products[i].id].reviewCount
+            );
+        }
+
+        orderList[msg.sender][userList[msg.sender].orderCount] = Order(
+            userList[msg.sender].orderCount,
+            total,
+            _shippingDet,
+            _products.length
+        );
+
+        userList[msg.sender].orderCount++;
+
+        emit OrderPlaced(
+            msg.sender,
+            userList[msg.sender].orderCount - 1,
+            total
+        );
+        return userList[msg.sender].orderCount - 1;
+    }
+
     function addProduct(
         string memory _name,
         string memory _description,
@@ -162,6 +224,11 @@ contract Store {
         productCount++;
         emit ProductAdded(productCount, _name);
         return productCount - 1;
+    }
+
+    function getProduct(uint256 prodID) public returns (Product memory) {
+        emit ProductReturned(prodID, productList[prodID].name);
+        return productList[prodID];
     }
 
     // function getProducts() public view returns (Product[] memory) {
