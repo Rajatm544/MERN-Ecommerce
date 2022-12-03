@@ -214,12 +214,12 @@ const OrderPage = ({ match, history }) => {
 																	item.qty *
 																	item.price
 																).toLocaleString(
-																	'en-IN',
+																	'en-PK',
 																	{
 																		maximumFractionDigits: 2,
 																		style: 'currency',
 																		currency:
-																			'INR',
+																			'PKR',
 																	}
 																)}
 															</Col>
@@ -259,11 +259,11 @@ const OrderPage = ({ match, history }) => {
 											</Col>
 											<Col>
 												{order.itemsPrice.toLocaleString(
-													'en-IN',
+													'en-PK',
 													{
 														maximumFractionDigits: 2,
 														style: 'currency',
-														currency: 'INR',
+														currency: 'PKR',
 													}
 												)}
 											</Col>
@@ -276,11 +276,11 @@ const OrderPage = ({ match, history }) => {
 											</Col>
 											<Col>
 												{order.shippingPrice.toLocaleString(
-													'en-IN',
+													'en-PK',
 													{
 														maximumFractionDigits: 2,
 														style: 'currency',
-														currency: 'INR',
+														currency: 'PKR',
 													}
 												)}
 											</Col>
@@ -293,11 +293,11 @@ const OrderPage = ({ match, history }) => {
 											</Col>
 											<Col>
 												{order.taxPrice.toLocaleString(
-													'en-IN',
+													'en-PK',
 													{
 														maximumFractionDigits: 2,
 														style: 'currency',
-														currency: 'INR',
+														currency: 'PKR',
 													}
 												)}
 											</Col>
@@ -310,11 +310,11 @@ const OrderPage = ({ match, history }) => {
 											</Col>
 											<Col>
 												{order.totalPrice.toLocaleString(
-													'en-IN',
+													'en-PK',
 													{
 														maximumFractionDigits: 2,
 														style: 'currency',
-														currency: 'INR',
+														currency: 'PKR',
 													}
 												)}
 											</Col>
@@ -338,7 +338,7 @@ const OrderPage = ({ match, history }) => {
 																label: 'pay',
 															}}
 															currency='USD'
-															// converting INR to USD, as paypal cannot support INR
+															// converting PKR to USD, as paypal cannot support PKR
 															amount={Number(
 																order.totalPrice /
 																	72

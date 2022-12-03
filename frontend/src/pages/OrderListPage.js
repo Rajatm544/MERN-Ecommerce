@@ -74,11 +74,11 @@ const ProductListPage = ({ history, match }) => {
 										<td>{order.user && order.user.name}</td>
 										<td>
 											{order.totalPrice.toLocaleString(
-												'en-IN',
+												'en-PK',
 												{
 													maximumFractionDigits: 2,
 													style: 'currency',
-													currency: 'INR',
+													currency: 'PKR',
 												}
 											)}
 										</td>

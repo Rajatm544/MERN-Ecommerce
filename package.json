@@ -28,7 +28,9 @@
   },
   "homepage": "https://github.com/Rajatm544/MERN-Ecommerce#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.20.2",
     "aws-sdk": "^2.983.0",
+    "babel-jest": "^26.6.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "compression": "^1.7.4",
@@ -51,10 +53,13 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-linkedin-oauth2": "^2.0.0",
     "passport-twitter": "^1.0.4",
-    "stripe": "^8.176.0"
+    "react-scripts": "^5.0.1",
+    "spawn-command": "^0.0.2-1",
+    "stripe": "^8.176.0",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
-    "concurrently": "^6.2.0",
+    "concurrently": "^6.5.1",
     "nodemon": "^2.0.8"
   }
 }
